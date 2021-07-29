@@ -115,7 +115,7 @@ pub contract WakandaPass: NonFungibleToken {
 
         pub fun withdraw(amount: UFix64): @FungibleToken.Vault {
             post {
-                self.getTotalBalance() >= self.getLockupAmount(): "Cannot withdraw locked-up BLTs"
+                self.getTotalBalance() >= self.getLockupAmount(): "Cannot withdraw locked-up VIBRAs"
             }
 
             return <- self.vault.withdraw(amount: amount)
