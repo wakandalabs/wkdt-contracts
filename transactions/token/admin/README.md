@@ -40,7 +40,7 @@ flow transactions send ./transactions/token/admin/mintWakandaPassWithCustomLocku
 
 ### Setup Vibranium Minter
 ```
-flow transactions send ./transactions/token/admin/setupBloctoTokenMinter.cdc \
+flow transactions send ./transactions/token/admin/setupVibraniumMinter.cdc \
   --network testnet \
   --arg UFix64:1000000000.0 \
   --signer vibra-admin-testnet \
@@ -49,7 +49,7 @@ flow transactions send ./transactions/token/admin/setupBloctoTokenMinter.cdc \
 
 ### Setup Vibranium Minter for Staking
 ```
-flow transactions build ./transactions/token/admin/setupBloctoTokenMinterForStaking.cdc \
+flow transactions build ./transactions/token/admin/setupVibraniumMinterForStaking.cdc \
   --network testnet \
   --arg UFix64:1000000000.0 \
   --proposer 0xccc5c610f25031c9 \

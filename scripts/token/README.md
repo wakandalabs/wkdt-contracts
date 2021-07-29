@@ -8,7 +8,7 @@ flow scripts execute ./scripts/token/getPredefinedLockupSchedule.cdc \
 
 ### Get Vibranium Balance
 ```
-flow scripts execute ./scripts/token/getBloctoTokenBalance.cdc \
+flow scripts execute ./scripts/token/getVibraniumBalance.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce
 ```
