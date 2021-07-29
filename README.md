@@ -1,6 +1,8 @@
 # Vibranium Contracts
 ![Vibranium](Vibranium.svg)
 
+The symbol of Vibranium is ∆, You can type ∆ by pressing "option + j" in Mac.
+
 ## Setup Flow CLI
 https://docs.onflow.org/flow-cli/install
 
