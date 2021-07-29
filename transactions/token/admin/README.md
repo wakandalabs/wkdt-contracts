@@ -9,7 +9,7 @@ flow transactions send ./transactions/token/admin/setupCommunitySaleSchedule.cdc
 
 ### Mint WakandaPass NFT
 ```
-flow transactions send ./transactions/token/admin/mintBloctoPass.cdc \
+flow transactions send ./transactions/token/admin/mintWakandaPass.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce \
   --signer vibra-admin-testnet \
@@ -18,7 +18,7 @@ flow transactions send ./transactions/token/admin/mintBloctoPass.cdc \
 
 ### Mint WakandaPass NFT with Custom Lockup Schedule
 ```
-flow transactions send ./transactions/token/admin/mintBloctoPassWithCustomLockup.cdc \
+flow transactions send ./transactions/token/admin/mintWakandaPassWithCustomLockup.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce \
   --arg UFix64:500.0 \
@@ -29,7 +29,7 @@ flow transactions send ./transactions/token/admin/mintBloctoPassWithCustomLockup
 
 ### Mint WakandaPass NFT with Predefined Lockup Schedule
 ```
-flow transactions send ./transactions/token/admin/mintBloctoPassWithCustomLockup.cdc \
+flow transactions send ./transactions/token/admin/mintWakandaPassWithCustomLockup.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce \
   --arg UFix64:500.0 \
@@ -76,7 +76,7 @@ flow transactions send-signed --network testnet ./build/signed-2.rlp
 
 ### Create Public Minter
 ```
-flow transactions send ./transactions/token/admin/setupBloctoPassMinterPublic.cdc \
+flow transactions send ./transactions/token/admin/setupWakandaPassMinterPublic.cdc \
   --network testnet \
   --signer vibra-admin-testnet \
   --gas-limit 1000
