@@ -180,9 +180,9 @@ pub contract Vibranium: FungibleToken {
 
     init() {
         // Total supply of VIBRA is 10M
-        // 30% is created at genesis but locked up
-        // 70% will minted from staking and mining
-        self.totalSupply = 3_000_000.0
+        // 70% is created at genesis but locked up
+        // 30% will minted from staking and mining
+        self.totalSupply = 7_000_000.0
 
         self.TokenStoragePath = /storage/VibraniumVault
         self.TokenPublicReceiverPath = /public/VibraniumReceiver
