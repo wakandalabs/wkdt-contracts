@@ -122,7 +122,7 @@ pub contract WakandaPassStamp: NonFungibleToken {
             // deposit it in the recipient's account using their reference
             recipient.deposit(token: <-newNFT)
 
-            WakandaPassStamp.totalSupply = WakandaPassStamp.totalSupply + UInt64(1)
+            WakandaPassStamp.totalSupply = WakandaPassStamp.totalSupply + (1)
         }
     }
 
