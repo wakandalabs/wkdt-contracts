@@ -143,7 +143,7 @@ pub contract Vibranium: FungibleToken {
         //
         pub fun mintTokens(amount: UFix64): @Vibranium.Vault {
             pre {
-                amount > UFix64(0): "Amount minted must be greater than zero"
+                amount > 0.0: "Amount minted must be greater than zero"
                 amount <= self.allowedAmount: "Amount minted must be less than the allowed amount"
             }
             Vibranium.totalSupply = Vibranium.totalSupply + amount
