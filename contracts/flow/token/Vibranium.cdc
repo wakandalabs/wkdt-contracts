@@ -184,10 +184,10 @@ pub contract Vibranium: FungibleToken {
         // 30% will minted from staking and mining
         self.totalSupply = 7_000_000.0
 
-        self.TokenStoragePath = /storage/VibraniumVault
-        self.TokenPublicReceiverPath = /public/VibraniumReceiver
-        self.TokenPublicBalancePath = /public/VibraniumBalance
-        self.TokenMinterStoragePath = /storage/VibraniumMinter
+        self.TokenStoragePath = /storage/vibraniumVault
+        self.TokenPublicReceiverPath = /public/vibraniumReceiver
+        self.TokenPublicBalancePath = /public/vibraniumBalance
+        self.TokenMinterStoragePath = /storage/vibraniumMinter
 
         // Create the Vault with the total supply of tokens and save it in storage
         let vault <- create Vault(balance: self.totalSupply)
