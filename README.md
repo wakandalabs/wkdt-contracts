@@ -11,7 +11,7 @@ https://docs.onflow.org/flow-cli/install
 ```
 flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
   --network testnet \
-  --signer wakandaToken-user-testnet \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
 
@@ -21,7 +21,7 @@ flow transactions send ./transactions/token/transferWakandaToken.cdc \
   --network testnet \
   --arg UFix64:100.0 \
   --arg Address:0x03d1e02a48354e2b \
-  --signer wakandaToken-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
@@ -29,7 +29,7 @@ flow transactions send ./transactions/token/transferWakandaToken.cdc \
 ```
 flow transactions send ./transactions/token/setupWakandaPass.cdc \
   --network testnet \
-  --signer vibra-user-testnet \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
 
@@ -37,7 +37,7 @@ flow transactions send ./transactions/token/setupWakandaPass.cdc \
 ```
 flow transactions send ./transactions/token/mintWakandaPass.cdc \
   --network testnet \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
@@ -53,7 +53,7 @@ flow scripts execute ./scripts/token/getWakandaTokenBalance.cdc \
 flow transactions send ./transactions/staking/stakeNewWkdt.cdc \
   --network testnet \
   --arg UFix64:1000.0 \
-  --signer vibra-user-testnet \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
 
@@ -68,7 +68,7 @@ flow scripts execute ./scripts/staking/getStakingInfo.cdc \
 ```
 flow transactions send ./transactions/staking/switchEpoch.cdc \
   --network testnet \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
