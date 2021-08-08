@@ -1,7 +1,5 @@
 # WakandaToken Contracts
-![WakandaToken](WakandaToken.svg)
-
-The symbol of WakandaToken is ∆, You can type ∆ by pressing "option + j" in Mac.
+The symbol of WakandaToken is ₩ or $WKDT.
 
 ## Setup Flow CLI
 https://docs.onflow.org/flow-cli/install
