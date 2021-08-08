@@ -1,10 +1,10 @@
 import FungibleToken from "../../contracts/flow/token/FungibleToken.cdc"
-import Vibranium from "../../contracts/flow/token/Vibranium.cdc"
+import WakandaToken from "../../contracts/flow/token/WakandaToken.cdc"
 import WakandaPass from "../../contracts/flow/token/WakandaPass.cdc"
 
 transaction() {
-    // The private reference to user's Vibranium vault
-    let vaultRef: &Vibranium.Vault
+    // The private reference to user's WakandaToken vault
+    let vaultRef: &WakandaToken.Vault
 
     // The private reference to user's WakandaPass
     let wakandaPassRef: &WakandaPass.NFT
@@ -12,7 +12,7 @@ transaction() {
     prepare(signer: AuthAccount) {
 
         // Get a reference to the signer's stored vault
-        self.vaultRef = signer.borrow<&Vibranium.Vault>(from: Vibranium.TokenStoragePath)
+        self.vaultRef = signer.borrow<&WakandaToken.Vault>(from: WakandaToken.TokenStoragePath)
 			?? panic("Could not borrow reference to the owner's Vault!")
 
         // Get a reference to the signer's WakandaPass

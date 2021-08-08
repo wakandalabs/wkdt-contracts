@@ -1,6 +1,6 @@
 import FungibleToken from "../../../contracts/flow/token/FungibleToken.cdc"
 import NonFungibleToken from "../../../contracts/flow/token/NonFungibleToken.cdc"
-import Vibranium from "../../../contracts/flow/token/Vibranium.cdc"
+import WakandaToken from "../../../contracts/flow/token/WakandaToken.cdc"
 import WakandaPass from "../../../contracts/flow/token/WakandaPass.cdc"
 
 transaction(address: Address, amount: UFix64) {
@@ -15,8 +15,8 @@ transaction(address: Address, amount: UFix64) {
             ?? panic("Could not borrow wakanda pass collection public reference")
 
         let vibraVaultRef = signer
-            .borrow<&Vibranium.Vault>(from: Vibranium.TokenStoragePath)
-            ?? panic("Cannot get VIBRA vault reference")
+            .borrow<&WakandaToken.Vault>(from: WakandaToken.TokenStoragePath)
+            ?? panic("Cannot get WKDT vault reference")
 
         let vibraVault <- vibraVaultRef.withdraw(amount: amount)
 

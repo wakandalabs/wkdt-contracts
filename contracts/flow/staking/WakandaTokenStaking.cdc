@@ -1,16 +1,16 @@
 /*
 
-    VibraniumStaking
+    WakandaTokenStaking
 
-    The Vibranium Staking contract manages stakers' information.
+    The WakandaToken Staking contract manages stakers' information.
     Forked from FlowIDTableStaking contract.
 
  */
 
 import FungibleToken from "../token/FungibleToken.cdc"
-import Vibranium from "../token/Vibranium.cdc"
+import WakandaToken from "../token/WakandaToken.cdc"
 
-pub contract VibraniumStaking {
+pub contract WakandaTokenStaking {
 
     /****** Staking Events ******/
 
@@ -59,44 +59,44 @@ pub contract VibraniumStaking {
         pub let id: UInt64
 
         /// The total tokens that only this staker currently has staked
-        pub var tokensStaked: @Vibranium.Vault
+        pub var tokensStaked: @WakandaToken.Vault
 
         /// The tokens that this staker has committed to stake for the next epoch.
-        pub var tokensCommitted: @Vibranium.Vault
+        pub var tokensCommitted: @WakandaToken.Vault
 
         /// Tokens that this staker is able to withdraw whenever they want
-        pub var tokensUnstaked: @Vibranium.Vault
+        pub var tokensUnstaked: @WakandaToken.Vault
 
         /// Staking rewards are paid to this bucket
         /// Can be withdrawn whenever
-        pub var tokensRewarded: @Vibranium.Vault
+        pub var tokensRewarded: @WakandaToken.Vault
 
         /// The amount of tokens that this staker has requested to unstake for the next epoch
         pub(set) var tokensRequestedToUnstake: UFix64
 
         init(id: UInt64) {
             pre {
-                VibraniumStaking.stakers[id] == nil: "The ID cannot already exist in the record"
+                WakandaTokenStaking.stakers[id] == nil: "The ID cannot already exist in the record"
             }
 
             self.id = id
 
-            self.tokensCommitted <- Vibranium.createEmptyVault() as! @Vibranium.Vault
-            self.tokensStaked <- Vibranium.createEmptyVault() as! @Vibranium.Vault
-            self.tokensUnstaked <- Vibranium.createEmptyVault() as! @Vibranium.Vault
-            self.tokensRewarded <- Vibranium.createEmptyVault() as! @Vibranium.Vault
+            self.tokensCommitted <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
+            self.tokensStaked <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
+            self.tokensUnstaked <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
+            self.tokensRewarded <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
             self.tokensRequestedToUnstake = 0.0
 
             emit NewStakerCreated(stakerID: self.id, amountCommitted: self.tokensCommitted.balance)
         }
 
         destroy() {
-            let vibraniumRef = VibraniumStaking.account.borrow<&Vibranium.Vault>(from: Vibranium.TokenStoragePath)!
-            VibraniumStaking.totalTokensStaked = VibraniumStaking.totalTokensStaked - self.tokensStaked.balance
-            vibraniumRef.deposit(from: <-self.tokensStaked)
-            vibraniumRef.deposit(from: <-self.tokensCommitted)
-            vibraniumRef.deposit(from: <-self.tokensUnstaked)
-            vibraniumRef.deposit(from: <-self.tokensRewarded)
+            let wakandaTokenRef = WakandaTokenStaking.account.borrow<&WakandaToken.Vault>(from: WakandaToken.TokenStoragePath)!
+            WakandaTokenStaking.totalTokensStaked = WakandaTokenStaking.totalTokensStaked - self.tokensStaked.balance
+            wakandaTokenRef.deposit(from: <-self.tokensStaked)
+            wakandaTokenRef.deposit(from: <-self.tokensCommitted)
+            wakandaTokenRef.deposit(from: <-self.tokensUnstaked)
+            wakandaTokenRef.deposit(from: <-self.tokensRewarded)
         }
 
         /// Utility Function that checks a staker's overall committed balance from its borrowed record
@@ -119,7 +119,7 @@ pub contract VibraniumStaking {
         pub let tokensRequestedToUnstake: UFix64
 
         init(stakerID: UInt64) {
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(stakerID)
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(stakerID)
 
             self.id = stakerRecord.id
             self.tokensStaked = stakerRecord.tokensStaked.balance
@@ -151,11 +151,11 @@ pub contract VibraniumStaking {
         /// Add new tokens to the system to stake during the next epoch
         pub fun stakeNewTokens(_ tokens: @FungibleToken.Vault) {
             pre {
-                VibraniumStaking.stakingEnabled: "Cannot stake if the staking auction isn't in progress"
+                WakandaTokenStaking.stakingEnabled: "Cannot stake if the staking auction isn't in progress"
             }
 
             // Borrow the staker's record from the staking contract
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(self.id)
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(self.id)
 
             emit TokensCommitted(stakerID: stakerRecord.id, amount: tokens.balance)
 
@@ -166,10 +166,10 @@ pub contract VibraniumStaking {
         /// Stake tokens that are in the tokensUnstaked bucket
         pub fun stakeUnstakedTokens(amount: UFix64) {
             pre {
-                VibraniumStaking.stakingEnabled: "Cannot stake if the staking auction isn't in progress"
+                WakandaTokenStaking.stakingEnabled: "Cannot stake if the staking auction isn't in progress"
             }
 
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(self.id)
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(self.id)
 
             var remainingAmount = amount
 
@@ -192,10 +192,10 @@ pub contract VibraniumStaking {
         /// Stake tokens that are in the tokensRewarded bucket
         pub fun stakeRewardedTokens(amount: UFix64) {
             pre {
-                VibraniumStaking.stakingEnabled: "Cannot stake if the staking auction isn't in progress"
+                WakandaTokenStaking.stakingEnabled: "Cannot stake if the staking auction isn't in progress"
             }
 
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(self.id)
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(self.id)
 
             stakerRecord.tokensCommitted.deposit(from: <-stakerRecord.tokensRewarded.withdraw(amount: amount))
 
@@ -205,10 +205,10 @@ pub contract VibraniumStaking {
         /// Request amount tokens to be removed from staking at the end of the next epoch
         pub fun requestUnstaking(amount: UFix64) {
             pre {
-                VibraniumStaking.stakingEnabled: "Cannot unstake if the staking auction isn't in progress"
+                WakandaTokenStaking.stakingEnabled: "Cannot unstake if the staking auction isn't in progress"
             }
 
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(self.id)
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(self.id)
 
             // If the request is greater than the total number of tokens
             // that can be unstaked, revert
@@ -243,10 +243,10 @@ pub contract VibraniumStaking {
         /// as well as all the staked and committed tokens of all of their delegators
         pub fun unstakeAll() {
             pre {
-                VibraniumStaking.stakingEnabled: "Cannot unstake if the staking auction isn't in progress"
+                WakandaTokenStaking.stakingEnabled: "Cannot unstake if the staking auction isn't in progress"
             }
 
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(self.id)
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(self.id)
 
             /// if the request can come from committed, withdraw from committed to unstaked
             /// withdraw the requested tokens from committed since they have not been staked yet
@@ -259,7 +259,7 @@ pub contract VibraniumStaking {
         /// Withdraw tokens from the unstaked bucket
         pub fun withdrawUnstakedTokens(amount: UFix64): @FungibleToken.Vault {
 
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(self.id)
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(self.id)
 
             emit UnstakedTokensWithdrawn(stakerID: stakerRecord.id, amount: amount)
 
@@ -269,7 +269,7 @@ pub contract VibraniumStaking {
         /// Withdraw tokens from the rewarded bucket
         pub fun withdrawRewardedTokens(amount: UFix64): @FungibleToken.Vault {
 
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(self.id)
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(self.id)
 
             emit RewardTokensWithdrawn(stakerID: stakerRecord.id, amount: amount)
 
@@ -285,13 +285,13 @@ pub contract VibraniumStaking {
         /// It returns the resource for stakers that they can store in their account storage
         pub fun addStakerRecord(id: UInt64): @Staker {
             pre {
-                VibraniumStaking.stakingEnabled: "Cannot register a staker operator if the staking auction isn't in progress"
+                WakandaTokenStaking.stakingEnabled: "Cannot register a staker operator if the staking auction isn't in progress"
             }
 
             let newStakerRecord <- create StakerRecord(id: id)
 
             // Insert the staker to the table
-            VibraniumStaking.stakers[id] <-! newStakerRecord
+            WakandaTokenStaking.stakers[id] <-! newStakerRecord
 
             // return a new Staker object that the staker operator stores in their account
             return <-create Staker(id: id)
@@ -300,35 +300,35 @@ pub contract VibraniumStaking {
         /// Starts the staking auction, the period when stakers and delegators
         /// are allowed to perform staking related operations
         pub fun startStakingAuction() {
-            VibraniumStaking.stakingEnabled = true
+            WakandaTokenStaking.stakingEnabled = true
         }
 
         /// Ends the staking Auction by removing any unapproved stakers
         /// and setting stakingEnabled to false
         pub fun endStakingAuction() {
-            VibraniumStaking.stakingEnabled = false
+            WakandaTokenStaking.stakingEnabled = false
         }
 
         /// Called at the end of the epoch to pay rewards to staker operators
         /// based on the tokens that they have staked
         pub fun payRewards() {
 
-            let allstakerIDs = VibraniumStaking.getStakerIDs()
+            let allstakerIDs = WakandaTokenStaking.getStakerIDs()
 
-            let VibraniumMinter = VibraniumStaking.account.borrow<&Vibranium.Minter>(from: Vibranium.TokenMinterStoragePath)
+            let WakandaTokenMinter = WakandaTokenStaking.account.borrow<&WakandaToken.Minter>(from: WakandaToken.TokenMinterStoragePath)
                 ?? panic("Could not borrow minter reference")
 
             // calculate the total number of tokens staked
-            var totalStaked = VibraniumStaking.getTotalStaked()
+            var totalStaked = WakandaTokenStaking.getTotalStaked()
 
             if totalStaked == 0.0 {
                 return
             }
-            var totalRewardScale = VibraniumStaking.epochTokenPayout / totalStaked
+            var totalRewardScale = WakandaTokenStaking.epochTokenPayout / totalStaked
 
             /// iterate through all the stakers to pay
             for stakerID in allstakerIDs {
-                let stakerRecord = VibraniumStaking.borrowStakerRecord(stakerID)
+                let stakerRecord = WakandaTokenStaking.borrowStakerRecord(stakerID)
 
                 if stakerRecord.tokensStaked.balance == 0.0 { continue }
 
@@ -337,7 +337,7 @@ pub contract VibraniumStaking {
                 if rewardAmount == 0.0 { continue }
 
                 /// Mint the tokens to reward the operator
-                let tokenReward <- VibraniumMinter.mintTokens(amount: rewardAmount)
+                let tokenReward <- WakandaTokenMinter.mintTokens(amount: rewardAmount)
 
                 if tokenReward.balance > 0.0 {
                     emit RewardsPaid(stakerID: stakerRecord.id, amount: tokenReward.balance)
@@ -357,16 +357,16 @@ pub contract VibraniumStaking {
         /// Unstaking requests are filled by moving those tokens from staked to unstaking
         pub fun moveTokens() {
             pre {
-                !VibraniumStaking.stakingEnabled: "Cannot move tokens if the staking auction is still in progress"
+                !WakandaTokenStaking.stakingEnabled: "Cannot move tokens if the staking auction is still in progress"
             }
             
-            let allstakerIDs = VibraniumStaking.getStakerIDs()
+            let allstakerIDs = WakandaTokenStaking.getStakerIDs()
 
             for stakerID in allstakerIDs {
-                let stakerRecord = VibraniumStaking.borrowStakerRecord(stakerID)
+                let stakerRecord = WakandaTokenStaking.borrowStakerRecord(stakerID)
 
                 // Update total number of tokens staked by all the stakers of each type
-                VibraniumStaking.totalTokensStaked = VibraniumStaking.totalTokensStaked + stakerRecord.tokensCommitted.balance
+                WakandaTokenStaking.totalTokensStaked = WakandaTokenStaking.totalTokensStaked + stakerRecord.tokensCommitted.balance
 
                 // mark the committed tokens as staked
                 if stakerRecord.tokensCommitted.balance > 0.0 {
@@ -381,18 +381,18 @@ pub contract VibraniumStaking {
                 }
 
                 // subtract their requested tokens from the total staked for their staker type
-                VibraniumStaking.totalTokensStaked = VibraniumStaking.totalTokensStaked - stakerRecord.tokensRequestedToUnstake
+                WakandaTokenStaking.totalTokensStaked = WakandaTokenStaking.totalTokensStaked - stakerRecord.tokensRequestedToUnstake
 
                 // Reset the tokens requested field so it can be used for the next epoch
                 stakerRecord.tokensRequestedToUnstake = 0.0
             }
 
-            emit NewEpoch(totalStaked: VibraniumStaking.getTotalStaked(), totalRewardPayout: VibraniumStaking.epochTokenPayout)
+            emit NewEpoch(totalStaked: WakandaTokenStaking.getTotalStaked(), totalRewardPayout: WakandaTokenStaking.epochTokenPayout)
         }
 
         /// Changes the total weekly payout to a new value
         pub fun setEpochTokenPayout(_ newPayout: UFix64) {
-            VibraniumStaking.epochTokenPayout = newPayout
+            WakandaTokenStaking.epochTokenPayout = newPayout
 
             emit NewWeeklyPayout(newPayout: newPayout)
         }
@@ -401,10 +401,10 @@ pub contract VibraniumStaking {
     /// borrow a reference to to one of the stakers in the record
     access(account) fun borrowStakerRecord(_ stakerID: UInt64): &StakerRecord {
         pre {
-            VibraniumStaking.stakers[stakerID] != nil:
+            WakandaTokenStaking.stakers[stakerID] != nil:
                 "Specified staker ID does not exist in the record"
         }
-        return &VibraniumStaking.stakers[stakerID] as! &StakerRecord
+        return &WakandaTokenStaking.stakers[stakerID] as! &StakerRecord
     }
 
     /// Gets an array of all the stakerIDs that are staked.
@@ -413,8 +413,8 @@ pub contract VibraniumStaking {
     pub fun getStakedStakerIDs(): [UInt64] {
         var stakers: [UInt64] = []
 
-        for stakerID in VibraniumStaking.getStakerIDs() {
-            let stakerRecord = VibraniumStaking.borrowStakerRecord(stakerID)
+        for stakerID in WakandaTokenStaking.getStakerIDs() {
+            let stakerRecord = WakandaTokenStaking.borrowStakerRecord(stakerID)
 
             if stakerRecord.tokensStaked.balance > 0.0
             {
@@ -427,7 +427,7 @@ pub contract VibraniumStaking {
 
     /// Gets an array of all the staker IDs that have ever registered
     pub fun getStakerIDs(): [UInt64] {
-        return VibraniumStaking.stakers.keys
+        return WakandaTokenStaking.stakers.keys
     }
 
     /// Gets the token payout value for the current epoch
@@ -439,10 +439,10 @@ pub contract VibraniumStaking {
         return self.stakingEnabled
     }
 
-    /// Gets the total number of VIBRA that is currently staked
+    /// Gets the total number of WKDT that is currently staked
     /// by all of the staked stakers in the current epoch
     pub fun getTotalStaked(): UFix64 {
-        return VibraniumStaking.totalTokensStaked
+        return WakandaTokenStaking.totalTokensStaked
     }
 
     init() {
@@ -450,7 +450,7 @@ pub contract VibraniumStaking {
 
         self.stakers <- {}
 
-        self.StakingAdminStoragePath = /storage/vibraniumStakingAdmin
+        self.StakingAdminStoragePath = /storage/wakandaTokenStakingAdmin
 
         self.totalTokensStaked = 0.0
         self.epochTokenPayout = 1.0

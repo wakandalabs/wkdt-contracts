@@ -1,15 +1,15 @@
 # Token
-### Setup Vibranium Vault
+### Setup WakandaToken Vault
 ```
-flow transactions send ./transactions/token/setupVibraniumVault.cdc \
+flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
   --network testnet \
   --signer vibra-user-testnet \
   --gas-limit 1000
 ```
 
-### Transfer Vibranium
+### Transfer WakandaToken
 ```
-flow transactions send ./transactions/token/transferVibranium.cdc \
+flow transactions send ./transactions/token/transferWakandaToken.cdc \
   --network testnet \
   --arg UFix64:100.0 \
   --arg Address:0x03d1e02a48354e2b \

@@ -1,40 +1,40 @@
 # Token
-### Get Vibranium Balance
+### Get WakandaToken Balance
 ```
 flow scripts execute ./scripts/token/getPredefinedLockupSchedule.cdc \
   --network testnet \
   --arg Int:0
 ```
 
-### Get Vibranium Balance
+### Get WakandaToken Balance
 ```
-flow scripts execute ./scripts/token/getVibraniumBalance.cdc \
+flow scripts execute ./scripts/token/getWakandaTokenBalance.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce
 ```
 
-### Get Idle Vibranium Balance in WakandaPass
+### Get Idle WakandaToken Balance in WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassVaultBalance.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce
 ```
 
-### Get Total Vibranium Balance in WakandaPass
+### Get Total WakandaToken Balance in WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassTotalBalance.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce
 ```
 
-### Get Vibranium Lockup Schedule in WakandaPass
+### Get WakandaToken Lockup Schedule in WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassLockupSchedule.cdc \
   --network testnet \
   --arg Address:0x67e7299327d1bf70
 ```
 
-### Get Vibranium Lockup Amount in WakandaPass
+### Get WakandaToken Lockup Amount in WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassLockupAmount.cdc \
   --network testnet \
@@ -48,14 +48,14 @@ flow scripts execute ./scripts/token/getWakandaPassMetadata.cdc \
   --arg Address:0x95d4f57daf2fb5ce
 ```
 
-### Get Original Ownder from WakandaPass
+### Get Original Owner from WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassOriginalOwner.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce
 ```
 
-### Get Original Ownder from WakandaPass
+### Get Original Owner from WakandaPass
 ```
 flow scripts execute ./scripts/token/getPredefinedLockupSchedule.cdc \
   --network testnet \

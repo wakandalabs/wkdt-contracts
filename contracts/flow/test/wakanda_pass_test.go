@@ -49,7 +49,7 @@ func WakandaPassDeployContract(b *emulator.Blockchain, t *testing.T) TestWakanda
 	_, err = b.CommitBlock()
 	assert.NoError(t, err)
 
-	btStakingInfo := VibraniumStakingDeployContract(b, t)
+	btStakingInfo := WakandaTokenStakingDeployContract(b, t)
 
 	wakandaPassStampCode := loadWakandaPassStamp(nftAddr)
 
@@ -131,13 +131,13 @@ func loadWakandaPassStamp(nftAddr flow.Address) []byte {
 	return []byte(code)
 }
 
-func loadWakandaPass(btStakingInfo TestVibraniumStakingContractsInfo, nftAddr flow.Address) []byte {
+func loadWakandaPass(btStakingInfo TestWakandaTokenStakingContractsInfo, nftAddr flow.Address) []byte {
 	code := string(readFile(wakandaPassPath))
 
 	code = strings.ReplaceAll(code, "\"./FungibleToken.cdc\"", "0x"+btStakingInfo.FTAddr.String())
 	code = strings.ReplaceAll(code, "\"./NonFungibleToken.cdc\"", "0x"+nftAddr.String())
-	code = strings.ReplaceAll(code, "\"./Vibranium.cdc\"", "0x"+btStakingInfo.VAddr.String())
-	code = strings.ReplaceAll(code, "\"../staking/VibraniumStaking.cdc\"", "0x"+btStakingInfo.VStakingAddr.String())
+	code = strings.ReplaceAll(code, "\"./WakandaToken.cdc\"", "0x"+btStakingInfo.VAddr.String())
+	code = strings.ReplaceAll(code, "\"../staking/WakandaTokenStaking.cdc\"", "0x"+btStakingInfo.VStakingAddr.String())
 	code = strings.ReplaceAll(code, "\"./WakandaPassStamp.cdc\"", "0x"+btStakingInfo.VStakingAddr.String())
 
 	return []byte(code)

@@ -1,21 +1,21 @@
 /*
 
-    VibraniumSale
+    WakandaTokenSale
 
-    The Vibranium Sale contract is used for
-    VIBRA token community sale. Qualified purchasers
+    The WakandaToken Sale contract is used for
+    WKDT token community sale. Qualified purchasers
     can purchase with tUSDT (Teleported Tether) to get
-    VIBRA at the same price and lock-up terms as private sale
+    WKDT at the same price and lock-up terms as private sale
 
  */
 
 import FungibleToken from "../token/FungibleToken.cdc"
 import NonFungibleToken from "../token/NonFungibleToken.cdc"
-import Vibranium from "../token/Vibranium.cdc"
+import WakandaToken from "../token/WakandaToken.cdc"
 import WakandaPass from "../token/WakandaPass.cdc"
 import TeleportedTetherToken from "../token/TeleportedTetherToken.cdc"
 
-pub contract VibraniumSale {
+pub contract WakandaTokenSale {
 
     /****** Sale Events ******/
 
@@ -37,8 +37,8 @@ pub contract VibraniumSale {
 
     /****** Sale Resources ******/
 
-    // VIBRA holder vault
-    access(contract) let vibraVault: @Vibranium.Vault
+    // WKDT holder vault
+    access(contract) let vibraVault: @WakandaToken.Vault
 
     // tUSDT holder vault
     access(contract) let tusdtVault: @TeleportedTetherToken.Vault
@@ -50,13 +50,13 @@ pub contract VibraniumSale {
 
     access(contract) var isSaleActive: Bool
 
-    // VIBRA token price (tUSDT per VIBRA)
+    // WKDT token price (tUSDT per WKDT)
     access(contract) var price: UFix64
 
-    // VIBRA lockup schedule, used for lockup terms
+    // WKDT lockup schedule, used for lockup terms
     access(contract) var lockupScheduleId: Int
 
-    // VIBRA communitu sale purchase cap (in tUSDT)
+    // WKDT communitu sale purchase cap (in tUSDT)
     access(contract) var personalCap: UFix64
 
     // All purchase records
@@ -86,7 +86,7 @@ pub contract VibraniumSale {
         }
     }
 
-    // VIBRA purchase method
+    // WKDT purchase method
     // User pays tUSDT and get a WakandaPass NFT with lockup terms
     // Note that "address" can potentially be faked, but there's no incentive doing so
     pub fun purchase(from: @TeleportedTetherToken.Vault, address: Address) {
@@ -134,7 +134,7 @@ pub contract VibraniumSale {
         return self.purchases[address]
     }
 
-    pub fun getVibraVaultBalance(): UFix64 {
+    pub fun getWkdtVaultBalance(): UFix64 {
         return self.vibraVault.balance
     }
 
@@ -156,17 +156,17 @@ pub contract VibraniumSale {
 
     pub resource Admin {
         pub fun unfreeze() {
-            VibraniumSale.isSaleActive = true
+            WakandaTokenSale.isSaleActive = true
         }
 
         pub fun freeze() {
-            VibraniumSale.isSaleActive = false
+            WakandaTokenSale.isSaleActive = false
         }
 
         pub fun distribute(address: Address) {
             pre {
-                VibraniumSale.purchases[address] != nil: "Cannot find purchase record for the address"
-                VibraniumSale.purchases[address]?.state == PurchaseState.initial: "Already distributed or refunded"
+                WakandaTokenSale.purchases[address] != nil: "Cannot find purchase record for the address"
+                WakandaTokenSale.purchases[address]?.state == PurchaseState.initial: "Already distributed or refunded"
             }
 
             let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath)
@@ -179,14 +179,14 @@ pub contract VibraniumSale {
                 message: "User already has a WakandaPass"
             )
 
-            let purchaseInfo = VibraniumSale.purchases[address]
+            let purchaseInfo = WakandaTokenSale.purchases[address]
                 ?? panic("Count not get purchase info for the address")
 
-            let minterRef = VibraniumSale.account.borrow<&WakandaPass.NFTMinter>(from: WakandaPass.MinterStoragePath)
+            let minterRef = WakandaTokenSale.account.borrow<&WakandaPass.NFTMinter>(from: WakandaPass.MinterStoragePath)
                 ?? panic("Could not borrow reference to the WakandaPass minter!")
 
-            let vibraAmount = purchaseInfo.amount / VibraniumSale.price
-            let vibraVault <- VibraniumSale.vibraVault.withdraw(amount: vibraAmount)
+            let vibraAmount = purchaseInfo.amount / WakandaTokenSale.price
+            let vibraVault <- WakandaTokenSale.vibraVault.withdraw(amount: vibraAmount)
 
             let metadata = {
                 "origin": "Community Sale"
@@ -218,13 +218,13 @@ pub contract VibraniumSale {
 
             // Set the state of the purchase to DISTRIBUTED
             purchaseInfo.state = PurchaseState.distributed
-            VibraniumSale.purchases[address] = purchaseInfo
+            WakandaTokenSale.purchases[address] = purchaseInfo
 
             minterRef.mintNFTWithPredefinedLockup(
                 recipient: collectionRef,
                 metadata: metadata,
                 vault: <- vibraVault,
-                lockupScheduleId: VibraniumSale.lockupScheduleId
+                lockupScheduleId: WakandaTokenSale.lockupScheduleId
             )
 
             emit Distributed(address: address, tusdtAmount: purchaseInfo.amount, vibraAmount: vibraAmount)
@@ -232,22 +232,22 @@ pub contract VibraniumSale {
 
         pub fun refund(address: Address) {
             pre {
-                VibraniumSale.purchases[address] != nil: "Cannot find purchase record for the address"
-                VibraniumSale.purchases[address]?.state == PurchaseState.initial: "Already distributed or refunded"
+                WakandaTokenSale.purchases[address] != nil: "Cannot find purchase record for the address"
+                WakandaTokenSale.purchases[address]?.state == PurchaseState.initial: "Already distributed or refunded"
             }
 
             let receiverRef = getAccount(address).getCapability(TeleportedTetherToken.TokenPublicReceiverPath)
                 .borrow<&{FungibleToken.Receiver}>()
                 ?? panic("Could not borrow tUSDT vault receiver public reference")
 
-            let purchaseInfo = VibraniumSale.purchases[address]
+            let purchaseInfo = WakandaTokenSale.purchases[address]
                 ?? panic("Count not get purchase info for the address")
 
-            let tusdtVault <- VibraniumSale.tusdtVault.withdraw(amount: purchaseInfo.amount)
+            let tusdtVault <- WakandaTokenSale.tusdtVault.withdraw(amount: purchaseInfo.amount)
 
             // Set the state of the purchase to REFUNDED
             purchaseInfo.state = PurchaseState.refunded
-            VibraniumSale.purchases[address] = purchaseInfo
+            WakandaTokenSale.purchases[address] = purchaseInfo
 
             receiverRef.deposit(from: <- tusdtVault)
 
@@ -259,34 +259,34 @@ pub contract VibraniumSale {
                 price > 0.0: "Sale price cannot be 0"
             }
 
-            VibraniumSale.price = price
+            WakandaTokenSale.price = price
             emit NewPrice(price: price)
         }
 
         pub fun updateLockupScheduleId(lockupScheduleId: Int) {
-            VibraniumSale.lockupScheduleId = lockupScheduleId
+            WakandaTokenSale.lockupScheduleId = lockupScheduleId
             emit NewLockupSchedule(lockupSchedule: WakandaPass.getPredefinedLockupSchedule(id: lockupScheduleId))
         }
 
         pub fun updatePersonalCap(personalCap: UFix64) {
-            VibraniumSale.personalCap = personalCap
+            WakandaTokenSale.personalCap = personalCap
             emit NewPersonalCap(personalCap: personalCap)
         }
 
-        pub fun withdrawVibra(amount: UFix64): @FungibleToken.Vault {
-            return <- VibraniumSale.vibraVault.withdraw(amount: amount)
+        pub fun withdrawWkdt(amount: UFix64): @FungibleToken.Vault {
+            return <- WakandaTokenSale.vibraVault.withdraw(amount: amount)
         }
 
         pub fun withdrawTusdt(amount: UFix64): @FungibleToken.Vault {
-            return <- VibraniumSale.tusdtVault.withdraw(amount: amount)
+            return <- WakandaTokenSale.tusdtVault.withdraw(amount: amount)
         }
 
-        pub fun depositVibra(from: @FungibleToken.Vault) {
-            VibraniumSale.vibraVault.deposit(from: <- from)
+        pub fun depositWkdt(from: @FungibleToken.Vault) {
+            WakandaTokenSale.vibraVault.deposit(from: <- from)
         }
 
         pub fun depositTusdt(from: @FungibleToken.Vault) {
-            VibraniumSale.tusdtVault.deposit(from: <- from)
+            WakandaTokenSale.tusdtVault.deposit(from: <- from)
         }
     }
 
@@ -294,19 +294,19 @@ pub contract VibraniumSale {
         // Needs Admin to start manually
         self.isSaleActive = false
 
-        // 1 VIBRA = 0.1 tUSDT
+        // 1 WKDT = 0.1 tUSDT
         self.price = 0.1
 
         // Refer to WakandaPass contract
         self.lockupScheduleId = 0
 
-        // Each user can purchase at most 1000 tUSDT worth of VIBRA
+        // Each user can purchase at most 1000 tUSDT worth of WKDT
         self.personalCap = 1000.0
 
         self.purchases = {}
-        self.SaleAdminStoragePath = /storage/vibraniumSaleAdmin
+        self.SaleAdminStoragePath = /storage/wakandaTokenSaleAdmin
 
-        self.vibraVault <- Vibranium.createEmptyVault() as! @Vibranium.Vault
+        self.vibraVault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
         self.tusdtVault <- TeleportedTetherToken.createEmptyVault() as! @TeleportedTetherToken.Vault
 
         let admin <- create Admin()

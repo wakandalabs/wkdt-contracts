@@ -1,5 +1,5 @@
 import FungibleToken from "../token/FungibleToken.cdc"
-import Vibranium from "../token/Vibranium.cdc"
+import WakandaToken from "../token/WakandaToken.cdc"
 
 pub contract TeleportCustody {
   pub var isFrozen: Bool
@@ -14,7 +14,7 @@ pub contract TeleportCustody {
 
   pub let teleportTxHashLength: Int
 
-  access(contract) let lockVault: @Vibranium.Vault
+  access(contract) let lockVault: @WakandaToken.Vault
 
   pub var unlocked: {String: Bool}
 
@@ -83,7 +83,7 @@ pub contract TeleportCustody {
 
     pub var allowedAmount: UFix64
 
-    pub let feeCollector: @Vibranium.Vault
+    pub let feeCollector: @WakandaToken.Vault
 
     pub fun lock(from: @FungibleToken.Vault, to: [UInt8]) {
       pre {
@@ -91,7 +91,7 @@ pub contract TeleportCustody {
         to.length == TeleportCustody.teleportAddressLength: "Teleport address should be teleportAddressLength bytes"
       }
 
-      let vault <- from as! @Vibranium.Vault
+      let vault <- from as! @WakandaToken.Vault
       let fee <- vault.withdraw(amount: self.lockFee)
 
       self.feeCollector.deposit(from: <-fee)
@@ -151,7 +151,7 @@ pub contract TeleportCustody {
     init(allowedAmount: UFix64) {
       self.allowedAmount = allowedAmount
 
-      self.feeCollector <- Vibranium.createEmptyVault() as! @Vibranium.Vault
+      self.feeCollector <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
       self.lockFee = 3.0
       self.unlockFee = 0.01
     }
@@ -169,7 +169,7 @@ pub contract TeleportCustody {
     self.isFrozen = false
     self.teleportAddressLength = teleportAddressLength
     self.teleportTxHashLength = teleportTxHashLength
-    self.lockVault <- Vibranium.createEmptyVault() as! @Vibranium.Vault
+    self.lockVault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
     self.unlocked = {}
     self.TeleportAdminStoragePath = /storage/teleportCustodyTeleportAdmin
     self.TeleportAdminTeleportUserPath = /public/teleportCustodyTeleportUser

@@ -1,31 +1,31 @@
-# Vibranium Contracts
-![Vibranium](Vibranium.svg)
+# WakandaToken Contracts
+![WakandaToken](WakandaToken.svg)
 
-The symbol of Vibranium is ∆, You can type ∆ by pressing "option + j" in Mac.
+The symbol of WakandaToken is ∆, You can type ∆ by pressing "option + j" in Mac.
 
 ## Setup Flow CLI
 https://docs.onflow.org/flow-cli/install
 
 ## Run Scripts/Transactions - Examples
-### Setup Vibranium Vault
+### Setup Wakanda Token Vault
 ```
-flow transactions send ./transactions/token/setupVibraniumVault.cdc \
+flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
   --network testnet \
-  --signer vibranium-user-testnet \
+  --signer wakandaToken-user-testnet \
   --gas-limit 1000
 ```
 
-### Transfer Vibranium
+### Transfer Wakanda Token
 ```
-flow transactions send ./transactions/token/transferVibranium.cdc \
+flow transactions send ./transactions/token/transferWakandaToken.cdc \
   --network testnet \
   --arg UFix64:100.0 \
   --arg Address:0x03d1e02a48354e2b \
-  --signer vibranium-admin-testnet \
+  --signer wakandaToken-admin-testnet \
   --gas-limit 1000
 ```
 
-### Setup WakandaPass Collection
+### Setup Wakanda Pass Collection
 ```
 flow transactions send ./transactions/token/setupWakandaPass.cdc \
   --network testnet \
@@ -33,7 +33,7 @@ flow transactions send ./transactions/token/setupWakandaPass.cdc \
   --gas-limit 1000
 ```
 
-### Mint WakandaPass NFT
+### Mint Wakanda Pass NFT
 ```
 flow transactions send ./transactions/token/mintWakandaPass.cdc \
   --network testnet \
@@ -41,16 +41,16 @@ flow transactions send ./transactions/token/mintWakandaPass.cdc \
   --gas-limit 1000
 ```
 
-### Get Vibranium Balance
+### Get Wakanda Token Balance
 ```
-flow scripts execute ./scripts/token/getVibraniumBalance.cdc \
+flow scripts execute ./scripts/token/getWakandaTokenBalance.cdc \
   --network testnet \
   --arg Address:0x03d1e02a48354e2b
 ```
 
-### Stake VIBRA into WakandaPass
+### Stake WKDT into WakandaPass
 ```
-flow transactions send ./transactions/staking/stakeNewVibra.cdc \
+flow transactions send ./transactions/staking/stakeNewWkdt.cdc \
   --network testnet \
   --arg UFix64:1000.0 \
   --signer vibra-user-testnet \

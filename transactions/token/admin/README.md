@@ -38,18 +38,18 @@ flow transactions send ./transactions/token/admin/mintWakandaPassWithCustomLocku
   --gas-limit 1000
 ```
 
-### Setup Vibranium Minter
+### Setup WakandaToken Minter
 ```
-flow transactions send ./transactions/token/admin/setupVibraniumMinter.cdc \
+flow transactions send ./transactions/token/admin/setupWakandaTokenMinter.cdc \
   --network testnet \
   --arg UFix64:1000000000.0 \
   --signer vibra-admin-testnet \
   --gas-limit 1000
 ```
 
-### Setup Vibranium Minter for Staking
+### Setup WakandaToken Minter for Staking
 ```
-flow transactions build ./transactions/token/admin/setupVibraniumMinterForStaking.cdc \
+flow transactions build ./transactions/token/admin/setupWakandaTokenMinterForStaking.cdc \
   --network testnet \
   --arg UFix64:1000000000.0 \
   --proposer 0xccc5c610f25031c9 \

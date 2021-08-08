@@ -12,7 +12,7 @@ transaction() {
         let saleDate = 1626912000.0
         let months = 30.0 * 24.0 * 60.0 * 60.0 // seconds
 
-        // Lockup schedule for VIBRA community sale
+        // Lockup schedule for WKDT community sale
         let lockupSchedule = {
             0.0                      : 1.0,
             saleDate                 : 1.0,

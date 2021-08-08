@@ -1,4 +1,4 @@
-module github.com/wakanda-labs/vibranium-contracts/contracts/flow/test
+module github.com/wakanda-labs/wakandaToken-contracts/contracts/flow/test
 
     go 1.15
 

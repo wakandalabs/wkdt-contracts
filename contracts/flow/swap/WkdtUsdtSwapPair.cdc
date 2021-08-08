@@ -1,22 +1,22 @@
 import FungibleToken from "../token/FungibleToken.cdc"
-import Vibranium from "../token/Vibranium.cdc"
+import WakandaToken from "../token/WakandaToken.cdc"
 import TeleportedTetherToken from "../token/TeleportedTetherToken.cdc"
 
-// Exchange pair between Vibranium and TeleportedTetherToken
-// Token1: Vibranium
+// Exchange pair between WakandaToken and TeleportedTetherToken
+// Token1: WakandaToken
 // Token2: TeleportedTetherToken
-pub contract VibraUsdtSwapPair: FungibleToken {
+pub contract WkdtUsdtSwapPair: FungibleToken {
   // Frozen flag controlled by Admin
   pub var isFrozen: Bool
 
-  // Total supply of VibraUsdtSwapPair liquidity token in existence
+  // Total supply of WkdtUsdtSwapPair liquidity token in existence
   pub var totalSupply: UFix64
 
   // Fee charged when performing token swap
   pub var feePercentage: UFix64
 
-  // Controls Vibranium vault
-  access(contract) let token1Vault: @Vibranium.Vault
+  // Controls WakandaToken vault
+  access(contract) let token1Vault: @WakandaToken.Vault
 
   // Controls TeleportedTetherToken vault
   access(contract) let token2Vault: @TeleportedTetherToken.Vault
@@ -57,7 +57,7 @@ pub contract VibraUsdtSwapPair: FungibleToken {
   //
   // Each user stores an instance of only the Vault in their storage
   // The functions in the Vault and governed by the pre and post conditions
-  // in VibraUsdtSwapPair when they are called.
+  // in WkdtUsdtSwapPair when they are called.
   // The checks happen at runtime whenever a function is called.
   //
   // Resources can only be created in the context of the contract that they
@@ -98,7 +98,7 @@ pub contract VibraUsdtSwapPair: FungibleToken {
     // was a temporary holder of the tokens. The Vault's balance has
     // been consumed and therefore can be destroyed.
     pub fun deposit(from: @FungibleToken.Vault) {
-      let vault <- from as! @VibraUsdtSwapPair.Vault
+      let vault <- from as! @WkdtUsdtSwapPair.Vault
       self.balance = self.balance + vault.balance
       emit TokensDeposited(amount: vault.balance, to: self.owner?.address)
       vault.balance = 0.0
@@ -106,7 +106,7 @@ pub contract VibraUsdtSwapPair: FungibleToken {
     }
 
     destroy() {
-      VibraUsdtSwapPair.totalSupply = VibraUsdtSwapPair.totalSupply - self.balance
+      WkdtUsdtSwapPair.totalSupply = WkdtUsdtSwapPair.totalSupply - self.balance
     }
   }
 
@@ -122,16 +122,16 @@ pub contract VibraUsdtSwapPair: FungibleToken {
   }
 
   pub resource TokenBundle {
-    pub var token1: @Vibranium.Vault
+    pub var token1: @WakandaToken.Vault
     pub var token2: @TeleportedTetherToken.Vault
 
     // initialize the vault bundle
-    init(fromToken1: @Vibranium.Vault, fromToken2: @TeleportedTetherToken.Vault) {
+    init(fromToken1: @WakandaToken.Vault, fromToken2: @TeleportedTetherToken.Vault) {
       self.token1 <- fromToken1
       self.token2 <- fromToken2
     }
 
-    pub fun depositToken1(from: @Vibranium.Vault) {
+    pub fun depositToken1(from: @WakandaToken.Vault) {
       self.token1.deposit(from: <- from)
     }
 
@@ -139,8 +139,8 @@ pub contract VibraUsdtSwapPair: FungibleToken {
       self.token2.deposit(from: <- from)
     }
 
-    pub fun withdrawToken1(): @Vibranium.Vault {
-      var vault <- Vibranium.createEmptyVault() as! @Vibranium.Vault
+    pub fun withdrawToken1(): @WakandaToken.Vault {
+      var vault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
       vault <-> self.token1
       return <- vault
     }
@@ -159,16 +159,16 @@ pub contract VibraUsdtSwapPair: FungibleToken {
 
   // createEmptyBundle
   //
-  pub fun createEmptyTokenBundle(): @VibraUsdtSwapPair.TokenBundle {
+  pub fun createEmptyTokenBundle(): @WkdtUsdtSwapPair.TokenBundle {
     return <- create TokenBundle(
-      fromToken1: <- (Vibranium.createEmptyVault() as! @Vibranium.Vault),
+      fromToken1: <- (WakandaToken.createEmptyVault() as! @WakandaToken.Vault),
       fromToken2: <- (TeleportedTetherToken.createEmptyVault() as! @TeleportedTetherToken.Vault)
     )
   }
 
   // createTokenBundle
   //
-  pub fun createTokenBundle(fromToken1: @Vibranium.Vault, fromToken2: @TeleportedTetherToken.Vault): @VibraUsdtSwapPair.TokenBundle {
+  pub fun createTokenBundle(fromToken1: @WakandaToken.Vault, fromToken2: @TeleportedTetherToken.Vault): @WkdtUsdtSwapPair.TokenBundle {
     return <- create TokenBundle(fromToken1: <- fromToken1, fromToken2: <- fromToken2)
   }
 
@@ -177,11 +177,11 @@ pub contract VibraUsdtSwapPair: FungibleToken {
   // Function that mints new tokens, adds them to the total supply,
   // and returns them to the calling context.
   //
-  access(contract) fun mintTokens(amount: UFix64): @VibraUsdtSwapPair.Vault {
+  access(contract) fun mintTokens(amount: UFix64): @WkdtUsdtSwapPair.Vault {
     pre {
       amount > UFix64(0): "Amount minted must be greater than zero"
     }
-    VibraUsdtSwapPair.totalSupply = VibraUsdtSwapPair.totalSupply + amount
+    WkdtUsdtSwapPair.totalSupply = WkdtUsdtSwapPair.totalSupply + amount
     emit TokensMinted(amount: amount)
     return <-create Vault(balance: amount)
   }
@@ -193,43 +193,43 @@ pub contract VibraUsdtSwapPair: FungibleToken {
   // Note: the burned tokens are automatically subtracted from the
   // total supply in the Vault destructor.
   //
-  access(contract) fun burnTokens(from: @VibraUsdtSwapPair.Vault) {
-    let vault <- from as! @VibraUsdtSwapPair.Vault
+  access(contract) fun burnTokens(from: @WkdtUsdtSwapPair.Vault) {
+    let vault <- from as! @WkdtUsdtSwapPair.Vault
     let amount = vault.balance
     destroy vault
     emit TokensBurned(amount: amount)
   }
 
   pub resource SwapProxy {
-    pub fun swapToken1ForToken2(from: @Vibranium.Vault): @TeleportedTetherToken.Vault {
-      return <- VibraUsdtSwapPair.swapToken1ForToken2(from: <-from)
+    pub fun swapToken1ForToken2(from: @WakandaToken.Vault): @TeleportedTetherToken.Vault {
+      return <- WkdtUsdtSwapPair.swapToken1ForToken2(from: <-from)
     }
 
-    pub fun swapToken2ForToken1(from: @TeleportedTetherToken.Vault): @Vibranium.Vault {
-      return <- VibraUsdtSwapPair.swapToken2ForToken1(from: <-from)
+    pub fun swapToken2ForToken1(from: @TeleportedTetherToken.Vault): @WakandaToken.Vault {
+      return <- WkdtUsdtSwapPair.swapToken2ForToken1(from: <-from)
     }
 
-    pub fun addLiquidity(from: @VibraUsdtSwapPair.TokenBundle): @VibraUsdtSwapPair.Vault {
-      return <- VibraUsdtSwapPair.addLiquidity(from: <-from)
+    pub fun addLiquidity(from: @WkdtUsdtSwapPair.TokenBundle): @WkdtUsdtSwapPair.Vault {
+      return <- WkdtUsdtSwapPair.addLiquidity(from: <-from)
     }
 
-    pub fun removeLiquidity(from: @VibraUsdtSwapPair.Vault): @VibraUsdtSwapPair.TokenBundle {
-      return <- VibraUsdtSwapPair.removeLiquidity(from: <-from)
+    pub fun removeLiquidity(from: @WkdtUsdtSwapPair.Vault): @WkdtUsdtSwapPair.TokenBundle {
+      return <- WkdtUsdtSwapPair.removeLiquidity(from: <-from)
     }
   }
 
   pub resource Admin {
     pub fun freeze() {
-      VibraUsdtSwapPair.isFrozen = true
+      WkdtUsdtSwapPair.isFrozen = true
     }
 
     pub fun unfreeze() {
-      VibraUsdtSwapPair.isFrozen = false
+      WkdtUsdtSwapPair.isFrozen = false
     }
 
-    pub fun addInitialLiquidity(from: @VibraUsdtSwapPair.TokenBundle): @VibraUsdtSwapPair.Vault {
+    pub fun addInitialLiquidity(from: @WkdtUsdtSwapPair.TokenBundle): @WkdtUsdtSwapPair.Vault {
       pre {
-        VibraUsdtSwapPair.totalSupply == UFix64(0): "Pair already initialized"
+        WkdtUsdtSwapPair.totalSupply == UFix64(0): "Pair already initialized"
       }
 
       let token1Vault <- from.withdrawToken1()
@@ -238,23 +238,23 @@ pub contract VibraUsdtSwapPair: FungibleToken {
       assert(token1Vault.balance > UFix64(0), message: "Empty token1 vault")
       assert(token2Vault.balance > UFix64(0), message: "Empty token2 vault")
 
-      VibraUsdtSwapPair.token1Vault.deposit(from: <- token1Vault)
-      VibraUsdtSwapPair.token2Vault.deposit(from: <- token2Vault)
+      WkdtUsdtSwapPair.token1Vault.deposit(from: <- token1Vault)
+      WkdtUsdtSwapPair.token2Vault.deposit(from: <- token2Vault)
 
       destroy from
 
       // Create initial tokens
-      return <- VibraUsdtSwapPair.mintTokens(amount: 1.0)
+      return <- WkdtUsdtSwapPair.mintTokens(amount: 1.0)
     }
 
     pub fun updateFeePercentage(feePercentage: UFix64) {
-      VibraUsdtSwapPair.feePercentage = feePercentage
+      WkdtUsdtSwapPair.feePercentage = feePercentage
 
       emit FeeUpdated(feePercentage: feePercentage)
     }
 
-    pub fun createSwapProxy(): @VibraUsdtSwapPair.SwapProxy {
-      return <- create VibraUsdtSwapPair.SwapProxy()
+    pub fun createSwapProxy(): @WkdtUsdtSwapPair.SwapProxy {
+      return <- create WkdtUsdtSwapPair.SwapProxy()
     }
   }
 
@@ -270,7 +270,7 @@ pub contract VibraUsdtSwapPair: FungibleToken {
 
   // Check current pool amounts
   pub fun getPoolAmounts(): PoolAmounts {
-    return PoolAmounts(token1Amount: VibraUsdtSwapPair.token1Vault.balance, token2Amount: VibraUsdtSwapPair.token2Vault.balance)
+    return PoolAmounts(token1Amount: WkdtUsdtSwapPair.token1Vault.balance, token2Amount: WkdtUsdtSwapPair.token2Vault.balance)
   }
 
   // Get quote for Token1 (given) -> Token2
@@ -317,10 +317,10 @@ pub contract VibraUsdtSwapPair: FungibleToken {
     return quote
   }
 
-  // Swaps Token1 (VIBRA) -> Token2 (tUSDT)
-  access(contract) fun swapToken1ForToken2(from: @Vibranium.Vault): @TeleportedTetherToken.Vault {
+  // Swaps Token1 (WKDT) -> Token2 (tUSDT)
+  access(contract) fun swapToken1ForToken2(from: @WakandaToken.Vault): @TeleportedTetherToken.Vault {
     pre {
-      !VibraUsdtSwapPair.isFrozen: "VibraUsdtSwapPair is frozen"
+      !WkdtUsdtSwapPair.isFrozen: "WkdtUsdtSwapPair is frozen"
       from.balance > UFix64(0): "Empty token vault"
     }
 
@@ -337,10 +337,10 @@ pub contract VibraUsdtSwapPair: FungibleToken {
     return <- (self.token2Vault.withdraw(amount: token2Amount) as! @TeleportedTetherToken.Vault)
   }
 
-  // Swap Token2 (tUSDT) -> Token1 (VIBRA)
-  access(contract) fun swapToken2ForToken1(from: @TeleportedTetherToken.Vault): @Vibranium.Vault {
+  // Swap Token2 (tUSDT) -> Token1 (WKDT)
+  access(contract) fun swapToken2ForToken1(from: @TeleportedTetherToken.Vault): @WakandaToken.Vault {
     pre {
-      !VibraUsdtSwapPair.isFrozen: "VibraUsdtSwapPair is frozen"
+      !WkdtUsdtSwapPair.isFrozen: "WkdtUsdtSwapPair is frozen"
       from.balance > UFix64(0): "Empty token vault"
     }
 
@@ -354,21 +354,21 @@ pub contract VibraUsdtSwapPair: FungibleToken {
     self.token2Vault.deposit(from: <- (from as! @FungibleToken.Vault))
     emit Trade(token1Amount: token1Amount, token2Amount: token2Amount, side: 2)
 
-    return <- (self.token1Vault.withdraw(amount: token1Amount) as! @Vibranium.Vault)
+    return <- (self.token1Vault.withdraw(amount: token1Amount) as! @WakandaToken.Vault)
   }
 
   // Used to add liquidity without minting new liquidity token
-  pub fun donateLiquidity(from: @VibraUsdtSwapPair.TokenBundle) {
+  pub fun donateLiquidity(from: @WkdtUsdtSwapPair.TokenBundle) {
     let token1Vault <- from.withdrawToken1()
     let token2Vault <- from.withdrawToken2()
 
-    VibraUsdtSwapPair.token1Vault.deposit(from: <- token1Vault)
-    VibraUsdtSwapPair.token2Vault.deposit(from: <- token2Vault)
+    WkdtUsdtSwapPair.token1Vault.deposit(from: <- token1Vault)
+    WkdtUsdtSwapPair.token2Vault.deposit(from: <- token2Vault)
 
     destroy from
   }
 
-  access(contract) fun addLiquidity(from: @VibraUsdtSwapPair.TokenBundle): @VibraUsdtSwapPair.Vault {
+  access(contract) fun addLiquidity(from: @WkdtUsdtSwapPair.TokenBundle): @WkdtUsdtSwapPair.Vault {
     pre {
       self.totalSupply > UFix64(0): "Pair must be initialized by admin first"
     }
@@ -380,8 +380,8 @@ pub contract VibraUsdtSwapPair: FungibleToken {
     assert(token2Vault.balance > UFix64(0), message: "Empty token2 vault")
 
     // shift decimal 4 places to avoid truncation error
-    let token1Percentage: UFix64 = (token1Vault.balance * 10000.0) / VibraUsdtSwapPair.token1Vault.balance
-    let token2Percentage: UFix64 = (token2Vault.balance * 10000.0) / VibraUsdtSwapPair.token2Vault.balance
+    let token1Percentage: UFix64 = (token1Vault.balance * 10000.0) / WkdtUsdtSwapPair.token1Vault.balance
+    let token2Percentage: UFix64 = (token2Vault.balance * 10000.0) / WkdtUsdtSwapPair.token2Vault.balance
 
     // final liquidity token minted is the smaller between token1Liquidity and token2Liquidity
     // to maximize profit, user should add liquidity propotional to current liquidity
@@ -389,33 +389,33 @@ pub contract VibraUsdtSwapPair: FungibleToken {
 
     assert(liquidityPercentage > UFix64(0), message: "Liquidity too small")
 
-    VibraUsdtSwapPair.token1Vault.deposit(from: <- token1Vault)
-    VibraUsdtSwapPair.token2Vault.deposit(from: <- token2Vault)
+    WkdtUsdtSwapPair.token1Vault.deposit(from: <- token1Vault)
+    WkdtUsdtSwapPair.token2Vault.deposit(from: <- token2Vault)
 
-    let liquidityTokenVault <- VibraUsdtSwapPair.mintTokens(amount: (VibraUsdtSwapPair.totalSupply * liquidityPercentage) / 10000.0)
+    let liquidityTokenVault <- WkdtUsdtSwapPair.mintTokens(amount: (WkdtUsdtSwapPair.totalSupply * liquidityPercentage) / 10000.0)
 
     destroy from
     return <- liquidityTokenVault
   }
 
-  access(contract) fun removeLiquidity(from: @VibraUsdtSwapPair.Vault): @VibraUsdtSwapPair.TokenBundle {
+  access(contract) fun removeLiquidity(from: @WkdtUsdtSwapPair.Vault): @WkdtUsdtSwapPair.TokenBundle {
     pre {
       from.balance > UFix64(0): "Empty liquidity token vault"
-      from.balance < VibraUsdtSwapPair.totalSupply: "Cannot remove all liquidity"
+      from.balance < WkdtUsdtSwapPair.totalSupply: "Cannot remove all liquidity"
     }
 
     // shift decimal 4 places to avoid truncation error
-    let liquidityPercentage = (from.balance * 10000.0) / VibraUsdtSwapPair.totalSupply
+    let liquidityPercentage = (from.balance * 10000.0) / WkdtUsdtSwapPair.totalSupply
 
     assert(liquidityPercentage > UFix64(0), message: "Liquidity too small")
 
     // Burn liquidity tokens and withdraw
-    VibraUsdtSwapPair.burnTokens(from: <- from)
+    WkdtUsdtSwapPair.burnTokens(from: <- from)
 
-    let token1Vault <- VibraUsdtSwapPair.token1Vault.withdraw(amount: (VibraUsdtSwapPair.token1Vault.balance * liquidityPercentage) / 10000.0) as! @Vibranium.Vault
-    let token2Vault <- VibraUsdtSwapPair.token2Vault.withdraw(amount: (VibraUsdtSwapPair.token2Vault.balance * liquidityPercentage) / 10000.0) as! @TeleportedTetherToken.Vault
+    let token1Vault <- WkdtUsdtSwapPair.token1Vault.withdraw(amount: (WkdtUsdtSwapPair.token1Vault.balance * liquidityPercentage) / 10000.0) as! @WakandaToken.Vault
+    let token2Vault <- WkdtUsdtSwapPair.token2Vault.withdraw(amount: (WkdtUsdtSwapPair.token2Vault.balance * liquidityPercentage) / 10000.0) as! @TeleportedTetherToken.Vault
 
-    let tokenBundle <- VibraUsdtSwapPair.createTokenBundle(fromToken1: <- token1Vault, fromToken2: <- token2Vault)
+    let tokenBundle <- WkdtUsdtSwapPair.createTokenBundle(fromToken1: <- token1Vault, fromToken2: <- token2Vault)
     return <- tokenBundle
   }
 
@@ -428,8 +428,8 @@ pub contract VibraUsdtSwapPair: FungibleToken {
     self.TokenPublicBalancePath = /public/vibraUsdtFspLpBalance
     self.TokenPublicReceiverPath = /public/vibraUsdtFspLpReceiver
 
-    // Setup internal Vibranium vault
-    self.token1Vault <- Vibranium.createEmptyVault() as! @Vibranium.Vault
+    // Setup internal WakandaToken vault
+    self.token1Vault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
 
     // Setup internal TeleportedTetherToken vault
     self.token2Vault <- TeleportedTetherToken.createEmptyVault() as! @TeleportedTetherToken.Vault

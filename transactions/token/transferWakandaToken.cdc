@@ -1,5 +1,5 @@
 import FungibleToken from "../../contracts/flow/token/FungibleToken.cdc"
-import Vibranium from "../../contracts/flow/token/Vibranium.cdc"
+import WakandaToken from "../../contracts/flow/token/WakandaToken.cdc"
 
 transaction(amount: UFix64, to: Address) {
 
@@ -9,7 +9,7 @@ transaction(amount: UFix64, to: Address) {
     prepare(signer: AuthAccount) {
 
         // Get a reference to the signer's stored vault
-        let vaultRef = signer.borrow<&Vibranium.Vault>(from: Vibranium.TokenStoragePath)
+        let vaultRef = signer.borrow<&WakandaToken.Vault>(from: WakandaToken.TokenStoragePath)
 			?? panic("Could not borrow reference to the owner's Vault!")
 
         // Withdraw tokens from the signer's stored vault
@@ -22,7 +22,7 @@ transaction(amount: UFix64, to: Address) {
         let recipient = getAccount(to)
 
         // Get a reference to the recipient's Receiver
-        let receiverRef = recipient.getCapability(Vibranium.TokenPublicReceiverPath)
+        let receiverRef = recipient.getCapability(WakandaToken.TokenPublicReceiverPath)
             .borrow<&{FungibleToken.Receiver}>()
 			?? panic("Could not borrow receiver reference to the recipient's Vault")
 

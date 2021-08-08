@@ -1,9 +1,9 @@
 import FungibleToken from "./FungibleToken.cdc"
 
-// Token contract of Vibranium (VIBRA)
-pub contract Vibranium: FungibleToken {
+// Token contract of Wakanda Token (WKDT)
+pub contract WakandaToken: FungibleToken {
 
-    // Total supply of Flow tokens in existence
+    // Total supply of wakanda tokens in existence
     pub var totalSupply: UFix64
 
     // Defines token vault storage path
@@ -84,7 +84,7 @@ pub contract Vibranium: FungibleToken {
         // was a temporary holder of the tokens. The Vault's balance has
         // been consumed and therefore can be destroyed.
         pub fun deposit(from: @FungibleToken.Vault) {
-            let vault <- from as! @Vibranium.Vault
+            let vault <- from as! @WakandaToken.Vault
             self.balance = self.balance + vault.balance
             emit TokensDeposited(amount: vault.balance, to: self.owner?.address)
             vault.balance = 0.0
@@ -92,7 +92,7 @@ pub contract Vibranium: FungibleToken {
         }
 
         destroy() {
-            Vibranium.totalSupply = Vibranium.totalSupply - self.balance
+            WakandaToken.totalSupply = WakandaToken.totalSupply - self.balance
         }
     }
 
@@ -141,12 +141,12 @@ pub contract Vibranium: FungibleToken {
         // Function that mints new tokens, adds them to the total supply,
         // and returns them to the calling context.
         //
-        pub fun mintTokens(amount: UFix64): @Vibranium.Vault {
+        pub fun mintTokens(amount: UFix64): @WakandaToken.Vault {
             pre {
                 amount > 0.0: "Amount minted must be greater than zero"
                 amount <= self.allowedAmount: "Amount minted must be less than the allowed amount"
             }
-            Vibranium.totalSupply = Vibranium.totalSupply + amount
+            WakandaToken.totalSupply = WakandaToken.totalSupply + amount
             self.allowedAmount = self.allowedAmount - amount
             emit TokensMinted(amount: amount)
             return <-create Vault(balance: amount)
@@ -171,7 +171,7 @@ pub contract Vibranium: FungibleToken {
         // total supply in the Vault destructor.
         //
         pub fun burnTokens(from: @FungibleToken.Vault) {
-            let vault <- from as! @Vibranium.Vault
+            let vault <- from as! @WakandaToken.Vault
             let amount = vault.balance
             destroy vault
             emit TokensBurned(amount: amount)
@@ -179,15 +179,15 @@ pub contract Vibranium: FungibleToken {
     }
 
     init() {
-        // Total supply of VIBRA is 10M
+        // Total supply of WKDT is 10M
         // 70% is created at genesis but locked up
         // 30% will minted from staking and mining
         self.totalSupply = 7_000_000.0
 
-        self.TokenStoragePath = /storage/vibraniumVault
-        self.TokenPublicReceiverPath = /public/vibraniumReceiver
-        self.TokenPublicBalancePath = /public/vibraniumBalance
-        self.TokenMinterStoragePath = /storage/vibraniumMinter
+        self.TokenStoragePath = /storage/wakandaTokenVault
+        self.TokenPublicReceiverPath = /public/wakandaTokenReceiver
+        self.TokenPublicBalancePath = /public/wakandaTokenBalance
+        self.TokenMinterStoragePath = /storage/wakandaTokenMinter
 
         // Create the Vault with the total supply of tokens and save it in storage
         let vault <- create Vault(balance: self.totalSupply)
@@ -195,20 +195,20 @@ pub contract Vibranium: FungibleToken {
 
         // Create a public capability to the stored Vault that only exposes
         // the `deposit` method through the `Receiver` interface
-        self.account.link<&Vibranium.Vault{FungibleToken.Receiver}>(
+        self.account.link<&WakandaToken.Vault{FungibleToken.Receiver}>(
             self.TokenPublicReceiverPath,
             target: self.TokenStoragePath
         )
 
         // Create a public capability to the stored Vault that only exposes
         // the `balance` field through the `Balance` interface
-        self.account.link<&Vibranium.Vault{FungibleToken.Balance}>(
+        self.account.link<&WakandaToken.Vault{FungibleToken.Balance}>(
             self.TokenPublicBalancePath,
             target: self.TokenStoragePath
         )
 
         let admin <- create Administrator()
-        self.account.save(<-admin, to: /storage/VibraniumAdmin)
+        self.account.save(<-admin, to: /storage/wakandaTokenAdmin)
 
         // Emit an event that shows that the contract was initialized
         emit TokensInitialized(initialSupply: self.totalSupply)

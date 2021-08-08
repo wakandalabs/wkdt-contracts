@@ -1,10 +1,10 @@
 // This is the implementation of WakandaPass, the Wakanda Non-Fungible Token
-// that is used in-conjunction with VIBRA, the Wakanda Fungible Token
+// that is used in-conjunction with WKDT, the Wakanda Fungible Token
 
 import FungibleToken from "./FungibleToken.cdc"
 import NonFungibleToken from "./NonFungibleToken.cdc"
-import Vibranium from "./Vibranium.cdc"
-import VibraniumStaking from "../staking/VibraniumStaking.cdc"
+import WakandaToken from "./WakandaToken.cdc"
+import WakandaTokenStaking from "../staking/WakandaTokenStaking.cdc"
 import WakandaPassStamp from "./WakandaPassStamp.cdc"
 
 pub contract WakandaPass: NonFungibleToken {
@@ -17,7 +17,7 @@ pub contract WakandaPass: NonFungibleToken {
 
     // pre-defined lockup schedules
     // key: timestamp
-    // value: percentage of VIBRA that must remain in the WakandaPass at this timestamp
+    // value: percentage of WKDT that must remain in the WakandaPass at this timestamp
     access(contract) var predefinedLockupSchedules: [{UFix64: UFix64}]
 
     pub event ContractInitialized()
@@ -43,7 +43,7 @@ pub contract WakandaPass: NonFungibleToken {
         pub fun getMetadata(): {String: String}
         pub fun getStamps(): [String]
         pub fun getVipTier(): UInt64
-        pub fun getStakingInfo(): VibraniumStaking.StakerInfo
+        pub fun getStakingInfo(): WakandaTokenStaking.StakerInfo
         pub fun getLockupSchedule(): {UFix64: UFix64}
         pub fun getLockupAmountAtTimestamp(timestamp: UFix64): UFix64
         pub fun getLockupAmount(): UFix64
@@ -58,11 +58,11 @@ pub contract WakandaPass: NonFungibleToken {
         WakandaPassPrivate,
         WakandaPassPublic
     {
-        // VIBRA holder vault
-        access(self) let vault: @Vibranium.Vault
+        // WKDT holder vault
+        access(self) let vault: @WakandaToken.Vault
 
-        // VIBRA staker handle
-        access(self) let staker: @VibraniumStaking.Staker
+        // WKDT staker handle
+        access(self) let staker: @WakandaTokenStaking.Staker
 
         // WakandaPass ID
         pub let id: UInt64
@@ -84,9 +84,9 @@ pub contract WakandaPass: NonFungibleToken {
         // If lockupScheduleId == nil, use custom lockup schedule instead
         pub let lockupScheduleId: Int?
 
-        // Defines how much Vibranium must remain in the WakandaPass on different dates
+        // Defines how much WakandaToken must remain in the WakandaPass on different dates
         // key: timestamp
-        // value: percentage of VIBRA that must remain in the WakandaPass at this timestamp
+        // value: percentage of WKDT that must remain in the WakandaPass at this timestamp
         access(self) let lockupSchedule: {UFix64: UFix64}?
 
         init(
@@ -97,14 +97,14 @@ pub contract WakandaPass: NonFungibleToken {
             lockupScheduleId: Int?,
             lockupSchedule: {UFix64: UFix64}?
         ) {
-            let stakingAdmin = WakandaPass.account.borrow<&VibraniumStaking.Admin>(from: VibraniumStaking.StakingAdminStoragePath)
+            let stakingAdmin = WakandaPass.account.borrow<&WakandaTokenStaking.Admin>(from: WakandaTokenStaking.StakingAdminStoragePath)
                 ?? panic("Could not borrow admin reference")
 
             self.id = initID
             self.originalOwner = originalOwner
             self.metadata = metadata
             self.stamps = []
-            self.vault <- vault as! @Vibranium.Vault
+            self.vault <- vault as! @WakandaToken.Vault
             self.staker <- stakingAdmin.addStakerRecord(id: initID)
 
             // lockup calculations
@@ -115,7 +115,7 @@ pub contract WakandaPass: NonFungibleToken {
 
         pub fun withdraw(amount: UFix64): @FungibleToken.Vault {
             post {
-                self.getTotalBalance() >= self.getLockupAmount(): "Cannot withdraw locked-up VIBRAs"
+                self.getTotalBalance() >= self.getLockupAmount(): "Cannot withdraw locked-up WKDTs"
             }
 
             return <- self.vault.withdraw(amount: amount)
@@ -158,8 +158,8 @@ pub contract WakandaPass: NonFungibleToken {
             return WakandaPass.predefinedLockupSchedules[self.lockupScheduleId!]
         }
 
-        pub fun getStakingInfo(): VibraniumStaking.StakerInfo {
-            return VibraniumStaking.StakerInfo(stakerID: self.id)
+        pub fun getStakingInfo(): WakandaTokenStaking.StakerInfo {
+            return WakandaTokenStaking.StakerInfo(stakerID: self.id)
         }
 
         pub fun getLockupAmountAtTimestamp(timestamp: UFix64): UFix64 {
@@ -192,7 +192,7 @@ pub contract WakandaPass: NonFungibleToken {
         }
 
         pub fun getTotalBalance(): UFix64 {
-            return self.getIdleBalance() + VibraniumStaking.StakerInfo(self.id).totalTokensInRecord()
+            return self.getIdleBalance() + WakandaTokenStaking.StakerInfo(self.id).totalTokensInRecord()
         }
 
         // Private staking methods
@@ -366,7 +366,7 @@ pub contract WakandaPass: NonFungibleToken {
             self.mintNFTWithCustomLockup(
                 recipient: recipient,
                 metadata: metadata,
-                vault: <- Vibranium.createEmptyVault(),
+                vault: <- WakandaToken.createEmptyVault(),
                 lockupSchedule: {0.0: 0.0}
             )
         }

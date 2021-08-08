@@ -1,9 +1,9 @@
 import FungibleToken from "../token/FungibleToken.cdc"
 import NonFungibleToken from "../token/NonFungibleToken.cdc"
-import Vibranium from "../token/Vibranium.cdc"
+import WakandaToken from "../token/WakandaToken.cdc"
 import WakandaPass from "../token/WakandaPass.cdc"
 
-pub contract VibraniumMining {
+pub contract WakandaTokenMining {
 
     // Event that is emitted when mining state is updated
     pub event MiningStateUpdated(state: UInt8)
@@ -117,43 +117,43 @@ pub contract VibraniumMining {
 
         // Start collecting users' raw data
         pub fun startCollecting() {
-            VibraniumMining.miningState = MiningState.collecting
+            WakandaTokenMining.miningState = MiningState.collecting
 
-            emit MiningStateUpdated(state: VibraniumMining.miningState.rawValue)
+            emit MiningStateUpdated(state: WakandaTokenMining.miningState.rawValue)
         }
 
         // Stop collecting users' raw data
         pub fun stopCollecting() {
-            VibraniumMining.miningState = MiningState.collected
+            WakandaTokenMining.miningState = MiningState.collected
 
-            emit MiningStateUpdated(state: VibraniumMining.miningState.rawValue)
+            emit MiningStateUpdated(state: WakandaTokenMining.miningState.rawValue)
         }
 
         // Finish distributing reward
         pub fun finishDistributing() {
-            VibraniumMining.miningState = MiningState.distributed
+            WakandaTokenMining.miningState = MiningState.distributed
 
-            emit MiningStateUpdated(state: VibraniumMining.miningState.rawValue)
+            emit MiningStateUpdated(state: WakandaTokenMining.miningState.rawValue)
         }
 
         // Go to next round and reset total reward
         pub fun goNextRound() {
             pre {
-                VibraniumMining.miningState == MiningState.initial ||
-                    VibraniumMining.miningState == MiningState.distributed:
+                WakandaTokenMining.miningState == MiningState.initial ||
+                    WakandaTokenMining.miningState == MiningState.distributed:
                     "Current round should be distributed"
             }
-            VibraniumMining.currentRound = VibraniumMining.currentRound + (1 as UInt64)
-            VibraniumMining.currentTotalReward = 0.0
+            WakandaTokenMining.currentRound = WakandaTokenMining.currentRound + (1 as UInt64)
+            WakandaTokenMining.currentTotalReward = 0.0
 
-            emit RoundUpdated(round: VibraniumMining.currentRound)
+            emit RoundUpdated(round: WakandaTokenMining.currentRound)
 
             self.startCollecting()
         }
 
         // Update reward cap
         pub fun updateRewardCap(_ rewardCap: UFix64) {
-            VibraniumMining.rewardCap = rewardCap
+            WakandaTokenMining.rewardCap = rewardCap
 
             emit RewardCapUpdated(rewardCap: rewardCap)
         }
@@ -161,11 +161,11 @@ pub contract VibraniumMining {
         // Update cap multiplier
         pub fun updateCapMultiplier(_ capMultiplier: UInt64) {
             pre {
-                VibraniumMining.miningState == MiningState.initial ||
-                    VibraniumMining.miningState == MiningState.collected:
+                WakandaTokenMining.miningState == MiningState.initial ||
+                    WakandaTokenMining.miningState == MiningState.collected:
                     "Current round should be collected"
             }
-            VibraniumMining.capMultiplier = capMultiplier
+            WakandaTokenMining.capMultiplier = capMultiplier
 
             emit CapMultiplierUpdated(capMultiplier: capMultiplier)
         }
@@ -173,30 +173,30 @@ pub contract VibraniumMining {
         // Update criteria by name
         pub fun updateCriteria(name: String, criteria: Criteria?) {
             pre {
-                VibraniumMining.miningState == MiningState.initial ||
-                    VibraniumMining.miningState == MiningState.collected:
+                WakandaTokenMining.miningState == MiningState.initial ||
+                    WakandaTokenMining.miningState == MiningState.collected:
                     "Current round should be collected"
             }
-            VibraniumMining.criterias[name] = criteria
+            WakandaTokenMining.criterias[name] = criteria
 
             emit CriteriaUpdated(name: name, criteria: criteria)
         }
 
         pub fun updateRewardLockPeriod(_ rewardLockPeriod: UInt64) {
             pre {
-                VibraniumMining.miningState != MiningState.collected: "Should NOT be collected"
+                WakandaTokenMining.miningState != MiningState.collected: "Should NOT be collected"
             }
-            VibraniumMining.rewardLockPeriod = rewardLockPeriod
+            WakandaTokenMining.rewardLockPeriod = rewardLockPeriod
 
             emit RewardLockPeriodUpdated(rewardLockPeriod: rewardLockPeriod)
         }
 
         pub fun updateRewardLockRatio(_ rewardLockRatio: UFix64) {
             pre {
-                VibraniumMining.miningState != MiningState.collected: "Should NOT be collected"
+                WakandaTokenMining.miningState != MiningState.collected: "Should NOT be collected"
                 rewardLockRatio <= 1.0: "ratio should be less than or equal to 1"
             }
-            VibraniumMining.rewardLockRatio = rewardLockRatio
+            WakandaTokenMining.rewardLockRatio = rewardLockRatio
 
             emit RewardLockRatioUpdated(rewardLockRatio: rewardLockRatio)
         }
@@ -205,68 +205,68 @@ pub contract VibraniumMining {
         // data: {criteria name: raw data}
         pub fun collectData(_ data: {String: UFix64}, address: Address) {
             pre {
-                VibraniumMining.miningState == MiningState.collecting: "Should start collecting"
+                WakandaTokenMining.miningState == MiningState.collecting: "Should start collecting"
             }
 
             // Check if the address has MiningRewardPublicPath
-            let miningRewardRef = getAccount(address).getCapability(VibraniumMining.MiningRewardPublicPath)
-                .borrow<&{VibraniumMining.MiningRewardPublic}>()
+            let miningRewardRef = getAccount(address).getCapability(WakandaTokenMining.MiningRewardPublicPath)
+                .borrow<&{WakandaTokenMining.MiningRewardPublic}>()
                 ?? panic("Could not borrow mining reward public reference")
 
-            let isVIP = VibraniumMining.isAddressVIP(address: address)
-            let round = VibraniumMining.userRewardsCollected[address] ?? (0 as UInt64)
-            if round < VibraniumMining.currentRound {
-                let reward = VibraniumMining.computeReward(data: data, isVIP: isVIP)
+            let isVIP = WakandaTokenMining.isAddressVIP(address: address)
+            let round = WakandaTokenMining.userRewardsCollected[address] ?? (0 as UInt64)
+            if round < WakandaTokenMining.currentRound {
+                let reward = WakandaTokenMining.computeReward(data: data, isVIP: isVIP)
 
-                VibraniumMining.currentTotalReward = VibraniumMining.currentTotalReward + reward
-                VibraniumMining.userRewards[address] = reward
+                WakandaTokenMining.currentTotalReward = WakandaTokenMining.currentTotalReward + reward
+                WakandaTokenMining.userRewards[address] = reward
 
                 emit DataCollected(data: data, address: address, reward: reward, replacedReward: nil)
-            } else if round == VibraniumMining.currentRound {
-                let replacedReward = VibraniumMining.userRewards[address]!
-                let reward = VibraniumMining.computeReward(data: data, isVIP: isVIP)
+            } else if round == WakandaTokenMining.currentRound {
+                let replacedReward = WakandaTokenMining.userRewards[address]!
+                let reward = WakandaTokenMining.computeReward(data: data, isVIP: isVIP)
 
-                VibraniumMining.currentTotalReward = VibraniumMining.currentTotalReward - replacedReward + reward
-                VibraniumMining.userRewards[address] = reward
+                WakandaTokenMining.currentTotalReward = WakandaTokenMining.currentTotalReward - replacedReward + reward
+                WakandaTokenMining.userRewards[address] = reward
 
                 emit DataCollected(data: data, address: address, reward: reward, replacedReward: replacedReward)
             } else {
                 panic("Reward collected round must less than or equal to current round")
             }
 
-            VibraniumMining.userRewardsCollected[address] = VibraniumMining.currentRound
+            WakandaTokenMining.userRewardsCollected[address] = WakandaTokenMining.currentRound
         }
 
         // Distribute reward by address
         pub fun distributeReward(address: Address) {
             pre {
-                VibraniumMining.miningState == MiningState.collected: "Should stop collecting"
-                VibraniumMining.rewardsDistributed[address] ?? (0 as UInt64) < VibraniumMining.currentRound:
+                WakandaTokenMining.miningState == MiningState.collected: "Should stop collecting"
+                WakandaTokenMining.rewardsDistributed[address] ?? (0 as UInt64) < WakandaTokenMining.currentRound:
                     "Same address in currrent round already distributed"
             }
             post {
-                VibraniumMining.rewardsDistributed[address] == VibraniumMining.currentRound:
+                WakandaTokenMining.rewardsDistributed[address] == WakandaTokenMining.currentRound:
                     "Same address in currrent round should be distributed"
             }
 
-            let reward = VibraniumMining.computeFinalReward(
+            let reward = WakandaTokenMining.computeFinalReward(
                 address: address,
-                totalReward: VibraniumMining.currentTotalReward)
-            let vibraniumMinter = VibraniumMining.account.borrow<&Vibranium.Minter>(from: Vibranium.TokenMinterStoragePath)
+                totalReward: WakandaTokenMining.currentTotalReward)
+            let wakandaTokenMinter = WakandaTokenMining.account.borrow<&WakandaToken.Minter>(from: WakandaToken.TokenMinterStoragePath)
                 ?? panic("Could not borrow minter reference")
-            let rewardVault <- vibraniumMinter.mintTokens(amount: reward)
+            let rewardVault <- wakandaTokenMinter.mintTokens(amount: reward)
 
-            let lockReward = reward * VibraniumMining.rewardLockRatio
-            let lockRewardVault <- rewardVault.withdraw(amount: lockReward) as! @Vibranium.Vault
-            let lockRound = VibraniumMining.currentRound + VibraniumMining.rewardLockPeriod
+            let lockReward = reward * WakandaTokenMining.rewardLockRatio
+            let lockRewardVault <- rewardVault.withdraw(amount: lockReward) as! @WakandaToken.Vault
+            let lockRound = WakandaTokenMining.currentRound + WakandaTokenMining.rewardLockPeriod
 
-            let miningRewardRef = getAccount(address).getCapability(VibraniumMining.MiningRewardPublicPath)
-                .borrow<&{VibraniumMining.MiningRewardPublic}>()
+            let miningRewardRef = getAccount(address).getCapability(WakandaTokenMining.MiningRewardPublicPath)
+                .borrow<&{WakandaTokenMining.MiningRewardPublic}>()
                 ?? panic("Could not borrow mining reward public reference")
             miningRewardRef.deposit(reward: <- lockRewardVault, lockRound: lockRound)
-            miningRewardRef.deposit(reward: <- rewardVault, lockRound: VibraniumMining.currentRound)
+            miningRewardRef.deposit(reward: <- rewardVault, lockRound: WakandaTokenMining.currentRound)
 
-            VibraniumMining.rewardsDistributed[address] = VibraniumMining.currentRound
+            WakandaTokenMining.rewardsDistributed[address] = WakandaTokenMining.currentRound
 
             emit RewardDistributed(reward: reward, address: address)
         }
@@ -298,7 +298,7 @@ pub contract VibraniumMining {
     pub resource interface MiningRewardPublic {
         pub fun getRewardsLocked(): {UInt64: UFix64}
         pub fun computeUnlocked(): UFix64
-        access(contract) fun deposit(reward: @Vibranium.Vault, lockRound: UInt64)
+        access(contract) fun deposit(reward: @WakandaToken.Vault, lockRound: UInt64)
     }
 
     pub resource MiningReward: MiningRewardPublic {
@@ -307,7 +307,7 @@ pub contract VibraniumMining {
         access(self) var rewardsLocked: {UInt64: UFix64}
 
         // Define reward lock vault
-        access(self) let reward: @Vibranium.Vault
+        access(self) let reward: @WakandaToken.Vault
 
         pub fun getRewardsLocked(): {UInt64: UFix64} {
             return self.rewardsLocked
@@ -316,32 +316,32 @@ pub contract VibraniumMining {
         pub fun computeUnlocked(): UFix64 {
             var amount: UFix64 = 0.0
             for round in self.rewardsLocked.keys {
-                if round < VibraniumMining.currentRound {
+                if round < WakandaTokenMining.currentRound {
                     amount = amount + self.rewardsLocked[round]!
                 }
             }
             return amount
         }
 
-        access(contract) fun deposit(reward: @Vibranium.Vault, lockRound: UInt64) {
+        access(contract) fun deposit(reward: @WakandaToken.Vault, lockRound: UInt64) {
             self.rewardsLocked[lockRound] = (self.rewardsLocked[lockRound] ?? 0.0) + reward.balance
             self.reward.deposit(from: <- reward)
         }
 
-        pub fun withdraw(): @Vibranium.Vault {
+        pub fun withdraw(): @WakandaToken.Vault {
             var amount: UFix64 = 0.0
             for round in self.rewardsLocked.keys {
-                if round < VibraniumMining.currentRound {
+                if round < WakandaTokenMining.currentRound {
                     amount = amount + self.rewardsLocked.remove(key: round)!
                 }
             }
             emit RewardWithdrawn(amount: amount, from: self.owner?.address)
-            return <- (self.reward.withdraw(amount: amount) as! @Vibranium.Vault)
+            return <- (self.reward.withdraw(amount: amount) as! @WakandaToken.Vault)
         }
 
         init() {
             self.rewardsLocked = {}
-            self.reward <- Vibranium.createEmptyVault() as! @Vibranium.Vault
+            self.reward <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
         }
 
         destroy() {
@@ -443,8 +443,8 @@ pub contract VibraniumMining {
     }
 
     init() {
-        self.MiningRewardStoragePath = /storage/vibraniumMiningReward
-        self.MiningRewardPublicPath = /public/vibraniumMiningReward
+        self.MiningRewardStoragePath = /storage/wakandaTokenMiningReward
+        self.MiningRewardPublicPath = /public/wakandaTokenMiningReward
         self.miningState = MiningState.initial
         self.currentRound = 0
         self.currentTotalReward = 0.0
@@ -458,6 +458,6 @@ pub contract VibraniumMining {
         self.rewardsDistributed = {}
 
         let admin <- create Administrator()
-        self.account.save(<-admin, to: /storage/vibraniumMiningAdmin)
+        self.account.save(<-admin, to: /storage/wakandaTokenMiningAdmin)
     }
 }
