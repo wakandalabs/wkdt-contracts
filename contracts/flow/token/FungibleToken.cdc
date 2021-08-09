@@ -158,7 +158,7 @@ pub contract interface FungibleToken {
         pub var balance: UFix64
 
         // The conforming type must declare an initializer
-        // that allows prioviding the initial balance of the Vault
+        // that allows providing the initial balance of the Vault
         //
         init(balance: UFix64)
 

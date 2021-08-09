@@ -384,7 +384,7 @@ pub contract WkdtUsdtSwapPair: FungibleToken {
     let token2Percentage: UFix64 = (token2Vault.balance * 10000.0) / WkdtUsdtSwapPair.token2Vault.balance
 
     // final liquidity token minted is the smaller between token1Liquidity and token2Liquidity
-    // to maximize profit, user should add liquidity propotional to current liquidity
+    // to maximize profit, user should add liquidity proportional to current liquidity
     let liquidityPercentage = token1Percentage < token2Percentage ? token1Percentage : token2Percentage;
 
     assert(liquidityPercentage > UFix64(0), message: "Liquidity too small")
