@@ -424,9 +424,9 @@ pub contract WkdtUsdtSwapPair: FungibleToken {
     self.totalSupply = 0.0
     self.feePercentage = 0.003 // 0.3%
 
-    self.TokenStoragePath = /storage/vibraUsdtFspLpVault
-    self.TokenPublicBalancePath = /public/vibraUsdtFspLpBalance
-    self.TokenPublicReceiverPath = /public/vibraUsdtFspLpReceiver
+    self.TokenStoragePath = /storage/wkdtUsdtFspLpVault
+    self.TokenPublicBalancePath = /public/wkdtUsdtFspLpBalance
+    self.TokenPublicReceiverPath = /public/wkdtUsdtFspLpReceiver
 
     // Setup internal WakandaToken vault
     self.token1Vault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
@@ -435,7 +435,7 @@ pub contract WkdtUsdtSwapPair: FungibleToken {
     self.token2Vault <- TeleportedTetherToken.createEmptyVault() as! @TeleportedTetherToken.Vault
 
     let admin <- create Admin()
-    self.account.save(<-admin, to: /storage/vibraUsdtPairAdmin)
+    self.account.save(<-admin, to: /storage/wkdtUsdtPairAdmin)
 
     // Emit an event that shows that the contract was initialized
     emit TokensInitialized(initialSupply: self.totalSupply)

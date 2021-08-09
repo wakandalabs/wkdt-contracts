@@ -32,7 +32,7 @@ pub contract WakandaTokenMining {
     // Event that is emitted when reward is distributed
     pub event RewardDistributed(reward: UFix64, address: Address)
 
-    // Event that is emiited when reward is withdrawn
+    // Event that is emitted when reward is withdrawn
     pub event RewardWithdrawn(amount: UFix64, from: Address?)
 
     // Criteria
@@ -86,7 +86,7 @@ pub contract WakandaTokenMining {
     // Define reward cap
     access(contract) var rewardCap: UFix64
 
-    // Define cap multipier for VIP-tier users
+    // Define cap multiplier for VIP-tier users
     access(contract) var capMultiplier: UInt64
 
     // Define mining criterias
@@ -242,11 +242,11 @@ pub contract WakandaTokenMining {
             pre {
                 WakandaTokenMining.miningState == MiningState.collected: "Should stop collecting"
                 WakandaTokenMining.rewardsDistributed[address] ?? (0 as UInt64) < WakandaTokenMining.currentRound:
-                    "Same address in currrent round already distributed"
+                    "Same address in current round already distributed"
             }
             post {
                 WakandaTokenMining.rewardsDistributed[address] == WakandaTokenMining.currentRound:
-                    "Same address in currrent round should be distributed"
+                    "Same address in current round should be distributed"
             }
 
             let reward = WakandaTokenMining.computeFinalReward(
@@ -393,7 +393,7 @@ pub contract WakandaTokenMining {
         return self.rewardsDistributed
     }
 
-    // Chceck if the address is VIP
+    // Check if the address is VIP
     pub fun isAddressVIP(address: Address): Bool {
         let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath)
             .borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()

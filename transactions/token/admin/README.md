@@ -3,7 +3,7 @@
 ```
 flow transactions send ./transactions/token/admin/setupCommunitySaleSchedule.cdc \
   --network testnet \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
@@ -12,7 +12,7 @@ flow transactions send ./transactions/token/admin/setupCommunitySaleSchedule.cdc
 flow transactions send ./transactions/token/admin/mintWakandaPass.cdc \
   --network testnet \
   --arg Address:0x95d4f57daf2fb5ce \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
@@ -23,7 +23,7 @@ flow transactions send ./transactions/token/admin/mintWakandaPassWithCustomLocku
   --arg Address:0x95d4f57daf2fb5ce \
   --arg UFix64:500.0 \
   --arg UFix64:1625654520.0 \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
@@ -34,7 +34,7 @@ flow transactions send ./transactions/token/admin/mintWakandaPassWithCustomLocku
   --arg Address:0x95d4f57daf2fb5ce \
   --arg UFix64:500.0 \
   --arg Int:0 \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
@@ -43,7 +43,7 @@ flow transactions send ./transactions/token/admin/mintWakandaPassWithCustomLocku
 flow transactions send ./transactions/token/admin/setupWakandaTokenMinter.cdc \
   --network testnet \
   --arg UFix64:1000000000.0 \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
@@ -62,12 +62,12 @@ flow transactions build ./transactions/token/admin/setupWakandaTokenMinterForSta
   --save ./build/unsigned.rlp
 
 flow transactions sign ./build/unsigned.rlp \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --filter payload \
   --save ./build/signed-1.rlp
 
 flow transactions sign ./build/signed-1.rlp \
-  --signer vibra-mining-testnet \
+  --signer wkdt-mining-testnet \
   --filter payload \
   --save ./build/signed-2.rlp
 
@@ -78,6 +78,6 @@ flow transactions send-signed --network testnet ./build/signed-2.rlp
 ```
 flow transactions send ./transactions/token/admin/setupWakandaPassMinterPublic.cdc \
   --network testnet \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```

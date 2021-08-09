@@ -3,7 +3,7 @@
 ```
 flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
   --network testnet \
-  --signer vibra-user-testnet \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
 
@@ -13,7 +13,7 @@ flow transactions send ./transactions/token/transferWakandaToken.cdc \
   --network testnet \
   --arg UFix64:100.0 \
   --arg Address:0x03d1e02a48354e2b \
-  --signer vibra-admin-testnet \
+  --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
 
@@ -21,7 +21,7 @@ flow transactions send ./transactions/token/transferWakandaToken.cdc \
 ```
 flow transactions send ./transactions/token/setupWakandaPassCollection.cdc \
   --network testnet \
-  --signer vibra-user-testnet \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
 
@@ -29,7 +29,7 @@ flow transactions send ./transactions/token/setupWakandaPassCollection.cdc \
 ```
 flow transactions send ./transactions/token/withdrawAllFromWakandaPass.cdc \
   --network testnet \
-  --signer vibra-user-testnet \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
 
@@ -37,6 +37,6 @@ flow transactions send ./transactions/token/withdrawAllFromWakandaPass.cdc \
 ```
 flow transactions send ./transactions/token/setupTeleportedTetherTokenVault.cdc \
   --network testnet \
-  --signer vibra-user-testnet \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```

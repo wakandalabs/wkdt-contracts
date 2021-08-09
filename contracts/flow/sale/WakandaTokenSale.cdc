@@ -24,7 +24,7 @@ pub contract WakandaTokenSale {
     pub event NewPersonalCap(personalCap: UFix64)
 
     pub event Purchased(address: Address, amount: UFix64, ticketId: UInt64)
-    pub event Distributed(address: Address, tusdtAmount: UFix64, vibraAmount: UFix64)
+    pub event Distributed(address: Address, tusdtAmount: UFix64, wkdtAmount: UFix64)
     pub event Refunded(address: Address, amount: UFix64)
 
     /****** Sale Enums ******/
@@ -38,7 +38,7 @@ pub contract WakandaTokenSale {
     /****** Sale Resources ******/
 
     // WKDT holder vault
-    access(contract) let vibraVault: @WakandaToken.Vault
+    access(contract) let wkdtVault: @WakandaToken.Vault
 
     // tUSDT holder vault
     access(contract) let tusdtVault: @TeleportedTetherToken.Vault
@@ -56,7 +56,7 @@ pub contract WakandaTokenSale {
     // WKDT lockup schedule, used for lockup terms
     access(contract) var lockupScheduleId: Int
 
-    // WKDT communitu sale purchase cap (in tUSDT)
+    // WKDT community sale purchase cap (in tUSDT)
     access(contract) var personalCap: UFix64
 
     // All purchase records
@@ -135,7 +135,7 @@ pub contract WakandaTokenSale {
     }
 
     pub fun getWkdtVaultBalance(): UFix64 {
-        return self.vibraVault.balance
+        return self.wkdtVault.balance
     }
 
     pub fun getTusdtVaultBalance(): UFix64 {
@@ -185,8 +185,8 @@ pub contract WakandaTokenSale {
             let minterRef = WakandaTokenSale.account.borrow<&WakandaPass.NFTMinter>(from: WakandaPass.MinterStoragePath)
                 ?? panic("Could not borrow reference to the WakandaPass minter!")
 
-            let vibraAmount = purchaseInfo.amount / WakandaTokenSale.price
-            let vibraVault <- WakandaTokenSale.vibraVault.withdraw(amount: vibraAmount)
+            let wkdtAmount = purchaseInfo.amount / WakandaTokenSale.price
+            let wkdtVault <- WakandaTokenSale.wkdtVault.withdraw(amount: wkdtAmount)
 
             let metadata = {
                 "origin": "Community Sale"
@@ -223,11 +223,11 @@ pub contract WakandaTokenSale {
             minterRef.mintNFTWithPredefinedLockup(
                 recipient: collectionRef,
                 metadata: metadata,
-                vault: <- vibraVault,
+                vault: <- wkdtVault,
                 lockupScheduleId: WakandaTokenSale.lockupScheduleId
             )
 
-            emit Distributed(address: address, tusdtAmount: purchaseInfo.amount, vibraAmount: vibraAmount)
+            emit Distributed(address: address, tusdtAmount: purchaseInfo.amount, wkdtAmount: wkdtAmount)
         }
 
         pub fun refund(address: Address) {
@@ -274,7 +274,7 @@ pub contract WakandaTokenSale {
         }
 
         pub fun withdrawWkdt(amount: UFix64): @FungibleToken.Vault {
-            return <- WakandaTokenSale.vibraVault.withdraw(amount: amount)
+            return <- WakandaTokenSale.wkdtVault.withdraw(amount: amount)
         }
 
         pub fun withdrawTusdt(amount: UFix64): @FungibleToken.Vault {
@@ -282,7 +282,7 @@ pub contract WakandaTokenSale {
         }
 
         pub fun depositWkdt(from: @FungibleToken.Vault) {
-            WakandaTokenSale.vibraVault.deposit(from: <- from)
+            WakandaTokenSale.wkdtVault.deposit(from: <- from)
         }
 
         pub fun depositTusdt(from: @FungibleToken.Vault) {
@@ -297,7 +297,7 @@ pub contract WakandaTokenSale {
         // 1 WKDT = 0.1 tUSDT
         self.price = 0.1
 
-        // Refer to WakandaPass contract
+        // Refer to Wakanda Pass contract
         self.lockupScheduleId = 0
 
         // Each user can purchase at most 1000 tUSDT worth of WKDT
@@ -306,7 +306,7 @@ pub contract WakandaTokenSale {
         self.purchases = {}
         self.SaleAdminStoragePath = /storage/wakandaTokenSaleAdmin
 
-        self.vibraVault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
+        self.wkdtVault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
         self.tusdtVault <- TeleportedTetherToken.createEmptyVault() as! @TeleportedTetherToken.Vault
 
         let admin <- create Admin()

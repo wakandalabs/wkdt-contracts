@@ -13,11 +13,11 @@ transaction(address: Address, amount: UFix64, unlockTime: UFix64) {
             .borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()
             ?? panic("Could not borrow wakanda pass collection public reference")
 
-        let vibraVaultRef = signer
+        let wkdtVaultRef = signer
             .borrow<&WakandaToken.Vault>(from: WakandaToken.TokenStoragePath)
             ?? panic("Cannot get WKDT vault reference")
 
-        let vibraVault <- vibraVaultRef.withdraw(amount: amount)
+        let wkdtVault <- wkdtVaultRef.withdraw(amount: amount)
 
         let metadata: {String: String} = {
             "origin": "Private Sale"
@@ -36,7 +36,7 @@ transaction(address: Address, amount: UFix64, unlockTime: UFix64) {
         minter.mintNFTWithCustomLockup(
             recipient: nftCollectionRef,
             metadata: metadata,
-            vault: <- vibraVault,
+            vault: <- wkdtVault,
             lockupSchedule: lockupSchedule
         )
     }
