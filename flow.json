@@ -94,7 +94,7 @@
       "chain": "flow-emulator"
     },
     "wkdt-admin-testnet": {
-      "address": "ccc5c610f25031c9",
+      "address": "0x358405c69fa8d95c",
       "keys": [
         {
           "type": "hex",
@@ -102,34 +102,14 @@
           "signatureAlgorithm": "ECDSA_secp256k1",
           "hashAlgorithm": "SHA3_256",
           "context": {
-            "privateKey": "1de30bc0ec3c4ead208ddef38fb98a6a78dae0efc8ec7a463805654091559a45"
+            "privateKey": "4b42c47d31c03e35f17efe1d5f125f6d8b7def824c518af65cf8c744c7cc2291"
           }
         }
       ],
-      "chain": "flow-testnet"
-    },
-    "wkdt-mining-testnet": {
-      "address": "4e57c4f07871af8d",
-      "keys": [
-        {
-          "type": "hex",
-          "index": 0,
-          "signatureAlgorithm": "ECDSA_secp256k1",
-          "hashAlgorithm": "SHA3_256",
-          "context": {
-            "privateKey": "40c790cc76e75c397a6f972b6018222698ae3ae32cf44c27b5c8814bf3528c21"
-          }
-        }
-      ],
-      "chain": "flow-testnet"
-    },
-    "wkdt-teleport-testnet": {
-      "address": "967a0fb3c949cbc5",
-      "keys": "4d90e59b86fb7cede90f764eb3593b56fe4fe02205e315828d5d62e117dba575",
       "chain": "flow-testnet"
     },
     "wkdt-teleport-admin-testnet": {
-      "address": "f086a545ce3c552d",
+      "address": "0xc7b7d9281756d3e2",
       "keys": [
         {
           "type": "hex",
@@ -137,14 +117,14 @@
           "signatureAlgorithm": "ECDSA_secp256k1",
           "hashAlgorithm": "SHA3_256",
           "context": {
-            "privateKey": "cf89ac36ee891eeeaa1e55cab68350b479d946a94f46e411c31975be80bc48ab"
+            "privateKey": "d9221f246ea3b8191ec25fb207783b1d17692149072ef070e0e2ca2cb77aa5af"
           }
         }
       ],
       "chain": "flow-testnet"
     },
     "wkdt-swap-testnet": {
-      "address": "c59604d4e65f14b3",
+      "address": "0xd1e3bc1b8e52d983",
       "keys": [
         {
           "type": "hex",
@@ -152,7 +132,7 @@
           "signatureAlgorithm": "ECDSA_secp256k1",
           "hashAlgorithm": "SHA3_256",
           "context": {
-            "privateKey": "6d2d903526ce75051c074a50c008ad38b179bae55c045ac3d57bf267b16c7c66"
+            "privateKey": "6cb92fd1380f7d1bae542eb62b1838fbfea3792ac36f9809f8b4d10874c1b4b4"
           }
         }
       ],
@@ -214,7 +194,7 @@
       "wkdt-swap-testnet": [
         "WkdtUsdtSwapPair"
       ],
-      "wkdt-teleport-testnet": [
+      "wkdt-teleport-admin-testnet": [
         "TeleportCustody",
         "TeleportCustodySolana"
       ]
