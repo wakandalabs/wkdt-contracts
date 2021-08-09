@@ -99,7 +99,7 @@
         {
           "type": "hex",
           "index": 0,
-          "signatureAlgorithm": "ECDSA_secp256k1",
+          "signatureAlgorithm": "ECDSA_P256",
           "hashAlgorithm": "SHA3_256",
           "context": {
             "privateKey": "4b42c47d31c03e35f17efe1d5f125f6d8b7def824c518af65cf8c744c7cc2291"
@@ -113,8 +113,8 @@
       "keys": [
         {
           "type": "hex",
-          "index": 2,
-          "signatureAlgorithm": "ECDSA_secp256k1",
+          "index": 0,
+          "signatureAlgorithm": "ECDSA_P256",
           "hashAlgorithm": "SHA3_256",
           "context": {
             "privateKey": "d9221f246ea3b8191ec25fb207783b1d17692149072ef070e0e2ca2cb77aa5af"
@@ -129,7 +129,7 @@
         {
           "type": "hex",
           "index": 0,
-          "signatureAlgorithm": "ECDSA_secp256k1",
+          "signatureAlgorithm": "ECDSA_P256",
           "hashAlgorithm": "SHA3_256",
           "context": {
             "privateKey": "6cb92fd1380f7d1bae542eb62b1838fbfea3792ac36f9809f8b4d10874c1b4b4"
