@@ -165,10 +165,10 @@ pub contract TeleportCustody {
     return TeleportCustody.lockVault.balance
   }
 
-  init(teleportAddressLength: Int, teleportTxHashLength: Int) {
+  init() {
     self.isFrozen = false
-    self.teleportAddressLength = teleportAddressLength
-    self.teleportTxHashLength = teleportTxHashLength
+    self.teleportAddressLength = 16
+    self.teleportTxHashLength = 64
     self.lockVault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
     self.unlocked = {}
     self.TeleportAdminStoragePath = /storage/teleportCustodyTeleportAdmin
