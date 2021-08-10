@@ -5,7 +5,7 @@ The symbol of WakandaToken is ₩ or $WKDT.
 https://docs.onflow.org/flow-cli/install
 
 ## Run Scripts/Transactions - Examples
-### Setup Wakanda Token Vault
+### Setup WakandaToken Vault
 ```
 flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
   --network testnet \
@@ -13,7 +13,7 @@ flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
   --gas-limit 1000
 ```
 
-### Transfer Wakanda Token
+### Transfer WakandaToken
 ```
 flow transactions send ./transactions/token/transferWakandaToken.cdc \
   --network testnet \
@@ -23,7 +23,7 @@ flow transactions send ./transactions/token/transferWakandaToken.cdc \
   --gas-limit 1000
 ```
 
-### Setup Wakanda Pass Collection
+### Setup WakandaPass Collection
 ```
 flow transactions send ./transactions/token/setupWakandaPass.cdc \
   --network testnet \
@@ -31,7 +31,7 @@ flow transactions send ./transactions/token/setupWakandaPass.cdc \
   --gas-limit 1000
 ```
 
-### Mint Wakanda Pass NFT
+### Mint WakandaPass NFT
 ```
 flow transactions send ./transactions/token/mintWakandaPass.cdc \
   --network testnet \
@@ -39,7 +39,7 @@ flow transactions send ./transactions/token/mintWakandaPass.cdc \
   --gas-limit 1000
 ```
 
-### Get Wakanda Token Balance
+### Get WakandaToken Balance
 ```
 flow scripts execute ./scripts/token/getWakandaTokenBalance.cdc \
   --network testnet \

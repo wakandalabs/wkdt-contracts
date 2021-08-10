@@ -98,7 +98,7 @@ pub contract WakandaTokenSale {
 
         let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath)
             .borrow<&{NonFungibleToken.CollectionPublic}>()
-            ?? panic("Could not borrow wakanda pass collection public reference")
+            ?? panic("Could not borrow WakandaPass collection public reference")
 
         // Make sure user does not already have a WakandaPass
         assert (
@@ -171,7 +171,7 @@ pub contract WakandaTokenSale {
 
             let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath)
                 .borrow<&{NonFungibleToken.CollectionPublic}>()
-                ?? panic("Could not borrow wakanda pass collection public reference")
+                ?? panic("Could not borrow WakandaPass collection public reference")
 
             // Make sure user does not already have a WakandaPass
             assert (
@@ -297,7 +297,7 @@ pub contract WakandaTokenSale {
         // 1 WKDT = 0.1 tUSDT
         self.price = 0.1
 
-        // Refer to Wakanda Pass contract
+        // Refer to WakandaPass contract
         self.lockupScheduleId = 0
 
         // Each user can purchase at most 1000 tUSDT worth of WKDT

@@ -12,7 +12,7 @@ transaction(address: Address, amount: UFix64) {
 
         let nftCollectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath)
             .borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()
-            ?? panic("Could not borrow wakanda pass collection public reference")
+            ?? panic("Could not borrow WakandaPass collection public reference")
 
         let wkdtVaultRef = signer
             .borrow<&WakandaToken.Vault>(from: WakandaToken.TokenStoragePath)

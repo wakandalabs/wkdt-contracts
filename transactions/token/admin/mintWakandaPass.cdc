@@ -10,7 +10,7 @@ transaction(address: Address) {
 
         let nftCollectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath)
             .borrow<&{NonFungibleToken.CollectionPublic}>()
-            ?? panic("Could not borrow wakanda pass collection public reference")
+            ?? panic("Could not borrow WakandaPass collection public reference")
 
         minter.mintNFT(recipient: nftCollectionRef, metadata: {})
     }

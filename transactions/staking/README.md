@@ -1,5 +1,5 @@
 # Staking
-### Stake Wakanda Token into WakandaPass
+### Stake WakandaToken into WakandaPass
 ```
 flow transactions send ./transactions/staking/stakeNewWakandaTokens.cdc \
   --network testnet \
@@ -8,7 +8,7 @@ flow transactions send ./transactions/staking/stakeNewWakandaTokens.cdc \
   --gas-limit 1000
 ```
 
-### Stake Wakanda Token that is Already in Wakanda Pass
+### Stake WakandaToken that is Already in WakandaPass
 ```
 flow transactions send ./transactions/staking/stakeNewWakandaTokensFromPass.cdc \
   --network testnet \
