@@ -1,7 +1,7 @@
 # Staking
 ### Stake Wakanda Token into WakandaPass
 ```
-flow transactions send ./transactions/staking/stakeNewWakandaToken.cdc \
+flow transactions send ./transactions/staking/stakeNewWakandaTokens.cdc \
   --network testnet \
   --arg UFix64:1000.0 \
   --signer wkdt-user-testnet \
