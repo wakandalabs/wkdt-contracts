@@ -21,7 +21,7 @@ transaction(address: Address, amount: UFix64) {
         let wkdtVault <- wkdtVaultRef.withdraw(amount: amount)
 
         let metadata: {String: String} = {
-            "origin": "Private Sale"
+            "origin": "Wakanda Labs"
         }
 
         minter.mintNFTWithPredefinedLockup(
