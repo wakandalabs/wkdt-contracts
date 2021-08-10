@@ -3,12 +3,12 @@ import WakandaPass from "../../contracts/flow/token/WakandaPass.cdc"
 import WakandaTokenStaking from "../../contracts/flow/staking/WakandaTokenStaking.cdc"
 
 pub fun main(address: Address): WakandaTokenStaking.StakerInfo {
-    let collectionRef = getAccount(address).getCapability(/public/bloctoPassCollection)
+    let collectionRef = getAccount(address).getCapability(/public/wakandaPassCollection)
         .borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()
         ?? panic("Could not borrow collection public reference")
 
     let ids = collectionRef.getIDs()
-    let bloctoPass = collectionRef.borrowWakandaPassPublic(id: ids[0])
+    let wakandaPass = collectionRef.borrowWakandaPassPublic(id: ids[0])
 
-    return bloctoPass.getStakingInfo()
+    return wakandaPass.getStakingInfo()
 }
