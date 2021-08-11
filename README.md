@@ -18,7 +18,7 @@ flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
 flow transactions send ./transactions/token/transferWakandaToken.cdc \
   --network testnet \
   --arg UFix64:100.0 \
-  --arg Address:0x03d1e02a48354e2b \
+  --arg Address:0x57df669b4f4d1a4 \
   --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```
@@ -43,7 +43,7 @@ flow transactions send ./transactions/token/mintWakandaPass.cdc \
 ```
 flow scripts execute ./scripts/token/getWakandaTokenBalance.cdc \
   --network testnet \
-  --arg Address:0x03d1e02a48354e2b
+  --arg Address:0x57df669b4f4d1a4
 ```
 
 ### Stake WKDT into WakandaPass
@@ -59,7 +59,7 @@ flow transactions send ./transactions/staking/stakeNewWkdt.cdc \
 ```
 flow scripts execute ./scripts/staking/getStakingInfo.cdc \
   --network testnet \
-  --arg Address:0x03d1e02a48354e2b
+  --arg Address:0x57df669b4f4d1a4
 ```
 
 ### Switch Epoch
