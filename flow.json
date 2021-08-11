@@ -79,17 +79,17 @@
   },
   "accounts": {
     "emulator-account": {
-      "address": "f8d6e0586b0a20c7",
+      "address": "0xf8d6e0586b0a20c7",
       "keys": "eb4347b08ebd2f74d38bec1026b07430fe04510c95afe8534735677a3410dd87",
       "chain": "flow-emulator"
     },
     "wkdt-admin-emulator": {
-      "address": "f3fcd2c1a78f5eee",
+      "address": "0xf3fcd2c1a78f5eee",
       "keys": "eb4347b08ebd2f74d38bec1026b07430fe04510c95afe8534735677a3410dd87",
       "chain": "flow-emulator"
     },
     "wkdt-user-emulator": {
-      "address": "e03daebed8ca0615",
+      "address": "0xe03daebed8ca0615",
       "keys": "eb4347b08ebd2f74d38bec1026b07430fe04510c95afe8534735677a3410dd87",
       "chain": "flow-emulator"
     },
@@ -139,7 +139,7 @@
       "chain": "flow-testnet"
     },
     "wkdt-user-testnet": {
-      "address": "457df669b4f4d1a4",
+      "address": "0x57df669b4f4d1a4",
       "keys": [
         {
           "type": "hex",
@@ -154,7 +154,7 @@
       "chain": "flow-testnet"
     },
     "wkdt-user2-testnet": {
-      "address": "80db1142287cd376",
+      "address": "0x80db1142287cd376",
       "keys": [
         {
           "type": "hex",
