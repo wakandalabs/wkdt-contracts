@@ -25,7 +25,7 @@ flow transactions send ./transactions/token/transferWakandaToken.cdc \
 
 ### Setup WakandaPass Collection
 ```
-flow transactions send ./transactions/token/setupWakandaPass.cdc \
+flow transactions send ./transactions/token/setupWakandaPassCollection.cdc \
   --network testnet \
   --signer wkdt-user-testnet \
   --gas-limit 1000
