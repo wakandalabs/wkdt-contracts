@@ -1,5 +1,5 @@
 # Token
-### Get WakandaToken Balance
+### Get Predefined Lockup Schedule
 ```
 flow scripts execute ./scripts/token/getPredefinedLockupSchedule.cdc \
   --network testnet \
@@ -10,54 +10,47 @@ flow scripts execute ./scripts/token/getPredefinedLockupSchedule.cdc \
 ```
 flow scripts execute ./scripts/token/getWakandaTokenBalance.cdc \
   --network testnet \
-  --arg Address:0x95d4f57daf2fb5ce
+  --arg Address:0x457df669b4f4d1a4
 ```
 
 ### Get Idle WakandaToken Balance in WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassVaultBalance.cdc \
   --network testnet \
-  --arg Address:0x95d4f57daf2fb5ce
+  --arg Address:0x457df669b4f4d1a4
 ```
 
 ### Get Total WakandaToken Balance in WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassTotalBalance.cdc \
   --network testnet \
-  --arg Address:0x95d4f57daf2fb5ce
+  --arg Address:0x457df669b4f4d1a4
 ```
 
 ### Get WakandaToken Lockup Schedule in WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassLockupSchedule.cdc \
   --network testnet \
-  --arg Address:0x67e7299327d1bf70
+  --arg Address:0x457df669b4f4d1a4
 ```
 
 ### Get WakandaToken Lockup Amount in WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassLockupAmount.cdc \
   --network testnet \
-  --arg Address:0x67e7299327d1bf70
+  --arg Address:0x457df669b4f4d1a4
 ```
 
 ### Get Metadata from WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassMetadata.cdc \
   --network testnet \
-  --arg Address:0x95d4f57daf2fb5ce
+  --arg Address:0x457df669b4f4d1a4
 ```
 
 ### Get Original Owner from WakandaPass
 ```
 flow scripts execute ./scripts/token/getWakandaPassOriginalOwner.cdc \
   --network testnet \
-  --arg Address:0x95d4f57daf2fb5ce
-```
-
-### Get Original Owner from WakandaPass
-```
-flow scripts execute ./scripts/token/getPredefinedLockupSchedule.cdc \
-  --network testnet \
-  --arg Int:0
+  --arg Address:0x457df669b4f4d1a4
 ```

@@ -60,7 +60,7 @@ flow transactions send ./transactions/staking/stakeNewWakandaTokens.cdc \
 ```
 flow scripts execute ./scripts/staking/getStakingInfo.cdc \
   --network testnet \
-  --arg Address:0x57df669b4f4d1a4
+  --arg Address:0x457df669b4f4d1a4
 ```
 
 ### Switch Epoch
