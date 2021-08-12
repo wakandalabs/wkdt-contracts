@@ -138,15 +138,11 @@ pub contract WakandaPass: NonFungibleToken {
         }
 
         pub fun getVipTier(): UInt64 {
-            // Disable VIP tier at launch
+             let stakedAmount = self.getStakingInfo().tokensStaked
+             if stakedAmount >= 1000.0 {
+                 return 1
+            }
 
-            // let stakedAmount = self.getStakingInfo().tokensStaked
-            // if stakedAmount >= 1000.0 {
-            //     return 1
-            // }
-            
-            // TODO: add more tiers
-            
             return 0
         }
 
