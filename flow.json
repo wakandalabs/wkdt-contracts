@@ -139,7 +139,7 @@
       "chain": "flow-testnet"
     },
     "wkdt-user-testnet": {
-      "address": "0x57df669b4f4d1a4",
+      "address": "0x457df669b4f4d1a4",
       "keys": [
         {
           "type": "hex",
