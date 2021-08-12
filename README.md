@@ -1,73 +1,148 @@
-# WakandaToken Contracts
-The symbol of WakandaToken is ₩ or $WKDT.
+# WKDT - Wakanda Token
 
-## Setup Flow CLI
-https://docs.onflow.org/flow-cli/install
+## Introduction
 
-## Run Scripts/Transactions - Examples
-### Setup WakandaToken Vault
-```
-flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
-  --network testnet \
-  --signer wkdt-user-testnet \
-  --gas-limit 1000
+This repository contains the smart contracts and transactions that implement
+the core functionality of WKDT.
+
+The smart contracts are written in Cadence, a new resource oriented
+smart contract programming language designed for the Flow Blockchain.
+
+### What is WKDT
+
+WKDT is the function and governance token of wakanda ecology and community, and it is also used in the Wakanda metaverse.
+
+### What is Flow?
+
+Flow is a new blockchain for open worlds. Read more about it [here](https://www.onflow.org/).
+
+### What is Cadence?
+
+Cadence is a new Resource-oriented programming language 
+for developing smart contracts for the Flow Blockchain.
+Read more about it [here](https://www.docs.onflow.org)
+
+We recommend that anyone who is reading this should have already
+completed the [Cadence Tutorials](https://docs.onflow.org/cadence) 
+so they can build a basic understanding of the programming language.
+
+Resource-oriented programming, and by extension Cadence, 
+is the perfect programming environment for Non-Fungible Tokens (NFTs), because users are able
+to store their NFT objects directly in their accounts and transact
+peer-to-peer.
+
+### Contributing
+
+If you see an issue with the code for the contracts, the transactions, scripts,
+documentation, or anything else, please do not hesitate to make an issue or
+a pull request with your desired changes. This is an open source project
+and we welcome all assistance from the community!
+
+## WKDT Contract Addresses
+
+`WakandaToken.cdc`:
+`WakandaPass.cdc`:
+`WakandaPassStamp.cdc`:
+`WakandaTokenMining`:
+`WakandaTokenStaking`:
+`WakandaTokenSale`:
+`TeleportedTetherToken`:
+
+| Network | Contract Address     |
+|---------|----------------------|
+| Testnet | `0x358405c69fa8d95c` |
+| Mainnet | `` |
+
+`WkdtUsdtSwapPair.cdc`: 
+
+| Network | Contract Address     |
+|---------|----------------------|
+| Testnet | `0xd1e3bc1b8e52d983` |
+| Mainnet | `` |
+
+`TeleportCustody.cdc`:
+`TeleportCustodySolana.cdc`:
+
+| Network | Contract Address     |
+|---------|----------------------|
+| Testnet | `0xc7b7d9281756d3e2` |
+| Mainnet | `` |
+
+### Non Fungible Token Standard
+
+The WKDT contracts utilize the [Flow NFT standard](https://github.com/onflow/flow-nft)
+which is equivalent to ERC-721 or ERC-1155 on Ethereum. If you want to build an NFT contract,
+please familiarize yourself with the Flow NFT standard before starting and make sure you utilize it 
+in your project in order to be interoperable with other tokens and contracts that implement the standard.
+
+## Directory Structure
+
+The directories here are organized into contracts, scripts, and transactions.
+
+Contracts contain the source code for the WKDT contracts that are deployed to Flow.
+
+Scripts contain read-only transactions to get information about
+the state of someones Collection or about the state of the WKDT contract.
+
+Transactions contain the transactions that various admins and users can use
+to perform actions in the smart contract like creating plays and sets,
+minting Moments, and transfering Moments.
+
+ - `contracts/` : Where the WKDT related smart contracts live.
+ - `transactions/` : This directory contains all the transactions and scripts
+ that are associated with the WKDT smart contracts.
+ - `transactions/scripts/`  : This contains all the read-only Cadence scripts 
+ that are used to read information from the smart contract
+ or from a resource in account storage.
+ - `lib/` : This directory contains packages for specific programming languages
+ to be able to read copies of the WKDT smart contracts, transaction templates,
+ and scripts. Also contains automated tests written in those languages. Currently,
+ Go is the only language that is supported, but we are hoping to add javascript
+ and other languages soon. See the README in `lib/go/` for more information
+ about how to use the Go packages.
+
+## WKDT Contract Overview
+
+```cadence
+
 ```
 
-### Transfer WakandaToken
-```
-flow transactions send ./transactions/token/transferWakandaToken.cdc \
-  --network testnet \
-  --arg UFix64:100.0 \
-  --arg Address:0x457df669b4f4d1a4 \
-  --signer wkdt-admin-testnet \
-  --gas-limit 1000
-```
 
-### Setup WakandaPass Collection
-```
-flow transactions send ./transactions/token/setupWakandaPassCollection.cdc \
-  --network testnet \
-  --signer wkdt-user-testnet \
-  --gas-limit 1000
-```
+## How to Deploy and Test the WKDT Contract in VSCode
 
-### Mint WakandaPass NFT
-```
-flow transactions send ./transactions/token/admin/mintWakandaPass.cdc \
-  --network testnet \
-  --arg Address:0x457df669b4f4d1a4 \
-  --signer wkdt-admin-testnet \
-  --gas-limit 1000
-```
+The first step for using any smart contract is deploying it to the blockchain,
+or emulator in our case. Do these commands in vscode. 
+See the [vscode extension instructions](https://docs.onflow.org/docs/visual-studio-code-extension) 
+to learn how to use it.
 
-### Get WakandaToken Balance
-```
-flow scripts execute ./scripts/token/getWakandaTokenBalance.cdc \
-  --network testnet \
-  --arg Address:0x457df669b4f4d1a4
-```
+ 1. Start the emulator with the `Run emulator` vscode command.
 
-### Stake WKDT into WakandaPass
-```
-flow transactions send ./transactions/staking/stakeNewWakandaTokens.cdc \
-  --network testnet \
-  --arg UFix64:100.0 \
-  --signer wkdt-user-testnet \
-  --gas-limit 1000
-```
+This deploys the contract code. It also runs the contract's
+`init` function, which initializes the contract storage variables,
+stores the `Collection` and `Admin` resources 
+in account storage, and creates links to the `Collection`.
 
-### Get Staking Info
-```
-flow scripts execute ./scripts/staking/getStakingInfo.cdc \
-  --network testnet \
-  --arg Address:0x457df669b4f4d1a4
-```
+As you can see, whenever we want to call a function, read a field,
+or use a type that is defined in a smart contract, we simply import
+that contract from the address it is defined in and then use the imported
+contract to access those type definitions and fields.
 
-### Switch Epoch
-```
-flow transactions send ./transactions/staking/switchEpoch.cdc \
-  --network testnet \
-  --signer wkdt-admin-testnet \
-  --gas-limit 1000
-```
+After the contracts have been deployed, you can run the sample transactions
+to interact with the contracts. The sample transactions are meant to be used
+in an automated context, so they use transaction arguments and string template
+fields. These make it easier for a program to use and interact with them.
+If you are running these transactions manually in the Flow Playground or
+vscode extension, you will need to remove the transaction arguments and
+hard code the values that they are used for. 
 
+You also need to replace the `ADDRESS` placeholders with the actual Flow 
+addresses that you want to import from.
+
+## How to run the automated tests for the contracts
+
+See the `lib/go` README for instructions about how to run the automated tests.
+
+## Instructions for creating Wakanda Pass
+
+
+## License 
