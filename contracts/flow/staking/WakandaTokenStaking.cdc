@@ -55,7 +55,6 @@ pub contract WakandaTokenStaking {
     pub resource StakerRecord {
 
         /// The unique ID of the staker
-        /// Corresponds to the WakandaItems NFT ID
         pub let id: UInt64
 
         /// The total tokens that only this staker currently has staked
