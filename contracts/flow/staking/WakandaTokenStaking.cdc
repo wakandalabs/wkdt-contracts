@@ -32,7 +32,7 @@ pub contract WakandaTokenStaking {
 
     /// Holds the identity table for all the stakers in the network.
     /// Includes stakers that aren't actively participating
-    /// key = staker ID (also corresponds to WakandaItems ID)
+    /// key = staker ID (also corresponds to WakandaPass ID)
     /// value = the record of that staker's info, tokens, and delegators
     access(contract) var stakers: @{UInt64: StakerRecord}
 
@@ -280,7 +280,7 @@ pub contract WakandaTokenStaking {
     /// to stakers at the end of an epoch
     pub resource Admin {
 
-        /// A staker record is created when a WakandaItems NFT is created
+        /// A staker record is created when a WakandaPass is created
         /// It returns the resource for stakers that they can store in their account storage
         pub fun addStakerRecord(id: UInt64): @Staker {
             pre {
