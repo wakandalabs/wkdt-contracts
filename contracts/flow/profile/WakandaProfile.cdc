@@ -1,8 +1,8 @@
 pub contract WakandaProfile {
-  pub let publicPath: PublicPath
-  pub let privatePath: StoragePath
+  pub let ProfilePublicPath: PublicPath
+  pub let ProfileStoragePath: StoragePath
 
-  pub resource interface Public {
+  pub resource interface WakandaProfilePublic {
     pub fun getName(): String
     pub fun getAvatar(): String
     pub fun getColor(): String
@@ -10,7 +10,7 @@ pub contract WakandaProfile {
     pub fun asReadOnly(): WakandaProfile.ReadOnly
   }
 
-  pub resource interface Owner {
+  pub resource interface WakandaProfileOwner {
     pub fun getName(): String
     pub fun getAvatar(): String
     pub fun getColor(): String
@@ -30,7 +30,7 @@ pub contract WakandaProfile {
     }
   }
 
-  pub resource Base: Owner, Public {
+  pub resource WakandaProfileBase: WakandaProfileOwner, WakandaProfilePublic {
     access(self) var name: String
     access(self) var avatar: String
     access(self) var color: String
@@ -80,24 +80,24 @@ pub contract WakandaProfile {
     }
   }
 
-  pub fun new(): @WakandaProfile.Base {
-    return <- create Base()
+  pub fun new(): @WakandaProfile.WakandaProfileBase {
+    return <- create WakandaProfileBase()
   }
 
   pub fun check(_ address: Address): Bool {
     return getAccount(address)
-      .getCapability<&{WakandaProfile.Public}>(WakandaProfile.publicPath)
+      .getCapability<&{WakandaProfile.WakandaProfilePublic}>(WakandaProfile.ProfilePublicPath)
       .check()
   }
 
-  pub fun fetch(_ address: Address): &{WakandaProfile.Public} {
+  pub fun fetch(_ address: Address): &{WakandaProfile.WakandaProfilePublic} {
     return getAccount(address)
-      .getCapability<&{WakandaProfile.Public}>(WakandaProfile.publicPath)
+      .getCapability<&{WakandaProfile.WakandaProfilePublic}>(WakandaProfile.ProfilePublicPath)
       .borrow()!
   }
 
   pub fun read(_ address: Address): WakandaProfile.ReadOnly? {
-    if let profile = getAccount(address).getCapability<&{WakandaProfile.Public}>(WakandaProfile.publicPath).borrow() {
+    if let profile = getAccount(address).getCapability<&{WakandaProfile.WakandaProfilePublic}>(WakandaProfile.ProfilePublicPath).borrow() {
       return profile.asReadOnly()
     } else {
       return nil
@@ -117,14 +117,14 @@ pub contract WakandaProfile {
 
 
   init() {
-    self.publicPath = /public/wakandaProfile
-    self.privatePath = /storage/wakandaProfile
+    self.ProfilePublicPath = /public/wakandaProfile
+    self.ProfileStoragePath = /storage/wakandaProfile
 
-    self.account.save(<- self.new(), to: self.privatePath)
-    self.account.link<&Base{Public}>(self.publicPath, target: self.privatePath)
+    self.account.save(<- self.new(), to: self.ProfileStoragePath)
+    self.account.link<&WakandaProfileBase{WakandaProfilePublic}>(self.ProfilePublicPath, target: self.ProfileStoragePath)
 
     self.account
-      .borrow<&Base{Owner}>(from: self.privatePath)!
+      .borrow<&WakandaProfileBase{Owner}>(from: self.ProfileStoragePath)!
       .setName("wakandaUser")
   }
 }

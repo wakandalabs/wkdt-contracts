@@ -5,8 +5,8 @@ transaction {
   prepare(currentUser: AuthAccount) {
     self.address = currentUser.address
     if !WakandaProfile.check(self.address) {
-      currentUser.save(<- WakandaProfile.new(), to: WakandaProfile.privatePath)
-      currentUser.link<&Profile.Base{WakandaProfile.Public}>(WakandaProfile.publicPath, target: WakandaProfile.privatePath)
+      currentUser.save(<- WakandaProfile.new(), to: WakandaProfile.ProfileStoragePath)
+      currentUser.link<&WakandaProfile.Base{WakandaProfile.WakandaProfilePublic}>(WakandaProfile.ProfilePublicPath, target: WakandaProfile.ProfileStoragePath)
     }
   }
   post {
