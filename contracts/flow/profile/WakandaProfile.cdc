@@ -6,7 +6,9 @@ pub contract WakandaProfile {
     pub fun getName(): String
     pub fun getAvatar(): String
     pub fun getColor(): String
-    pub fun getInfo(): String
+    pub fun getBio(): String
+    pub fun getWebsite(): String
+    pub fun getEmail(): String
     pub fun asReadOnly(): WakandaProfile.ReadOnly
   }
 
@@ -14,7 +16,9 @@ pub contract WakandaProfile {
     pub fun getName(): String
     pub fun getAvatar(): String
     pub fun getColor(): String
-    pub fun getInfo(): String
+    pub fun getBio(): String
+    pub fun getWebsite(): String
+    pub fun getEmail(): String
 
     pub fun setName(_ name: String) {
       pre {
@@ -23,9 +27,19 @@ pub contract WakandaProfile {
     }
     pub fun setAvatar(_ src: String)
     pub fun setColor(_ color: String)
-    pub fun setInfo(_ info: String) {
+    pub fun setBio(_ bio: String) {
       pre {
-        info.length <= 280: "WakandaProfile Info can at max be 280 characters long."
+        bio.length <= 280: "Bio can at max be 280 characters long."
+      }
+    }
+    pub fun setWebsite(_ website: String) {
+      pre {
+        website.length <= 40: "Website can at max be 40 characters long."
+      }
+    }
+    pub fun setEmail(_ email: String) {
+      pre {
+        email.length <= 40: "Email can at max be 40 characters long."
       }
     }
   }
@@ -34,24 +48,32 @@ pub contract WakandaProfile {
     access(self) var name: String
     access(self) var avatar: String
     access(self) var color: String
-    access(self) var info: String
+    access(self) var bio: String
+    access(self) var website: String
+    access(self) var email: String
 
     init() {
-      self.name = "Anon"
+      self.name = "Wak"
       self.avatar = ""
       self.color = "#232323"
-      self.info = ""
+      self.bio = "Wakanda User"
+      self.website = ""
+      self.email = ""
     }
 
     pub fun getName(): String { return self.name }
     pub fun getAvatar(): String { return self.avatar }
     pub fun getColor(): String {return self.color }
-    pub fun getInfo(): String { return self.info }
+    pub fun getBio(): String { return self.bio }
+    pub fun getWebsite(): String { return self.website }
+    pub fun getEmail(): String { return self.email }
 
     pub fun setName(_ name: String) { self.name = name }
     pub fun setAvatar(_ src: String) { self.avatar = src }
     pub fun setColor(_ color: String) { self.color = color }
-    pub fun setInfo(_ info: String) { self.info = info }
+    pub fun setBio(_ bio: String) { self.bio = bio }
+    pub fun setWebsite(_ website: String) { self.website = website }
+    pub fun setEmail(_ email: String) { self.email = email }
 
     pub fun asReadOnly(): WakandaProfile.ReadOnly {
       return WakandaProfile.ReadOnly(
@@ -59,7 +81,9 @@ pub contract WakandaProfile {
         name: self.getName(),
         avatar: self.getAvatar(),
         color: self.getColor(),
-        info: self.getInfo()
+        bio: self.getBio(),
+        website: self.getWebsite(),
+        email: self.getEmail()
       )
     }
   }
@@ -69,14 +93,18 @@ pub contract WakandaProfile {
     pub let name: String
     pub let avatar: String
     pub let color: String
-    pub let info: String
+    pub let bio: String
+    pub let website: String
+    pub let email: String
 
-    init(address: Address?, name: String, avatar: String, color: String, info: String) {
+    init(address: Address?, name: String, avatar: String, color: String, bio: String, website: String, email: String) {
       self.address = address
       self.name = name
       self.avatar = avatar
       self.color = color
-      self.info = info
+      self.bio = bio
+      self.website = website
+      self.email = email
     }
   }
 
@@ -117,14 +145,10 @@ pub contract WakandaProfile {
 
 
   init() {
-    self.ProfilePublicPath = /public/wakandaProfile002
-    self.ProfileStoragePath = /storage/wakandaProfile002
+    self.ProfilePublicPath = /public/wakandaProfile003
+    self.ProfileStoragePath = /storage/wakandaProfile003
 
     self.account.save(<- self.new(), to: self.ProfileStoragePath)
     self.account.link<&WakandaProfileBase{WakandaProfilePublic}>(self.ProfilePublicPath, target: self.ProfileStoragePath)
-
-    self.account
-      .borrow<&WakandaProfileBase{WakandaProfileOwner}>(from: self.ProfileStoragePath)!
-      .setName("wakandaUser")
   }
 }

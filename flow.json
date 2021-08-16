@@ -184,7 +184,6 @@
         "WakandaTokenMining",
         "WakandaTokenSale",
         "WakandaTokenStaking",
-        "NonFungibleToken",
         "TeleportedTetherToken"
       ]
     },
