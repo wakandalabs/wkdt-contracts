@@ -178,6 +178,18 @@ pub contract WakandaToken: FungibleToken {
         }
     }
 
+    pub fun check(_ address: Address): Bool {
+       let receiver: Bool = getAccount(address)
+             .getCapability<&WakandaToken.Vault{FungibleToken.Receiver}>(WakandaToken.ReceiverPublicPath)
+             .check()
+
+       let balance: Bool = getAccount(address)
+         .getCapability<&WakandaToken.Vault{FungibleToken.Balance}>(WakandaToken.BalancePublicPath)
+         .check()
+
+       return receiver && balance
+    }
+
     init() {
         // Total supply of WKDT is 10M
         // 70% is created at genesis but locked up

@@ -54,3 +54,10 @@ flow scripts execute ./scripts/token/getWakandaPassOriginalOwner.cdc \
   --network testnet \
   --arg Address:0x457df669b4f4d1a4
 ```
+
+### Check account initialized
+```
+flow scripts execute ./scripts/token/isAccountInitialized.cdc \
+    --network testnet \
+    --arg Address:0x457df669b4f4d1a4
+```

@@ -418,6 +418,12 @@ pub contract WakandaPass: NonFungibleToken {
         return self.predefinedLockupSchedules[id]
     }
 
+    pub fun check(_ address: Address): Bool {
+        return getAccount(address)
+        .getCapability<&{WakandaPass.CollectionPublic}>(WakandaPass.CollectionPublicPath)
+        .check()
+    }
+
     init() {
         // Initialize the total supply
         self.totalSupply = 0
