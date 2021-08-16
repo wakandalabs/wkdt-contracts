@@ -7,7 +7,7 @@ pub contract WakandaProfile {
     pub fun getAvatar(): String
     pub fun getColor(): String
     pub fun getInfo(): String
-    pub fun asReadOnly(): Profile.ReadOnly
+    pub fun asReadOnly(): WakandaProfile.ReadOnly
   }
 
   pub resource interface Owner {
@@ -25,7 +25,7 @@ pub contract WakandaProfile {
     pub fun setColor(_ color: String)
     pub fun setInfo(_ info: String) {
       pre {
-        info.length <= 280: "Profile Info can at max be 280 characters long."
+        info.length <= 280: "WakandaProfile Info can at max be 280 characters long."
       }
     }
   }
@@ -53,8 +53,8 @@ pub contract WakandaProfile {
     pub fun setColor(_ color: String) { self.color = color }
     pub fun setInfo(_ info: String) { self.info = info }
 
-    pub fun asReadOnly(): Profile.ReadOnly {
-      return Profile.ReadOnly(
+    pub fun asReadOnly(): WakandaProfile.ReadOnly {
+      return WakandaProfile.ReadOnly(
         address: self.owner?.address,
         name: self.getName(),
         avatar: self.getAvatar(),
@@ -80,34 +80,34 @@ pub contract WakandaProfile {
     }
   }
 
-  pub fun new(): @Profile.Base {
+  pub fun new(): @WakandaProfile.Base {
     return <- create Base()
   }
 
   pub fun check(_ address: Address): Bool {
     return getAccount(address)
-      .getCapability<&{Profile.Public}>(Profile.publicPath)
+      .getCapability<&{WakandaProfile.Public}>(WakandaProfile.publicPath)
       .check()
   }
 
-  pub fun fetch(_ address: Address): &{Profile.Public} {
+  pub fun fetch(_ address: Address): &{WakandaProfile.Public} {
     return getAccount(address)
-      .getCapability<&{Profile.Public}>(Profile.publicPath)
+      .getCapability<&{WakandaProfile.Public}>(WakandaProfile.publicPath)
       .borrow()!
   }
 
-  pub fun read(_ address: Address): Profile.ReadOnly? {
-    if let profile = getAccount(address).getCapability<&{Profile.Public}>(Profile.publicPath).borrow() {
+  pub fun read(_ address: Address): WakandaProfile.ReadOnly? {
+    if let profile = getAccount(address).getCapability<&{WakandaProfile.Public}>(WakandaProfile.publicPath).borrow() {
       return profile.asReadOnly()
     } else {
       return nil
     }
   }
 
-  pub fun readMultiple(_ addresses: [Address]): {Address: Profile.ReadOnly} {
-    let profiles: {Address: Profile.ReadOnly} = {}
+  pub fun readMultiple(_ addresses: [Address]): {Address: WakandaProfile.ReadOnly} {
+    let profiles: {Address: WakandaProfile.ReadOnly} = {}
     for address in addresses {
-      let profile = Profile.read(address)
+      let profile = WakandaProfile.read(address)
       if profile != nil {
         profiles[address] = profile!
       }

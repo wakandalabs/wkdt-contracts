@@ -14,13 +14,13 @@ pub contract WakandaPassStamp: NonFungibleToken {
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
 
-    pub resource interface WakandaPassStampPublic {
+    pub resource interface WakandaPassPublic {
         pub fun getMessage(): String
     }
 
     pub resource NFT:
         NonFungibleToken.INFT,
-        WakandaPassStampPublic
+        WakandaPassPublic
     {
 
         // WakandaPassStamp ID

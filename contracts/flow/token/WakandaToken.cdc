@@ -180,11 +180,11 @@ pub contract WakandaToken: FungibleToken {
 
     pub fun check(_ address: Address): Bool {
        let receiver: Bool = getAccount(address)
-             .getCapability<&WakandaToken.Vault{FungibleToken.Receiver}>(WakandaToken.ReceiverPublicPath)
-             .check()
+         .getCapability<&WakandaToken.Vault{FungibleToken.Receiver}>(WakandaToken.TokenPublicReceiverPath)
+         .check()
 
        let balance: Bool = getAccount(address)
-         .getCapability<&WakandaToken.Vault{FungibleToken.Balance}>(WakandaToken.BalancePublicPath)
+         .getCapability<&WakandaToken.Vault{FungibleToken.Balance}>(WakandaToken.TokenPublicBalancePath)
          .check()
 
        return receiver && balance

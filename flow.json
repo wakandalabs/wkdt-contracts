@@ -24,6 +24,12 @@
         "mainnet": "0x0f9df91c9121c460"
       }
     },
+    "WakandaProfile": {
+      "source": "./contracts/flow/profile/WakandaProfile.cdc",
+      "aliases": {
+        "mainnet": "0x0f9df91c9121c460"
+      }
+    },
     "WakandaTokenMining": "./contracts/flow/mining/WakandaTokenMining.cdc",
     "WakandaTokenSale": {
       "source": "./contracts/flow/sale/WakandaTokenSale.cdc",
@@ -187,6 +193,7 @@
         "WakandaPass",
         "WakandaPassStamp",
         "WakandaToken",
+        "WakandaProfile",
         "WakandaTokenSale",
         "WakandaTokenStaking",
         "WakandaTokenMining"
