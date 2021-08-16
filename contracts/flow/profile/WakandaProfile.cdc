@@ -117,14 +117,14 @@ pub contract WakandaProfile {
 
 
   init() {
-    self.ProfilePublicPath = /public/wakandaProfile
-    self.ProfileStoragePath = /storage/wakandaProfile
+    self.ProfilePublicPath = /public/wakandaProfile002
+    self.ProfileStoragePath = /storage/wakandaProfile002
 
     self.account.save(<- self.new(), to: self.ProfileStoragePath)
     self.account.link<&WakandaProfileBase{WakandaProfilePublic}>(self.ProfilePublicPath, target: self.ProfileStoragePath)
 
     self.account
-      .borrow<&WakandaProfileBase{Owner}>(from: self.ProfileStoragePath)!
+      .borrow<&WakandaProfileBase{WakandaProfileOwner}>(from: self.ProfileStoragePath)!
       .setName("wakandaUser")
   }
 }

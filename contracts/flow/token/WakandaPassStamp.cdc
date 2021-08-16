@@ -14,13 +14,13 @@ pub contract WakandaPassStamp: NonFungibleToken {
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
 
-    pub resource interface WakandaPassPublic {
+    pub resource interface WakandaPassStampPublic {
         pub fun getMessage(): String
     }
 
     pub resource NFT:
         NonFungibleToken.INFT,
-        WakandaPassPublic
+        WakandaPassStampPublic
     {
 
         // WakandaPassStamp ID
@@ -130,9 +130,9 @@ pub contract WakandaPassStamp: NonFungibleToken {
         // Initialize the total supply
         self.totalSupply = 0
 
-        self.CollectionStoragePath = /storage/wakandaPassStampCollection
-        self.CollectionPublicPath = /public/wakandaPassStampCollection
-        self.MinterStoragePath = /storage/wakandaPassStampMinter
+        self.CollectionStoragePath = /storage/wakandaPassStampCollection002
+        self.CollectionPublicPath = /public/wakandaPassStampCollection002
+        self.MinterStoragePath = /storage/wakandaPassStampMinter002
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()
