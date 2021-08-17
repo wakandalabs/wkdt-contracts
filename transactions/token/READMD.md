@@ -3,7 +3,7 @@
 ```
 flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
   --network testnet \
-  --signer wkdt-user2-testnet \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
 
@@ -21,7 +21,7 @@ flow transactions send ./transactions/token/transferWakandaToken.cdc \
 ```
 flow transactions send ./transactions/token/setupWakandaPassCollection.cdc \
   --network testnet \
-  --signer wkdt-user-testnet \
+  --signer wkdt-user2-testnet \
   --gas-limit 1000
 ```
 
@@ -38,5 +38,13 @@ flow transactions send ./transactions/token/withdrawAllFromWakandaPass.cdc \
 flow transactions send ./transactions/token/setupTeleportedTetherTokenVault.cdc \
   --network testnet \
   --signer wkdt-user-testnet \
+  --gas-limit 1000
+```
+
+### Setup all account
+```
+flow transactions send ./transactions/token/setupAllAccount.cdc \
+  --network testnet \
+  --signer wkdt-user2-testnet \
   --gas-limit 1000
 ```

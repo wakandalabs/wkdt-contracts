@@ -5,8 +5,10 @@ transaction {
   prepare(currentUser: AuthAccount) {
     self.address = currentUser.address
     if !WakandaProfile.check(self.address) {
-      currentUser.save(<- WakandaProfile.new(), to: WakandaProfile.ProfileStoragePath)
-      currentUser.link<&WakandaProfile.Base{WakandaProfile.WakandaProfilePublic}>(WakandaProfile.ProfilePublicPath, target: WakandaProfile.ProfileStoragePath)
+      if currentUser.borrow<&WakandaProfile.WakandaProfileBase>(from: WakandaProfile.ProfileStoragePath) ==nil {
+        currentUser.save(<- WakandaProfile.new(), to: WakandaProfile.ProfileStoragePath)
+        currentUser.link<&WakandaProfile.WakandaProfileBase{WakandaProfile.WakandaProfilePublic}>(WakandaProfile.ProfilePublicPath, target: WakandaProfile.ProfileStoragePath)
+      }
     }
   }
   post {

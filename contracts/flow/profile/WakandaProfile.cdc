@@ -145,8 +145,8 @@ pub contract WakandaProfile {
 
 
   init() {
-    self.ProfilePublicPath = /public/wakandaProfile003
-    self.ProfileStoragePath = /storage/wakandaProfile003
+    self.ProfilePublicPath = /public/wakandaProfile004
+    self.ProfileStoragePath = /storage/wakandaProfile004
 
     self.account.save(<- self.new(), to: self.ProfileStoragePath)
     self.account.link<&WakandaProfileBase{WakandaProfilePublic}>(self.ProfilePublicPath, target: self.ProfileStoragePath)
