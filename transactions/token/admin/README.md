@@ -11,19 +11,11 @@ flow transactions send ./transactions/token/admin/setupCommunitySaleSchedule.cdc
 ```
 flow transactions send ./transactions/token/admin/mintWakandaPass.cdc \
   --network testnet \
-  --arg Address:0x4e561b224f108493 \
-  --signer wkdt-admin-testnet \
-  --gas-limit 1000
-```
-
-### Mint WakandaPass Public NFT
-```
-flow transactions send ./transactions/token/admin/mintWakandaPassPublic.cdc \
-  --network testnet \
-  --arg Address:0x4e561b224f108493 \
+  --arg Address:0x457df669b4f4d1a4 \
   --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
+
 
 ### Mint WakandaPass NFT with Custom Lockup Schedule
 ```
@@ -81,12 +73,4 @@ flow transactions sign ./build/signed-1.rlp \
   --save ./build/signed-2.rlp
 
 flow transactions send-signed --network testnet ./build/signed-2.rlp
-```
-
-### Create Public Minter
-```
-flow transactions send ./transactions/token/admin/setupWakandaPassMinterPublic.cdc \
-  --network testnet \
-  --signer wkdt-admin-testnet \
-  --gas-limit 1000
 ```
