@@ -61,3 +61,10 @@ flow scripts execute ./scripts/token/isAccountInitialized.cdc \
     --network testnet \
     --arg Address:0x457df669b4f4d1a4
 ```
+
+### is Mining Pass
+```
+flow scripts execute ./scripts/token/isMiningWakandaPass.cdc \
+    --network testnet \
+    --arg Address:0x457df669b4f4d1a4
+```

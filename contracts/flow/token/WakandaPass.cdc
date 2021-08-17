@@ -444,6 +444,11 @@ pub contract WakandaPass: NonFungibleToken {
             target: self.CollectionStoragePath
         )
 
+        self.account.link<&{WakandaPass.MinterPublic}>(
+            self.MinterPublicPath,
+            target: self.MinterStoragePath
+        )
+
         // Create a Minter resource and save it to storage
         let minter <- create NFTMinter()
         self.account.save(<-minter, to: self.MinterStoragePath)

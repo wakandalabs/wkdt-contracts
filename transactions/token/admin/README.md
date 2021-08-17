@@ -11,8 +11,17 @@ flow transactions send ./transactions/token/admin/setupCommunitySaleSchedule.cdc
 ```
 flow transactions send ./transactions/token/admin/mintWakandaPass.cdc \
   --network testnet \
-  --arg Address:0x95d4f57daf2fb5ce \
+  --arg Address:0x4e561b224f108493 \
   --signer wkdt-admin-testnet \
+  --gas-limit 1000
+```
+
+### Mint WakandaPass Public NFT
+```
+flow transactions send ./transactions/token/admin/mintWakandaPassPublic.cdc \
+  --network testnet \
+  --arg Address:0x4e561b224f108493 \
+  --signer wkdt-user-testnet \
   --gas-limit 1000
 ```
 
