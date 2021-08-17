@@ -327,6 +327,11 @@ pub contract WakandaPass: NonFungibleToken {
         return <- create Collection()
     }
 
+   // public function that anyone can call to create a new empty NFTMinter
+    pub fun createEmptyNFTMinter(): @WakandaPass.NFTMinter {
+        return <- create NFTMinter()
+    }
+
     pub resource interface MinterPublic {
         pub fun mintBasicNFT(recipient: &{NonFungibleToken.CollectionPublic})
     }
@@ -419,9 +424,15 @@ pub contract WakandaPass: NonFungibleToken {
     }
 
     pub fun check(_ address: Address): Bool {
-        return getAccount(address)
-        .getCapability<&{WakandaPass.CollectionPublic}>(WakandaPass.CollectionPublicPath)
-        .check()
+        let collection: Bool = getAccount(address)
+            .getCapability<&{WakandaPass.CollectionPublic}>(WakandaPass.CollectionPublicPath)
+            .check()
+
+        let minter: Bool = getAccount(address)
+            .getCapability<&{WakandaPass.MinterPublic}>(WakandaPass.MinterPublicPath)
+            .check()
+
+        return collection && minter
     }
 
     init() {
@@ -429,10 +440,10 @@ pub contract WakandaPass: NonFungibleToken {
         self.totalSupply = 0
         self.predefinedLockupSchedules = []
 
-        self.CollectionStoragePath = /storage/wakandaPassCollection
-        self.CollectionPublicPath = /public/wakandaPassCollection
-        self.MinterStoragePath = /storage/wakandaPassMinter
-        self.MinterPublicPath = /public/wakandaPassMinter
+        self.CollectionStoragePath = /storage/wakandaPassCollection002
+        self.CollectionPublicPath = /public/wakandaPassCollection002
+        self.MinterStoragePath = /storage/wakandaPassMinter002
+        self.MinterPublicPath = /public/wakandaPassMinter002
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()
@@ -444,14 +455,15 @@ pub contract WakandaPass: NonFungibleToken {
             target: self.CollectionStoragePath
         )
 
+        // Create a Minter resource and save it to storage
+        let minter <- create NFTMinter()
+        self.account.save(<-minter, to: self.MinterStoragePath)
+
+        // create a public capability for the minter
         self.account.link<&{WakandaPass.MinterPublic}>(
             self.MinterPublicPath,
             target: self.MinterStoragePath
         )
-
-        // Create a Minter resource and save it to storage
-        let minter <- create NFTMinter()
-        self.account.save(<-minter, to: self.MinterStoragePath)
 
         emit ContractInitialized()
     }

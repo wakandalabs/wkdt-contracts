@@ -14,5 +14,18 @@ transaction {
                 WakandaPass.CollectionPublicPath,
                 target: WakandaPass.CollectionStoragePath)
         }
+
+        if signer.borrow<&WakandaPass.NFTMinter>(from: WakandaPass.MinterStoragePath) == nil {
+
+            let minter <- WakandaPass.createEmptyNFTMinter() as! @WakandaPass.NFTMinter
+
+            signer.save(<-minter, to: WakandaPass.MinterStoragePath)
+
+            signer.link<&{WakandaPass.MinterPublic}>(
+                WakandaPass.MinterPublicPath,
+                target: WakandaPass.MinterStoragePath)
+        }
+
+
     }
 }
