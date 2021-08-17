@@ -328,7 +328,7 @@ pub contract WakandaPass: NonFungibleToken {
     }
 
    // public function that anyone can call to create a new empty NFTMinter
-    pub fun createEmptyNFTMinter(): @WakandaPass.NFTMinter {
+    pub fun createNewMinter(): @WakandaPass.NFTMinter {
         return <- create NFTMinter()
     }
 
@@ -440,10 +440,10 @@ pub contract WakandaPass: NonFungibleToken {
         self.totalSupply = 0
         self.predefinedLockupSchedules = []
 
-        self.CollectionStoragePath = /storage/wakandaPassCollection002
-        self.CollectionPublicPath = /public/wakandaPassCollection002
-        self.MinterStoragePath = /storage/wakandaPassMinter002
-        self.MinterPublicPath = /public/wakandaPassMinter002
+        self.CollectionStoragePath = /storage/wakandaPassCollection003
+        self.CollectionPublicPath = /public/wakandaPassCollection003
+        self.MinterStoragePath = /storage/wakandaPassMinter003
+        self.MinterPublicPath = /public/wakandaPassMinter003
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()

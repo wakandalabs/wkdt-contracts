@@ -196,10 +196,10 @@ pub contract WakandaToken: FungibleToken {
         // 30% will minted from staking and mining
         self.totalSupply = 7_000_000.0
 
-        self.TokenStoragePath = /storage/wakandaTokenVault
-        self.TokenPublicReceiverPath = /public/wakandaTokenReceiver
-        self.TokenPublicBalancePath = /public/wakandaTokenBalance
-        self.TokenMinterStoragePath = /storage/wakandaTokenMinter
+        self.TokenStoragePath = /storage/wakandaTokenVault003
+        self.TokenPublicReceiverPath = /public/wakandaTokenReceiver003
+        self.TokenPublicBalancePath = /public/wakandaTokenBalance003
+        self.TokenMinterStoragePath = /storage/wakandaTokenMinter003
 
         // Create the Vault with the total supply of tokens and save it in storage
         let vault <- create Vault(balance: self.totalSupply)

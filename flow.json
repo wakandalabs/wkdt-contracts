@@ -99,7 +99,7 @@
       "keys": "eb4347b08ebd2f74d38bec1026b07430fe04510c95afe8534735677a3410dd87",
       "chain": "flow-emulator"
     },
-    "wkdt-admin-testnet": {
+    "wkdt-user2-testnet": {
       "address": "0x358405c69fa8d95c",
       "keys": [
         {
@@ -159,7 +159,7 @@
       ],
       "chain": "flow-testnet"
     },
-    "wkdt-user2-testnet": {
+    "wkdt-admin-testnet": {
       "address": "0x80db1142287cd376",
       "keys": [
         {
@@ -196,13 +196,6 @@
         "WakandaTokenSale",
         "WakandaTokenStaking",
         "WakandaTokenMining"
-      ],
-      "wkdt-swap-testnet": [
-        "WkdtUsdtSwapPair"
-      ],
-      "wkdt-teleport-admin-testnet": [
-        "TeleportCustody",
-        "TeleportCustodySolana"
       ]
     }
   }
