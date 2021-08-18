@@ -350,11 +350,11 @@ pub contract WakandaPass: NonFungibleToken {
 
         // updates a predefined lockup schedule
         // note that this function should be avoided 
-        pub fun updatePredefinedLockupSchedule(id: Int, lockupSchedule: {UFix64: UFix64}) {
-            WakandaPass.predefinedLockupSchedules[id] = lockupSchedule
+        // pub fun updatePredefinedLockupSchedule(id: Int, lockupSchedule: {UFix64: UFix64}) {
+        //    WakandaPass.predefinedLockupSchedules[id] = lockupSchedule
 
-            emit LockupScheduleUpdated(id: id, lockupSchedule: lockupSchedule)
-        }
+        //    emit LockupScheduleUpdated(id: id, lockupSchedule: lockupSchedule)
+        // }
 
         // mintBasicNFT mints a new NFT without any special metadata or lockups
         pub fun mintBasicNFT(recipient: &{NonFungibleToken.CollectionPublic}) {
