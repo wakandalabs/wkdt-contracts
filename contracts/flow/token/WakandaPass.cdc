@@ -488,27 +488,26 @@ pub contract WakandaPass: NonFungibleToken {
     }
 
     pub fun read(_ address: Address, id: UInt64): WakandaPass.ReadOnly? {
-        let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()
-            ?? panic("Could not borrow collection public reference")
-        let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
-        if pass != nil {
-            return pass
+        if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
+            let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
+            if pass != nil {
+                return pass
+            }
         }
         return nil
     }
 
     pub fun readMultiple(_ address: Address): [WakandaPass.ReadOnly] {
         let passes: [WakandaPass.ReadOnly] = []
-        let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()
-            ?? panic("Could not borrow collection public reference")
-        let ids = collectionRef.getIDs()
-        for id in ids {
-           let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
-           if pass != nil {
-              passes.append(pass)
-           }
+        if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
+          let ids = collectionRef.getIDs()
+            for id in ids {
+               let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
+               if pass != nil {
+                  passes.append(pass)
+               }
+            }
         }
-
         return passes
     }
 
