@@ -12,6 +12,7 @@ flow transactions send ./transactions/token/admin/setupCommunitySaleSchedule.cdc
 flow transactions send ./transactions/token/admin/mintWakandaPass.cdc \
   --network testnet \
   --arg Address:0x457df669b4f4d1a4 \
+  --arg {String: String}: {} \
   --signer wkdt-user2-testnet \
   --gas-limit 1000
 ```

@@ -1,7 +1,7 @@
 import NonFungibleToken from "../../../contracts/flow/token/NonFungibleToken.cdc"
 import WakandaPass from "../../../contracts/flow/token/WakandaPass.cdc"
 
-transaction(address: Address, metadata: {String: AnyStruct}) {
+transaction(address: Address, metadata: {String: String}) {
 
     prepare(signer: AuthAccount) {
         let minter = signer
