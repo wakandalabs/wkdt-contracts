@@ -1,7 +1,7 @@
 import NonFungibleToken from "../../../contracts/flow/token/NonFungibleToken.cdc"
 import WakandaPass from "../../../contracts/flow/token/WakandaPass.cdc"
 
-transaction(address: Address) {
+transaction(address: Address, metadata: {String: AnyStruct}) {
 
     prepare(signer: AuthAccount) {
         let minter = signer
@@ -12,6 +12,6 @@ transaction(address: Address) {
             .borrow<&{NonFungibleToken.CollectionPublic}>()
             ?? panic("Could not borrow WakandaPass collection public reference")
 
-        minter.mintNFT(recipient: nftCollectionRef, metadata: {})
+        minter.mintNFT(recipient: nftCollectionRef, metadata: metadata)
     }
 }

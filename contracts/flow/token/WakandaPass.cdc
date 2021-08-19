@@ -49,7 +49,10 @@ pub contract WakandaPass: NonFungibleToken {
         pub fun getLockupAmount(): UFix64
         pub fun getIdleBalance(): UFix64
         pub fun getTotalBalance(): UFix64
+        pub fun asReadOnly(): WakandaPass.ReadOnly
     }
+
+
 
     pub resource NFT:
         NonFungibleToken.INFT,
@@ -191,6 +194,11 @@ pub contract WakandaPass: NonFungibleToken {
             return self.getIdleBalance() + WakandaTokenStaking.StakerInfo(self.id).totalTokensInRecord()
         }
 
+        pub fun asReadOnly(): WakandaPass.ReadOnly {
+
+
+        }
+
         // Private staking methods
         pub fun stakeNewTokens(amount: UFix64) {
             self.staker.stakeNewTokens(<- self.vault.withdraw(amount: amount))
@@ -236,6 +244,30 @@ pub contract WakandaPass: NonFungibleToken {
         destroy() {
             destroy self.vault
             destroy self.staker
+        }
+    }
+
+    pub struct ReadOnly {
+        pub let originalOwner: Address?
+        pub let metadata: {String: String}
+        pub let stamps: [String]
+        pub let vipTier: UInt64
+        pub let stakingInfo: WakandaTokenStaking.StakerInfo
+        pub let lockupSchedule: {UFix64: UFix64}
+        pub let lockupAmount: UFix64
+        pub let idleBalance: UFix64
+        pub let totalBalance: UFix64
+
+        init(originalOwner: Address?, metadata: {String: String}, stamps: [String], vipTier: UInt64，stakingInfo: WakandaTokenStaking.StakerInfo, lockupSchedule: {UFix64: UFix64}, lockupAmount: UFix64, idleBalance: UFix64, totalBalance: UFix64) {
+            self.originalOwner = originalOwner
+            self.metadata = metadata
+            self.stamps = stamps
+            self.vipTier = vipTier
+            self.stakingInfo = stakingInfo
+            self.lockupSchedule = lockupSchedule
+            self.lockupAmount = lockupAmount
+            self.idleBalance = idleBalance
+            self.totalBalance = totalBalance
         }
     }
 
@@ -434,6 +466,38 @@ pub contract WakandaPass: NonFungibleToken {
 
         return collection && minter
     }
+
+    pub fun fetch(_ address: Address): &{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic} {
+        return  getAccount(address).getCapability(WakandaPass.CollectionPublicPath)
+            .borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()!
+    }
+
+    pub fun read(_ address: Address, id: UFix64): WakandaPass.ReadOnly? {
+        if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
+            let ids = collectionRef.getIDs()
+            if id in ids {
+                let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
+                return pass
+            } else {
+                return nil
+            }
+        }
+    }
+
+    pub fun readMultiple(_ address: Address): {UFix64: WakandaPass.ReadOnly} {
+        let passes: {UFix64: WakandaPass.ReadOnly}
+        if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
+            let ids = collectionRef.getIDs()
+            for id in ids {
+                if let pass = WakandaPass.read(address, id) {
+                    passes[id] = pass!
+                }
+            }
+        } else {
+            return nil
+        }
+    }
+
 
     init() {
         // Initialize the total supply
