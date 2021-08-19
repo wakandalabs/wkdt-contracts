@@ -258,7 +258,7 @@ pub contract WakandaPass: NonFungibleToken {
         pub let idleBalance: UFix64
         pub let totalBalance: UFix64
 
-        init(originalOwner: Address?, metadata: {String: String}, stamps: [String], vipTier: UInt64，stakingInfo: WakandaTokenStaking.StakerInfo, lockupSchedule: {UFix64: UFix64}, lockupAmount: UFix64, idleBalance: UFix64, totalBalance: UFix64) {
+        init(originalOwner: Address?, metadata: {String: String}, stamps: [String], vipTier: UInt64, stakingInfo: WakandaTokenStaking.StakerInfo, lockupSchedule: {UFix64: UFix64}, lockupAmount: UFix64, idleBalance: UFix64, totalBalance: UFix64) {
             self.originalOwner = originalOwner
             self.metadata = metadata
             self.stamps = stamps
