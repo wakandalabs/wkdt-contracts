@@ -195,8 +195,18 @@ pub contract WakandaPass: NonFungibleToken {
         }
 
         pub fun asReadOnly(): WakandaPass.ReadOnly {
-
-
+             return WakandaPass.ReadOnly(
+                owner: self.owner?.address,
+                originalOwner: self.getOriginalOwner(),
+                metadata: self.getMetadata(),
+                stamps: self.getStamps(),
+                vipTier: self.getVipTier(),
+                stakingInfo: self.getStakingInfo(),
+                lockupSchedule: self.getLockupSchedule(),
+                lockupAmount: self.getLockupAmount(),
+                idleBalance: self.getIdleBalance(),
+                totalBalance: self.getTotalBalance()
+             )
         }
 
         // Private staking methods
@@ -248,6 +258,7 @@ pub contract WakandaPass: NonFungibleToken {
     }
 
     pub struct ReadOnly {
+        pub let owner: Address?
         pub let originalOwner: Address?
         pub let metadata: {String: String}
         pub let stamps: [String]
@@ -258,7 +269,8 @@ pub contract WakandaPass: NonFungibleToken {
         pub let idleBalance: UFix64
         pub let totalBalance: UFix64
 
-        init(originalOwner: Address?, metadata: {String: String}, stamps: [String], vipTier: UInt64, stakingInfo: WakandaTokenStaking.StakerInfo, lockupSchedule: {UFix64: UFix64}, lockupAmount: UFix64, idleBalance: UFix64, totalBalance: UFix64) {
+        init(owner: Address?, originalOwner: Address?, metadata: {String: String}, stamps: [String], vipTier: UInt64, stakingInfo: WakandaTokenStaking.StakerInfo, lockupSchedule: {UFix64: UFix64}, lockupAmount: UFix64, idleBalance: UFix64, totalBalance: UFix64) {
+            self.owner = owner
             self.originalOwner = originalOwner
             self.metadata = metadata
             self.stamps = stamps
@@ -472,28 +484,28 @@ pub contract WakandaPass: NonFungibleToken {
             .borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()!
     }
 
-    pub fun read(_ address: Address, id: UFix64): WakandaPass.ReadOnly? {
-        if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
-            if  let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly() {
-                return pass
-            } else {
-                return nil
-            }
-        } else {
-            return nil
+    pub fun read(_ address: Address, id: UInt64): WakandaPass.ReadOnly? {
+        let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()
+            ?? panic("Could not borrow collection public reference")
+        let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
+        if pass != nil {
+            return pass
         }
+        return nil
     }
 
-    pub fun readMultiple(_ address: Address, id: UFix64): {UFix64: WakandaPass.ReadOnly} {
-        let passes: {UFix64: WakandaPass.ReadOnly} = {}
-        if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
-            let ids = collectionRef.getIDs()
-            for id in ids {
-               passes[id] = WakandaPass.read(address, id)!
-            }
-        } else {
-            return {}
+    pub fun readMultiple(_ address: Address): [WakandaPass.ReadOnly] {
+        let passes: [WakandaPass.ReadOnly] = []
+        let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()
+            ?? panic("Could not borrow collection public reference")
+        let ids = collectionRef.getIDs()
+        for key in ids {
+           let pass = collectionRef.borrowWakandaPassPublic(id: key).asReadOnly()
+           if pass != nil {
+              passes.append(pass)
+           }
         }
+
         return passes
     }
 
