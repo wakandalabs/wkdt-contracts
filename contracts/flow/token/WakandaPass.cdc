@@ -474,30 +474,28 @@ pub contract WakandaPass: NonFungibleToken {
 
     pub fun read(_ address: Address, id: UFix64): WakandaPass.ReadOnly? {
         if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
-            let ids = collectionRef.getIDs()
-            if id in ids {
-                let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
+            if  let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly() {
                 return pass
             } else {
                 return nil
-            }
-        }
-    }
-
-    pub fun readMultiple(_ address: Address): {UFix64: WakandaPass.ReadOnly} {
-        let passes: {UFix64: WakandaPass.ReadOnly}
-        if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
-            let ids = collectionRef.getIDs()
-            for id in ids {
-                if let pass = WakandaPass.read(address, id) {
-                    passes[id] = pass!
-                }
             }
         } else {
             return nil
         }
     }
 
+    pub fun readMultiple(_ address: Address, id: UFix64): {UFix64: WakandaPass.ReadOnly} {
+        let passes: {UFix64: WakandaPass.ReadOnly} = {}
+        if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
+            let ids = collectionRef.getIDs()
+            for id in ids {
+               passes[id] = WakandaPass.read(address, id)!
+            }
+        } else {
+            return {}
+        }
+        return passes
+    }
 
     init() {
         // Initialize the total supply
