@@ -499,8 +499,8 @@ pub contract WakandaPass: NonFungibleToken {
         let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()
             ?? panic("Could not borrow collection public reference")
         let ids = collectionRef.getIDs()
-        for key in ids {
-           let pass = collectionRef.borrowWakandaPassPublic(id: key).asReadOnly()
+        for id in ids {
+           let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
            if pass != nil {
               passes.append(pass)
            }
