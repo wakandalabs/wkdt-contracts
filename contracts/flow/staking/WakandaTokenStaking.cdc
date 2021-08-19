@@ -449,7 +449,7 @@ pub contract WakandaTokenStaking {
 
         self.stakers <- {}
 
-        self.StakingAdminStoragePath = /storage/wakandaTokenStakingAdmin
+        self.StakingAdminStoragePath = /storage/wakandaTokenStakingAdmin02
 
         self.totalTokensStaked = 0.0
         self.epochTokenPayout = 1.0

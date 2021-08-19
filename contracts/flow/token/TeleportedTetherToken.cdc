@@ -295,9 +295,9 @@ pub contract TeleportedTetherToken: FungibleToken {
     self.isFrozen = false
     self.totalSupply = 0.0
     self.teleported = {}
-    self.TokenStoragePath = /storage/teleportedTetherTokenVault
-    self.TokenPublicBalancePath = /public/teleportedTetherTokenBalance
-    self.TokenPublicReceiverPath = /public/teleportedTetherTokenReceiver
+    self.TokenStoragePath = /storage/teleportedTetherTokenVault02
+    self.TokenPublicBalancePath = /public/teleportedTetherTokenBalance02
+    self.TokenPublicReceiverPath = /public/teleportedTetherTokenReceiver02
 
     let admin <- create Administrator()
     self.account.save(<-admin, to: /storage/teleportedTetherTokenAdmin)

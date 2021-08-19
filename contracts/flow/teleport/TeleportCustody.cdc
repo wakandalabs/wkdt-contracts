@@ -171,9 +171,9 @@ pub contract TeleportCustody {
     self.teleportTxHashLength = 64
     self.lockVault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
     self.unlocked = {}
-    self.TeleportAdminStoragePath = /storage/teleportCustodyTeleportAdmin
-    self.TeleportAdminTeleportUserPath = /public/teleportCustodyTeleportUser
-    self.TeleportAdminTeleportControlPath = /private/teleportCustodyTeleportControl
+    self.TeleportAdminStoragePath = /storage/teleportCustodyTeleportAdmin02
+    self.TeleportAdminTeleportUserPath = /public/teleportCustodyTeleportUser02
+    self.TeleportAdminTeleportControlPath = /private/teleportCustodyTeleportControl02
 
     let admin <- create Administrator()
     self.account.save(<-admin, to: /storage/teleportCustodyAdmin)

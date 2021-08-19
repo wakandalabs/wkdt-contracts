@@ -196,6 +196,7 @@ pub contract WakandaPass: NonFungibleToken {
 
         pub fun asReadOnly(): WakandaPass.ReadOnly {
              return WakandaPass.ReadOnly(
+                id: self.id,
                 owner: self.owner?.address,
                 originalOwner: self.getOriginalOwner(),
                 metadata: self.getMetadata(),
@@ -258,6 +259,7 @@ pub contract WakandaPass: NonFungibleToken {
     }
 
     pub struct ReadOnly {
+        pub let id: UInt64
         pub let owner: Address?
         pub let originalOwner: Address?
         pub let metadata: {String: String}
@@ -269,7 +271,8 @@ pub contract WakandaPass: NonFungibleToken {
         pub let idleBalance: UFix64
         pub let totalBalance: UFix64
 
-        init(owner: Address?, originalOwner: Address?, metadata: {String: String}, stamps: [String], vipTier: UInt64, stakingInfo: WakandaTokenStaking.StakerInfo, lockupSchedule: {UFix64: UFix64}, lockupAmount: UFix64, idleBalance: UFix64, totalBalance: UFix64) {
+        init(id: UInt64, owner: Address?, originalOwner: Address?, metadata: {String: String}, stamps: [String], vipTier: UInt64, stakingInfo: WakandaTokenStaking.StakerInfo, lockupSchedule: {UFix64: UFix64}, lockupAmount: UFix64, idleBalance: UFix64, totalBalance: UFix64) {
+            self.id = id
             self.owner = owner
             self.originalOwner = originalOwner
             self.metadata = metadata
@@ -514,10 +517,10 @@ pub contract WakandaPass: NonFungibleToken {
         self.totalSupply = 0
         self.predefinedLockupSchedules = []
 
-        self.CollectionStoragePath = /storage/wakandaPassCollection003
-        self.CollectionPublicPath = /public/wakandaPassCollection003
-        self.MinterStoragePath = /storage/wakandaPassMinter003
-        self.MinterPublicPath = /public/wakandaPassMinter003
+        self.CollectionStoragePath = /storage/wakandaPassCollection004
+        self.CollectionPublicPath = /public/wakandaPassCollection004
+        self.MinterStoragePath = /storage/wakandaPassMinter004
+        self.MinterPublicPath = /public/wakandaPassMinter004
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()
