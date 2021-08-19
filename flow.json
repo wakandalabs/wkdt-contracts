@@ -144,7 +144,7 @@
       ],
       "chain": "flow-testnet"
     },
-    "wkdt-user-testnet": {
+    "wkdt-admin-testnet": {
       "address": "0x457df669b4f4d1a4",
       "keys": [
         {
@@ -159,7 +159,7 @@
       ],
       "chain": "flow-testnet"
     },
-    "wkdt-admin-testnet": {
+    "wkdt-user-testnet": {
       "address": "0x80db1142287cd376",
       "keys": [
         {

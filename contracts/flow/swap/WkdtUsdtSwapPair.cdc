@@ -424,9 +424,9 @@ pub contract WkdtUsdtSwapPair: FungibleToken {
     self.totalSupply = 0.0
     self.feePercentage = 0.003 // 0.3%
 
-    self.TokenStoragePath = /storage/wkdtUsdtFspLpVault02
-    self.TokenPublicBalancePath = /public/wkdtUsdtFspLpBalance02
-    self.TokenPublicReceiverPath = /public/wkdtUsdtFspLpReceiver02
+    self.TokenStoragePath = /storage/wkdtUsdtFspLpVault05
+    self.TokenPublicBalancePath = /public/wkdtUsdtFspLpBalance05
+    self.TokenPublicReceiverPath = /public/wkdtUsdtFspLpReceiver05
 
     // Setup internal WakandaToken vault
     self.token1Vault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault

@@ -443,8 +443,8 @@ pub contract WakandaTokenMining {
     }
 
     init() {
-        self.MiningRewardStoragePath = /storage/wakandaTokenMiningReward
-        self.MiningRewardPublicPath = /public/wakandaTokenMiningReward
+        self.MiningRewardStoragePath = /storage/wakandaTokenMiningReward05
+        self.MiningRewardPublicPath = /public/wakandaTokenMiningReward05
         self.miningState = MiningState.initial
         self.currentRound = 0
         self.currentTotalReward = 0.0

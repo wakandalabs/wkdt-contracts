@@ -517,10 +517,10 @@ pub contract WakandaPass: NonFungibleToken {
         self.totalSupply = 0
         self.predefinedLockupSchedules = []
 
-        self.CollectionStoragePath = /storage/wakandaPassCollection004
-        self.CollectionPublicPath = /public/wakandaPassCollection004
-        self.MinterStoragePath = /storage/wakandaPassMinter004
-        self.MinterPublicPath = /public/wakandaPassMinter004
+        self.CollectionStoragePath = /storage/wakandaPassCollection05
+        self.CollectionPublicPath = /public/wakandaPassCollection05
+        self.MinterStoragePath = /storage/wakandaPassMinter05
+        self.MinterPublicPath = /public/wakandaPassMinter05
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()

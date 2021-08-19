@@ -304,7 +304,7 @@ pub contract WakandaTokenSale {
         self.personalCap = 1000.0
 
         self.purchases = {}
-        self.SaleAdminStoragePath = /storage/wakandaTokenSaleAdmin
+        self.SaleAdminStoragePath = /storage/wakandaTokenSaleAdmin05
 
         self.wkdtVault <- WakandaToken.createEmptyVault() as! @WakandaToken.Vault
         self.tusdtVault <- TeleportedTetherToken.createEmptyVault() as! @TeleportedTetherToken.Vault

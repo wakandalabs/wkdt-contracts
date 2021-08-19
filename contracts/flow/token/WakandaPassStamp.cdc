@@ -130,9 +130,9 @@ pub contract WakandaPassStamp: NonFungibleToken {
         // Initialize the total supply
         self.totalSupply = 0
 
-        self.CollectionStoragePath = /storage/wakandaPassStampCollection003
-        self.CollectionPublicPath = /public/wakandaPassStampCollection003
-        self.MinterStoragePath = /storage/wakandaPassStampMinter003
+        self.CollectionStoragePath = /storage/wakandaPassStampCollection05
+        self.CollectionPublicPath = /public/wakandaPassStampCollection05
+        self.MinterStoragePath = /storage/wakandaPassStampMinter05
 
         // Create a Collection resource and save it to storage
         let collection <- create Collection()
