@@ -11,8 +11,8 @@ flow transactions send ./transactions/token/setupWakandaTokenVault.cdc \
 ```
 flow transactions send ./transactions/token/transferWakandaToken.cdc \
   --network testnet \
-  --arg UFix64:100.0 \
-  --arg Address:0x03d1e02a48354e2b \
+  --arg UFix64:1000.0 \
+  --arg Address:0x2e98439d54ec3699 \
   --signer wkdt-admin-testnet \
   --gas-limit 1000
 ```

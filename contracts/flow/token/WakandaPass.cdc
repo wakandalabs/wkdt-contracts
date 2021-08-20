@@ -487,7 +487,7 @@ pub contract WakandaPass: NonFungibleToken {
             .borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>()!
     }
 
-    pub fun read(_ address: Address, id: UInt64): WakandaPass.ReadOnly? {
+    pub fun read(address: Address, id: UInt64): WakandaPass.ReadOnly? {
         if let collectionRef = getAccount(address).getCapability(WakandaPass.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic, WakandaPass.CollectionPublic}>() {
             let pass = collectionRef.borrowWakandaPassPublic(id: id).asReadOnly()
             if pass != nil {
