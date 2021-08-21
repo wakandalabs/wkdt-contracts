@@ -489,6 +489,12 @@ pub contract WakandaStorefront {
         return <-create Storefront()
     }
 
+    pub fun check(_ address: Address): Bool {
+         return getAccount(address)
+         .getCapability<&{WakandaStorefront.StorefrontPublic}>(WakandaStorefront.StorefrontPublicPath)
+         .check()
+    }
+
     init () {
         self.StorefrontStoragePath = /storage/wakandaStorefront05
         self.StorefrontPublicPath = /public/wakandaStorefront05
