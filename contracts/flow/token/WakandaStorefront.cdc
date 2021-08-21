@@ -1,7 +1,7 @@
 import FungibleToken from "./FungibleToken.cdc"
 import NonFungibleToken from "./NonFungibleToken.cdc";
 
-// NFTStorefront
+// WakandaStorefront
 //
 // A general purpose sale support contract for Flow NonFungibleTokens.
 //
@@ -21,12 +21,12 @@ import NonFungibleToken from "./NonFungibleToken.cdc";
 // Marketplaces and other aggregators can watch for SaleOffer events
 // and list items of interest.
 //
-pub contract NFTStorefront {
-    // NFTStorefrontInitialized
+pub contract WakandaStorefront {
+    // WakandaStorefrontInitialized
     // This contract has been deployed.
     // Event consumers can now expect events from this contract.
     //
-    pub event NFTStorefrontInitialized()
+    pub event WakandaStorefrontInitialized()
 
     // StorefrontInitialized
     // A Storefront resource has been created.
@@ -53,7 +53,7 @@ pub contract NFTStorefront {
     // A sale offer has been created and added to a Storefront resource.
     // The Address values here are valid when the event is emitted, but
     // the state of the accounts they refer to may be changed outside of the
-    // NFTStorefront workflow, so be careful to check when using them.
+    // WakandaStorefront workflow, so be careful to check when using them.
     //
     pub event SaleOfferAvailable(
         storefrontAddress: Address,
@@ -490,9 +490,9 @@ pub contract NFTStorefront {
     }
 
     init () {
-        self.StorefrontStoragePath = /storage/NFTStorefront05
-        self.StorefrontPublicPath = /public/NFTStorefront05
+        self.StorefrontStoragePath = /storage/WakandaStorefront05
+        self.StorefrontPublicPath = /public/WakandaStorefront05
 
-        emit NFTStorefrontInitialized()
+        emit WakandaStorefrontInitialized()
     }
 }
