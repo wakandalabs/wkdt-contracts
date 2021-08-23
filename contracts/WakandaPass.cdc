@@ -17,13 +17,6 @@ pub contract WakandaPass: NonFungibleToken {
     pub event LockupScheduleUpdated(id: Int, lockupSchedule: {UFix64: UFix64})
 
     pub resource interface WakandaPassPrivate {
-        pub fun stakeNewTokens(amount: UFix64)
-        pub fun stakeUnstakedTokens(amount: UFix64)
-        pub fun stakeRewardedTokens(amount: UFix64)
-        pub fun requestUnstaking(amount: UFix64)
-        pub fun unstakeAll()
-        pub fun withdrawUnstakedTokens(amount: UFix64)
-        pub fun withdrawRewardedTokens(amount: UFix64)
         pub fun withdrawAllUnlockedTokens(): @FungibleToken.Vault
     }
 
@@ -249,12 +242,6 @@ pub contract WakandaPass: NonFungibleToken {
 
     pub resource NFTMinter: MinterPublic {
 
-        pub fun setupPredefinedLockupSchedule(lockupSchedule: {UFix64: UFix64}) {
-            WakandaPass.predefinedLockupSchedules.append(lockupSchedule)
-
-            emit LockupScheduleDefined(id: WakandaPass.predefinedLockupSchedules.length, lockupSchedule: lockupSchedule)
-        }
-
         pub fun mintBasicNFT(recipient: &{NonFungibleToken.CollectionPublic}) {
             self.mintNFT(recipient: recipient, metadata: {})
         }
@@ -289,10 +276,6 @@ pub contract WakandaPass: NonFungibleToken {
         }
     }
 
-    pub fun getPredefinedLockupSchedule(id: Int): {UFix64: UFix64} {
-        return self.predefinedLockupSchedules[id]
-    }
-
     pub fun check(_ address: Address): Bool {
         let collection: Bool = getAccount(address)
             .getCapability<&{WakandaPass.CollectionPublic}>(WakandaPass.CollectionPublicPath)
@@ -322,13 +305,10 @@ pub contract WakandaPass: NonFungibleToken {
 
     init() {
         self.totalSupply = 0
-        self.predefinedLockupSchedules = []
-
         self.CollectionStoragePath = /storage/wakandaPassCollection05
         self.CollectionPublicPath = /public/wakandaPassCollection05
         self.MinterStoragePath = /storage/wakandaPassMinter05
         self.MinterPublicPath = /public/wakandaPassMinter05
-
         let collection <- create Collection()
         self.account.save(<-collection, to: self.CollectionStoragePath)
 

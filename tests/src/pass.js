@@ -7,15 +7,11 @@ export const deployPass = async () => {
 
   const addressMap = {
     NonFungibleToken: WakandaAdmin,
-    WakandaTokenStaking: WakandaAdmin,
     WakandaToken: WakandaAdmin,
-    WakandaPassStamp: WakandaAdmin
   };
 
   await deployContractByName({to: WakandaAdmin, name: "NonFungibleToken"})
   await deployContractByName({to: WakandaAdmin, name: "WakandaToken"})
-  await deployContractByName({to: WakandaAdmin, name: "WakandaTokenStaking", addressMap})
-  await deployContractByName({to: WakandaAdmin, name: "WakandaPassStamp", addressMap})
   return deployContractByName({ to: WakandaAdmin, name: "WakandaPass", addressMap});
 };
 
