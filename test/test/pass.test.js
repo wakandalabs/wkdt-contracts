@@ -1,11 +1,12 @@
 import path from "path";
-import { emulator, init } from "flow-js-testing";
+import {emulator, init, shallPass} from "flow-js-testing";
+import {deployPass} from "../src/pass";
 
 jest.setTimeout(10000);
 
 describe("pass", ()=>{
   beforeEach(async () => {
-    const basePath = path.resolve(__dirname, "../cadence"); 
+    const basePath = path.resolve(__dirname,  "../../");
     const port = 8080;
     const logging = false;
     
@@ -18,7 +19,7 @@ describe("pass", ()=>{
   });
   
   test("deployPass", async ()     => {
-    // WRITE YOUR ASSERTS HERE
+    await shallPass(deployPass());
   })
 
 
