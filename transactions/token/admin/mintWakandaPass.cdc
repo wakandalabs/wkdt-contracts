@@ -1,5 +1,5 @@
-import NonFungibleToken from "../../../contracts/flow/token/NonFungibleToken.cdc"
-import WakandaPass from "../../../contracts/flow/token/WakandaPass.cdc"
+import NonFungibleToken from 0xNonFungibleToken
+import WakandaPass from 0xWakandaPass
 
 transaction(address: Address, metadata: {String: String}) {
 
