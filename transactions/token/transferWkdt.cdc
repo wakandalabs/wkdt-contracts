@@ -1,5 +1,5 @@
-import FungibleToken from "../../contracts/flow/token/FungibleToken.cdc"
-import WakandaToken from "../../contracts/flow/token/WakandaToken.cdc"
+import FungibleToken from "../../contracts/FungibleToken.cdc"
+import WakandaToken from "../../contracts/WakandaToken.cdc"
 
 transaction(amount: UFix64, to: Address) {
 

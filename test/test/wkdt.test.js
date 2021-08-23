@@ -19,7 +19,7 @@ describe("wkdt", ()=>{
     return emulator.stop();
   });
 
-  it("deploy wkdt", async () => {
+  it("shall deploy wkdt", async () => {
     await shallPass(deployWkdt());
     const supply = await getWkdtSupply();
     expect(supply).toBe(toUFix64(7000000));
@@ -28,7 +28,7 @@ describe("wkdt", ()=>{
     expect(WakandaAdminBalance).toBe(toUFix64(7000000));
   })
 
-  it("transfer wkdt", async () => {
+  it("shall transfer wkdt", async () => {
     await deployWkdt();
     const WakandaAdmin = await getWakandaAdminAddress();
     const Alice = await getAccountAddress("Alice");
