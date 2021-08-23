@@ -1,23 +1,23 @@
-import WakandaProfile from "../../contracts/flow/profile/WakandaProfile.cdc"
+import WakandaProfile from 0xWakandaProfile
 
 transaction(name: String, avatar: String, color: String, bio: String, website: String, email: String) {
   prepare(currentUser: AuthAccount) {
     currentUser
       .borrow<&{WakandaProfile.WakandaProfileOwner}>(from: WakandaProfile.ProfileStoragePath)!
       .setName(name)
-       currentUser
+    currentUser
       .borrow<&{WakandaProfile.WakandaProfileOwner}>(from: WakandaProfile.ProfileStoragePath)!
       .setAvatar(avatar)
-       currentUser
+    currentUser
       .borrow<&{WakandaProfile.WakandaProfileOwner}>(from: WakandaProfile.ProfileStoragePath)!
       .setColor(color)
-       currentUser
+    currentUser
       .borrow<&{WakandaProfile.WakandaProfileOwner}>(from: WakandaProfile.ProfileStoragePath)!
       .setBio(bio)
-       currentUser
+    currentUser
       .borrow<&{WakandaProfile.WakandaProfileOwner}>(from: WakandaProfile.ProfileStoragePath)!
       .setWebsite(website)
-       currentUser
+    currentUser
       .borrow<&{WakandaProfile.WakandaProfileOwner}>(from: WakandaProfile.ProfileStoragePath)!
       .setEmail(email)
   }
