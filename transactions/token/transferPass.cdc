@@ -1,5 +1,5 @@
-import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import WakandaPass from "../../contracts/WakandaPass.cdc"
+import NonFungibleToken from 0xNonFungibleToken
+import WakandaPass from 0xWakandaPass
 
 transaction(recipient: Address, withdrawID: UInt64) {
     prepare(signer: AuthAccount) {
