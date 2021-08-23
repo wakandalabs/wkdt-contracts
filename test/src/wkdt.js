@@ -10,7 +10,7 @@ export const deployWkdt = async () => {
   const WakandaAdmin = await getWakandaAdminAddress();
   await mintFlow(WakandaAdmin, "10.0");
 
-  return deployContractByName({ to: WakandaAdmin, name: "Wkdt" });
+  return deployContractByName({ to: WakandaAdmin, name: "WakandaToken" });
 };
 
 /*
