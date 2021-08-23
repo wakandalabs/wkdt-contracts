@@ -1,6 +1,6 @@
-import FungibleToken from "../../contracts/flow/token/FungibleToken.cdc"
-import WakandaToken from "../../contracts/flow/token/WakandaToken.cdc"
-import WakandaPass from "../../contracts/flow/token/WakandaPass.cdc"
+import FungibleToken from 0xFungibleToken
+import WakandaToken from 0xWakandaToken
+import WakandaPass from 0xWakandaPass
 
 transaction() {
     // The private reference to user's WakandaToken vault
