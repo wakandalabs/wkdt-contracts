@@ -8,13 +8,8 @@
   "contracts": {
     "WakandaPass": "./contracts/WakandaPass.cdc",
     "WakandaStorefront":  "./contracts/WakandaStorefront.cdc",
-    "WakandaPassStamp": "./contracts/WakandaPassStamp.cdc",
     "WakandaToken": "./contracts/WakandaToken.cdc",
     "WakandaProfile": "./contracts/WakandaProfile.cdc",
-    "WakandaTokenMining": "./contracts/WakandaTokenMining.cdc",
-    "WakandaTokenSale": "./contracts/WakandaTokenSale.cdc",
-    "WakandaTokenStaking": "./contracts/WakandaTokenStaking.cdc",
-    "WkdtUsdtSwapPair": "./contracts/WkdtUsdtSwapPair.cdc",
     "FungibleToken": {
       "source": "./contracts/FungibleToken.cdc",
       "aliases": {
@@ -28,15 +23,6 @@
       "aliases": {
         "testnet": "0x631e88ae7f1d7c20",
         "mainnet": "0x1d7e57aa55817448"
-      }
-    },
-    "TeleportCustody": "./contracts/TeleportCustody.cdc",
-    "TeleportCustodySolana": "./contracts/TeleportCustodySolana.cdc",
-    "TeleportedTetherToken": {
-      "source": "./contracts/TeleportedTetherToken.cdc",
-      "aliases": {
-        "testnet": "0xab26e0a07d770ec1",
-        "mainnet": "0xcfdd90d4a00f7b5b"
       }
     }
   },
@@ -60,32 +46,7 @@
       "keys": "eb4347b08ebd2f74d38bec1026b07430fe04510c95afe8534735677a3410dd87",
       "chain": "flow-emulator"
     },
-    "wkdt-admin-emulator": {
-      "address": "0xf3fcd2c1a78f5eee",
-      "keys": "eb4347b08ebd2f74d38bec1026b07430fe04510c95afe8534735677a3410dd87",
-      "chain": "flow-emulator"
-    },
-    "wkdt-user-emulator": {
-      "address": "0xe03daebed8ca0615",
-      "keys": "eb4347b08ebd2f74d38bec1026b07430fe04510c95afe8534735677a3410dd87",
-      "chain": "flow-emulator"
-    },
-    "wkdt-user2-testnet": {
-      "address": "0x358405c69fa8d95c",
-      "keys": [
-        {
-          "type": "hex",
-          "index": 0,
-          "signatureAlgorithm": "ECDSA_P256",
-          "hashAlgorithm": "SHA3_256",
-          "context": {
-            "privateKey": "4b42c47d31c03e35f17efe1d5f125f6d8b7def824c518af65cf8c744c7cc2291"
-          }
-        }
-      ],
-      "chain": "flow-testnet"
-    },
-    "wkdt-teleport-admin-testnet": {
+    "wkdt-admin-testnet": {
       "address": "0xc7b7d9281756d3e2",
       "keys": [
         {
@@ -99,78 +60,24 @@
         }
       ],
       "chain": "flow-testnet"
-    },
-    "wkdt-swap-testnet": {
-      "address": "0xd1e3bc1b8e52d983",
-      "keys": [
-        {
-          "type": "hex",
-          "index": 0,
-          "signatureAlgorithm": "ECDSA_P256",
-          "hashAlgorithm": "SHA3_256",
-          "context": {
-            "privateKey": "6cb92fd1380f7d1bae542eb62b1838fbfea3792ac36f9809f8b4d10874c1b4b4"
-          }
-        }
-      ],
-      "chain": "flow-testnet"
-    },
-    "wkdt-admin-testnet": {
-      "address": "0x457df669b4f4d1a4",
-      "keys": [
-        {
-          "type": "hex",
-          "index": 0,
-          "signatureAlgorithm": "ECDSA_secp256k1",
-          "hashAlgorithm": "SHA3_256",
-          "context": {
-            "privateKey": "595ba8e69cfbbf1656606da55bd54efa4dda01a6cb49f35e3aa6ae21fc630ec5"
-          }
-        }
-      ],
-      "chain": "flow-testnet"
-    },
-    "wkdt-user-testnet": {
-      "address": "0x80db1142287cd376",
-      "keys": [
-        {
-          "type": "hex",
-          "index": 0,
-          "signatureAlgorithm": "ECDSA_secp256k1",
-          "hashAlgorithm": "SHA3_256",
-          "context": {
-            "privateKey": "f0cfa244910ff9522510f1c63369c02e49e6722096f491096a2dd524557deba6"
-          }
-        }
-      ],
-      "chain": "flow-testnet"
     }
   },
   "deployments": {
     "emulator": {
-      "wkdt-admin-emulator": [
+      "emulator-account": [
         "NonFungibleToken",
-        "TeleportedTetherToken",
         "WakandaPass",
-        "WakandaPassStamp",
         "WakandaToken",
-        "WakandaTokenMining",
-        "WakandaTokenSale",
-        "WakandaTokenStaking",
-        "TeleportCustody",
-        "TeleportCustodySolana"
+        "WakandaStorefront",
+        "WakandaProfile"
       ]
     },
     "testnet": {
       "wkdt-admin-testnet": [
         "WakandaPass",
-        "WakandaPassStamp",
         "WakandaToken",
         "WakandaStorefront",
-        "WakandaProfile",
-        "WakandaTokenSale",
-        "WakandaTokenStaking",
-        "WakandaTokenMining"
+        "WakandaProfile"
       ]
     }
   }

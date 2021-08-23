@@ -305,10 +305,10 @@ pub contract WakandaPass: NonFungibleToken {
 
     init() {
         self.totalSupply = 0
-        self.CollectionStoragePath = /storage/wakandaPassCollection05
-        self.CollectionPublicPath = /public/wakandaPassCollection05
-        self.MinterStoragePath = /storage/wakandaPassMinter05
-        self.MinterPublicPath = /public/wakandaPassMinter05
+        self.CollectionStoragePath = /storage/wakandaPassCollection06
+        self.CollectionPublicPath = /public/wakandaPassCollection06
+        self.MinterStoragePath = /storage/wakandaPassMinter06
+        self.MinterPublicPath = /public/wakandaPassMinter06
         let collection <- create Collection()
         self.account.save(<-collection, to: self.CollectionStoragePath)
 

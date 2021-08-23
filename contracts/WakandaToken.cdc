@@ -196,10 +196,10 @@ pub contract WakandaToken: FungibleToken {
         // 30% will minted from staking and mining
         self.totalSupply = 7_000_000.0
 
-        self.TokenStoragePath = /storage/wakandaTokenVault05
-        self.TokenPublicReceiverPath = /public/wakandaTokenReceiver05
-        self.TokenPublicBalancePath = /public/wakandaTokenBalance05
-        self.TokenMinterStoragePath = /storage/wakandaTokenMinter05
+        self.TokenStoragePath = /storage/wakandaTokenVault06
+        self.TokenPublicReceiverPath = /public/wakandaTokenReceiver06
+        self.TokenPublicBalancePath = /public/wakandaTokenBalance06
+        self.TokenMinterStoragePath = /storage/wakandaTokenMinter06
 
         // Create the Vault with the total supply of tokens and save it in storage
         let vault <- create Vault(balance: self.totalSupply)
@@ -220,7 +220,7 @@ pub contract WakandaToken: FungibleToken {
         )
 
         let admin <- create Administrator()
-        self.account.save(<-admin, to: /storage/wakandaTokenAdmin)
+        self.account.save(<-admin, to: /storage/wakandaTokenAdmin06)
 
         // Emit an event that shows that the contract was initialized
         emit TokensInitialized(initialSupply: self.totalSupply)

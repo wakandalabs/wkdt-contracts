@@ -496,8 +496,8 @@ pub contract WakandaStorefront {
     }
 
     init () {
-        self.StorefrontStoragePath = /storage/wakandaStorefront05
-        self.StorefrontPublicPath = /public/wakandaStorefront05
+        self.StorefrontStoragePath = /storage/wakandaStorefront06
+        self.StorefrontPublicPath = /public/wakandaStorefront06
 
         emit WakandaStorefrontInitialized()
     }
