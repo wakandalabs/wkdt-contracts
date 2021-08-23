@@ -1,4 +1,4 @@
-import {deployContract, deployContractByName, executeScript, mintFlow, sendTransaction} from "flow-js-testing";
+import {deployContractByName, executeScript, mintFlow, sendTransaction} from "flow-js-testing";
 import { getWakandaAdminAddress } from "./common";
 
 /*
@@ -20,7 +20,7 @@ export const deployWkdt = async () => {
  * @returns {Promise<*>}
  * */
 export const setupWkdtOnAccount = async (account) => {
-  const name = "token/setupWakandaTokenVault";
+  const name = "token/setupWkdt";
   const signers = [account];
 
   return sendTransaction({ name, signers });
@@ -33,7 +33,7 @@ export const setupWkdtOnAccount = async (account) => {
  * @returns {UFix64}
  * */
 export const getWkdtBalance = async (account) => {
-  const name = "token/getWakandaTokenBalance";
+  const name = "token/getWkdtBalance";
   const args = [account];
 
   return executeScript({ name, args });
@@ -50,23 +50,6 @@ export const getWkdtSupply = async () => {
 };
 
 /*
- * Mints **amount** of Wkdt tokens and transfers them to recipient.
- * @param {string} recipient - recipient address
- * @param {string} amount - UFix64 amount to mint
- * @throws Will throw an error if transaction is reverted.
- * @returns {Promise<*>}
- * */
-export const mintWkdt = async (recipient, amount) => {
-  const WakandaAdmin = await getWakandaAdminAddress();
-
-  const name = "token/mint_tokens";
-  const args = [recipient, amount];
-  const signers = [WakandaAdmin];
-
-  return sendTransaction({ name, args, signers });
-};
-
-/*
  * Transfers **amount** of Wkdt tokens from **sender** account to **recipient**.
  * @param {string} sender - sender address
  * @param {string} recipient - recipient address
@@ -75,7 +58,7 @@ export const mintWkdt = async (recipient, amount) => {
  * @returns {Promise<*>}
  * */
 export const transferWkdt = async (sender, recipient, amount) => {
-  const name = "token/transferWakandaToken";
+  const name = "token/transferWkdt";
   const args = [amount, recipient];
   const signers = [sender];
 

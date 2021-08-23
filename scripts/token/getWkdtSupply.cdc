@@ -1,10 +1,6 @@
-import WakandaToken from "../../contracts/token/WakandaToken.cdc"
+import WakandaToken from 0xWakandaToken
 
 pub fun main(): UFix64 {
-
     let supply = WakandaToken.totalSupply
-
-    log(supply)
-
     return supply
 }
