@@ -1,9 +1,9 @@
-import FungibleToken from "../../contracts/flow/token/FungibleToken.cdc"
+import FungibleToken from 0xFungibleToken
+import WakandaToken from 0xWakandaToken
 
-pub fun main(address: Address): UFix64 {
-    let balanceRef = getAccount(address).getCapability(/public/wakandaTokenBalance)
-        .borrow<&{FungibleToken.Balance}>()
-        ?? panic("Could not borrow balance public reference")
-
-    return balanceRef.balance
+pub fun main(address: Address): UFix64? {
+  if let vault = getAccount(address).getCapability<&{FungibleToken.Balance}>(WakandaToken.TokenPublicBalancePath).borrow() {
+    return vault.balance
+  }
+  return nil
 }

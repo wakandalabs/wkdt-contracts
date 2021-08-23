@@ -1,4 +1,4 @@
-import { deployContractByName, executeScript, mintFlow, sendTransaction } from "flow-js-testing";
+import {deployContract, deployContractByName, executeScript, mintFlow, sendTransaction} from "flow-js-testing";
 import { getWakandaAdminAddress } from "./common";
 
 /*
@@ -20,7 +20,7 @@ export const deployWkdt = async () => {
  * @returns {Promise<*>}
  * */
 export const setupWkdtOnAccount = async (account) => {
-  const name = "wkdt/setup_account";
+  const name = "token/setupWakandaTokenVault";
   const signers = [account];
 
   return sendTransaction({ name, signers });
@@ -33,7 +33,7 @@ export const setupWkdtOnAccount = async (account) => {
  * @returns {UFix64}
  * */
 export const getWkdtBalance = async (account) => {
-  const name = "wkdt/get_balance";
+  const name = "token/getWakandaTokenBalance";
   const args = [account];
 
   return executeScript({ name, args });
@@ -45,7 +45,7 @@ export const getWkdtBalance = async (account) => {
  * @returns {UFix64}
  * */
 export const getWkdtSupply = async () => {
-  const name = "wkdt/get_supply";
+  const name = "token/getWkdtSupply";
   return executeScript({ name });
 };
 
@@ -59,7 +59,7 @@ export const getWkdtSupply = async () => {
 export const mintWkdt = async (recipient, amount) => {
   const WakandaAdmin = await getWakandaAdminAddress();
 
-  const name = "wkdt/mint_tokens";
+  const name = "token/mint_tokens";
   const args = [recipient, amount];
   const signers = [WakandaAdmin];
 
@@ -75,7 +75,7 @@ export const mintWkdt = async (recipient, amount) => {
  * @returns {Promise<*>}
  * */
 export const transferWkdt = async (sender, recipient, amount) => {
-  const name = "wkdt/transfer_tokens";
+  const name = "token/transferWakandaToken";
   const args = [amount, recipient];
   const signers = [sender];
 
