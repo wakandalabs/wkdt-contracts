@@ -13,6 +13,12 @@ export const getProfile = async ( address ) => {
   return executeScript({ name, args });
 }
 
+export const isProfileInit = async (address) => {
+  const name = "token/isProfileInit";
+  const args = [address];
+  return executeScript({ name, args });
+}
+
 export const getMultiProfile = async ( addresses ) => {
   const name = "profile/getMultiWakandaProfile";
   const args = [addresses];

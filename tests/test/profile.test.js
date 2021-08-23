@@ -1,6 +1,6 @@
 import path from "path";
 import {emulator, getAccountAddress, init, shallPass, shallResolve} from "flow-js-testing";
-import {deployProfile, getProfile, setupProfileOnAccount, updateProfile} from "../src/profile";
+import {deployProfile, getProfile, isProfileInit, setupProfileOnAccount, updateProfile} from "../src/profile";
 
 jest.setTimeout(10000);
 
@@ -25,7 +25,9 @@ describe("profile", () => {
   it('should setup profile', async () => {
     await shallPass(deployProfile());
     const Alice = await getAccountAddress("Alice");
+    expect(await isProfileInit(Alice)).toBe(false)
     await shallPass(setupProfileOnAccount(Alice));
+    expect(await isProfileInit(Alice)).toBe(true)
     await shallResolve(getProfile(Alice))
   });
 

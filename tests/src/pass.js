@@ -30,6 +30,12 @@ export const getPassSupply = async () => {
   return executeScript({ name });
 }
 
+export const isPassInit = async (address) => {
+  const name = "token/isPassInit";
+  const args = [address];
+  return executeScript({ name, args });
+}
+
 export const mintPass = async (signer, recipient, metadata) => {
   const name = "token/admin/mintWakandaPass";
   const args = [recipient, metadata];

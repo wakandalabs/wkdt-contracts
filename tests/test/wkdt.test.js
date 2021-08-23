@@ -1,6 +1,6 @@
 import path from "path";
 import {emulator, getAccountAddress, init, shallPass, shallResolve} from "flow-js-testing";
-import {deployWkdt, getWkdtBalance, getWkdtSupply, setupWkdtOnAccount, transferWkdt} from "../src/wkdt";
+import {deployWkdt, getWkdtBalance, getWkdtSupply, isWkdtInit, setupWkdtOnAccount, transferWkdt} from "../src/wkdt";
 import {getWakandaAdminAddress, toUFix64} from "../src/common";
 
 jest.setTimeout(10000);
@@ -33,7 +33,9 @@ describe("wkdt", ()=>{
     const WakandaAdmin = await getWakandaAdminAddress();
     const Alice = await getAccountAddress("Alice");
     await setupWkdtOnAccount(WakandaAdmin);
+    expect(await isWkdtInit(Alice)).toBe(false)
     await setupWkdtOnAccount(Alice);
+    expect(await isWkdtInit(Alice)).toBe(true)
     await shallPass(transferWkdt(WakandaAdmin, Alice, toUFix64(1000000)));
 
     await shallResolve(async () => {

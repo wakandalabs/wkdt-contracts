@@ -4,7 +4,7 @@ import {
   deployPass,
   getPassIds,
   getPassSupply,
-  getWakandaPass,
+  getWakandaPass, isPassInit,
   mintPass,
   setupPassOnAccount,
   transferPass
@@ -38,8 +38,9 @@ describe("pass", () => {
   it('shall be able to mint a pass', async () => {
     await shallPass(deployPass());
     const Alice = await getAccountAddress("Alice");
+    expect(await isPassInit(Alice)).toBe(false)
     await shallPass(setupPassOnAccount(Alice));
-
+    expect(await isPassInit(Alice)).toBe(true)
     await shallPass(mintPass(Alice, Alice, {}));
     await shallResolve(async () => {
       const itemIds = await getPassIds(Alice);
