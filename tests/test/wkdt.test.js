@@ -22,10 +22,10 @@ describe("wkdt", ()=>{
   it("shall deploy wkdt", async () => {
     await shallPass(deployWkdt());
     const supply = await getWkdtSupply();
-    expect(supply).toBe(toUFix64(7000000));
+    expect(supply).toBe(toUFix64(10000000));
     const WakandaAdmin = await getWakandaAdminAddress();
     const WakandaAdminBalance = await getWkdtBalance(WakandaAdmin);
-    expect(WakandaAdminBalance).toBe(toUFix64(7000000));
+    expect(WakandaAdminBalance).toBe(toUFix64(10000000));
   })
 
   it("shall transfer wkdt", async () => {
@@ -40,13 +40,13 @@ describe("wkdt", ()=>{
 
     await shallResolve(async () => {
       const WakandaAdminBalance = await getWkdtBalance(WakandaAdmin);
-      expect(WakandaAdminBalance).toBe(toUFix64(6000000));
+      expect(WakandaAdminBalance).toBe(toUFix64(9000000));
 
       const aliceBalance = await getWkdtBalance(Alice);
       expect(aliceBalance).toBe(toUFix64(1000000));
 
       const supply = await getWkdtSupply();
-      expect(supply).toBe(toUFix64(7000000));
+      expect(supply).toBe(toUFix64(10000000));
     });
   });
 })

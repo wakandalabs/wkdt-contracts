@@ -192,9 +192,8 @@ pub contract WakandaToken: FungibleToken {
 
     init() {
         // Total supply of WKDT is 10M
-        // 70% is created at genesis but locked up
-        // 30% will minted from staking and mining
-        self.totalSupply = 7_000_000.0
+        // 100% is created at genesis
+        self.totalSupply = 10_000_000.0
 
         self.TokenStoragePath = /storage/wakandaTokenVault06
         self.TokenPublicReceiverPath = /public/wakandaTokenReceiver06
