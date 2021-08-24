@@ -237,14 +237,10 @@ pub contract WakandaPass: NonFungibleToken {
     }
 
     pub resource interface MinterPublic {
-        pub fun mintBasicNFT(recipient: &{NonFungibleToken.CollectionPublic})
+        pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, metadata: {String: String})
     }
 
     pub resource NFTMinter: MinterPublic {
-
-        pub fun mintBasicNFT(recipient: &{NonFungibleToken.CollectionPublic}) {
-            self.mintNFT(recipient: recipient, metadata: {})
-        }
 
         pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, metadata: {String: String}) {
             self.mintNFTWithCustomLockup(
