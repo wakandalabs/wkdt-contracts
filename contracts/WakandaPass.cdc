@@ -38,17 +38,11 @@ pub contract WakandaPass: NonFungibleToken {
         WakandaPassPublic
     {
         access(self) let vault: @WakandaToken.Vault
-
         pub let id: UInt64
-
         pub let originalOwner: Address?
-
         access(self) var metadata: {String: String}
-
         pub let lockupAmount: UFix64
-
         access(self) let lockupSchedule: {UFix64: UFix64}?
-
         init(
             initID: UInt64,
             originalOwner: Address?,
@@ -69,7 +63,6 @@ pub contract WakandaPass: NonFungibleToken {
             post {
                 self.getIdleBalance() >= self.getLockupAmount(): "Cannot withdraw locked-up WKDTs"
             }
-
             return <- self.vault.withdraw(amount: amount)
         }
 
@@ -192,13 +185,9 @@ pub contract WakandaPass: NonFungibleToken {
 
         pub fun deposit(token: @NonFungibleToken.NFT) {
             let token <- token as! @WakandaPass.NFT
-
             let id: UInt64 = token.id
-
             let oldToken <- self.ownedNFTs[id] <- token
-
             emit Deposit(id: id, to: self.owner?.address)
-
             destroy oldToken
         }
 
@@ -241,7 +230,6 @@ pub contract WakandaPass: NonFungibleToken {
     }
 
     pub resource NFTMinter: MinterPublic {
-
         pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, metadata: {String: String}) {
             self.mintNFTWithCustomLockup(
                 recipient: recipient,
@@ -257,7 +245,6 @@ pub contract WakandaPass: NonFungibleToken {
             vault: @FungibleToken.Vault,
             lockupSchedule: {UFix64: UFix64}
         ) {
-
             var newNFT <- create NFT(
                 initID: WakandaPass.totalSupply,
                 originalOwner: recipient.owner?.address,
@@ -267,7 +254,6 @@ pub contract WakandaPass: NonFungibleToken {
             )
 
             recipient.deposit(token: <-newNFT)
-
             WakandaPass.totalSupply = WakandaPass.totalSupply + UInt64(1)
         }
     }
