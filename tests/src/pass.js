@@ -40,6 +40,14 @@ export const mintPass = async (signer, recipient, metadata) => {
   return sendTransaction({ name, args, signers });
 }
 
+export const mintPassWithLockup = async (signer, recipient, metadata, lockupAmount, lockupSchedule) => {
+  const name = "token/mintWakandaPassCustom";
+  const args = [recipient, metadata, lockupAmount, lockupSchedule];
+  const signers = [signer];
+
+  return sendTransaction({ name, args, signers });
+}
+
 export const transferPass = async (sender, recipient, itemId) => {
   const name = "token/transferPass";
   const args = [recipient, itemId];

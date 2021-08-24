@@ -5,11 +5,12 @@ import {
   getPassIds,
   getPassSupply,
   getWakandaPass, isPassInit,
-  mintPass,
+  mintPass, mintPassWithLockup,
   setupPassOnAccount,
   transferPass
 } from "../src/pass";
-import {getWakandaAdminAddress} from "../src/common";
+import {getWakandaAdminAddress, toUFix64} from "../src/common";
+import {deployWkdt, getWkdtBalance, getWkdtSupply, isWkdtInit, setupWkdtOnAccount, transferWkdt} from "../src/wkdt";
 
 jest.setTimeout(10000);
 
@@ -41,7 +42,7 @@ describe("pass", () => {
     expect(await isPassInit(Alice)).toBe(false)
     await shallPass(setupPassOnAccount(Alice));
     expect(await isPassInit(Alice)).toBe(true)
-    await shallPass(mintPass(Alice, Alice, {}));
+    await shallPass(mintPass(Alice, Alice, {"title": "jest"}));
     await shallResolve(async () => {
       const itemIds = await getPassIds(Alice);
       const supply = await getPassSupply();
@@ -50,19 +51,28 @@ describe("pass", () => {
     });
   });
 
+  // it('shall be able to mint a pass with custom lockup', async () => {
+  //   await shallPass(deployPass());
+  //   const WakandaAdmin = await getWakandaAdminAddress();
+  //   const Alice = await getAccountAddress("Alice");
+  //   await setupWkdtOnAccount(Alice);
+  //   await shallPass(transferWkdt(WakandaAdmin, Alice, toUFix64(1000000)));
+  //   const balance = await getWkdtBalance(Alice)
+  //   await shallPass(mintPassWithLockup(Alice, Alice, {}, toUFix64(200), {}))
+  // });
+
   it('shall be able get detail of pass', async () => {
     await shallPass(deployPass());
     const Alice = await getAccountAddress("Alice");
     await shallPass(setupPassOnAccount(Alice));
 
-    await shallPass(mintPass(Alice, Alice, {}));
+    await shallPass(mintPass(Alice, Alice, {"title": "jest"}));
     await shallResolve(async () => {
       const pass = await getWakandaPass(Alice, 0);
       expect(pass.id).toBe(0)
       expect(pass.owner).toBe(Alice)
+      expect(pass.metadata["title"]).toBe("jest")
     })
-
-
   });
 
   it("shall be able to create a new empty NFT Collection", async () => {
