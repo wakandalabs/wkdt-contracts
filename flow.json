@@ -47,7 +47,7 @@
       "chain": "flow-emulator"
     },
     "wkdt-admin-testnet": {
-      "address": "0xc7b7d9281756d3e2",
+      "address": "0xbe4bac9b9b682df9",
       "keys": [
         {
           "type": "hex",
@@ -55,7 +55,7 @@
           "signatureAlgorithm": "ECDSA_P256",
           "hashAlgorithm": "SHA3_256",
           "context": {
-            "privateKey": "d9221f246ea3b8191ec25fb207783b1d17692149072ef070e0e2ca2cb77aa5af"
+            "privateKey": "a3e8a4353155f03c4fbf8738ee046ccc37783cb5c8101223e0c03337b7a3b60d"
           }
         }
       ],
