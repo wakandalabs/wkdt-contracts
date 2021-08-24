@@ -40,33 +40,10 @@ and we welcome all assistance from the community!
 
 ## WKDT Contract Addresses
 
-`WakandaToken.cdc`:
-`WakandaPass.cdc`:
-`WakandaPassStamp.cdc`:
-`WakandaTokenMining`:
-`WakandaTokenStaking`:
-`WakandaTokenSale`:
-`TeleportedTetherToken`:
-
-| Network | Contract Address     |
-|---------|----------------------|
-| Testnet | `0x358405c69fa8d95c` |
-| Mainnet | `` |
-
-`WkdtUsdtSwapPair.cdc`: 
-
-| Network | Contract Address     |
-|---------|----------------------|
-| Testnet | `0xd1e3bc1b8e52d983` |
-| Mainnet | `` |
-
-`TeleportCustody.cdc`:
-`TeleportCustodySolana.cdc`:
-
-| Network | Contract Address     |
-|---------|----------------------|
-| Testnet | `0xc7b7d9281756d3e2` |
-| Mainnet | `` |
+`WakandaToken.cdc`:0xbe4bac9b9b682df9
+`WakandaPass.cdc`:0xbe4bac9b9b682df9
+`WakandaProfile.cdc`:0xbe4bac9b9b682df9
+`WakandaStorefront`:0xbe4bac9b9b682df9
 
 ### Non Fungible Token Standard
 
