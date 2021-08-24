@@ -1,6 +1,14 @@
 import path from "path";
 import {emulator, getAccountAddress, init, shallPass, shallResolve} from "flow-js-testing";
-import {deployWkdt, getWkdtBalance, getWkdtSupply, isWkdtInit, setupWkdtOnAccount, transferWkdt} from "../src/wkdt";
+import {
+  deployWkdt,
+  getWkdtBalance,
+  getWkdtSupply,
+  isWkdtInit,
+  mintWkdt,
+  setupWkdtOnAccount,
+  transferWkdt
+} from "../src/wkdt";
 import {getWakandaAdminAddress, toUFix64} from "../src/common";
 
 jest.setTimeout(10000);
@@ -48,5 +56,16 @@ describe("wkdt", ()=>{
       const supply = await getWkdtSupply();
       expect(supply).toBe(toUFix64(10000000));
     });
+  });
+
+  it('should mint wkdt', async () => {
+    await shallPass(deployWkdt());
+    const WakandaAdmin = await getWakandaAdminAddress();
+    await setupWkdtOnAccount(WakandaAdmin);
+    const supply = await getWkdtSupply();
+    console.log(supply)
+    await mintWkdt(WakandaAdmin, WakandaAdmin, toUFix64(100))
+    const newsupply = await getWkdtSupply();
+    console.log(newsupply)
   });
 })

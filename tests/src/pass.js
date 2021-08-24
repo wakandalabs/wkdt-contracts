@@ -33,7 +33,7 @@ export const isPassInit = async (address) => {
 }
 
 export const mintPass = async (signer, recipient, metadata) => {
-  const name = "token/admin/mintWakandaPass";
+  const name = "token/mintWakandaPass";
   const args = [recipient, metadata];
   const signers = [signer];
 

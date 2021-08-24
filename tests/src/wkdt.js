@@ -40,3 +40,11 @@ export const transferWkdt = async (sender, recipient, amount) => {
 
   return sendTransaction({ name, args, signers });
 };
+
+export const mintWkdt = async (signer, recipient, amount) => {
+  const name = "token/mintWkdt";
+  const args = [recipient, amount];
+  const signers = [signer];
+
+  return sendTransaction({ name, args, signers })
+}
