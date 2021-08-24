@@ -49,10 +49,8 @@ describe("wkdt", ()=>{
     await shallResolve(async () => {
       const WakandaAdminBalance = await getWkdtBalance(WakandaAdmin);
       expect(WakandaAdminBalance).toBe(toUFix64(9000000));
-
       const aliceBalance = await getWkdtBalance(Alice);
       expect(aliceBalance).toBe(toUFix64(1000000));
-
       const supply = await getWkdtSupply();
       expect(supply).toBe(toUFix64(10000000));
     });
@@ -63,9 +61,9 @@ describe("wkdt", ()=>{
     const WakandaAdmin = await getWakandaAdminAddress();
     await setupWkdtOnAccount(WakandaAdmin);
     const supply = await getWkdtSupply();
-    console.log(supply)
+    expect(supply).toBe(toUFix64(10000000))
     await mintWkdt(WakandaAdmin, WakandaAdmin, toUFix64(100))
     const newsupply = await getWkdtSupply();
-    console.log(newsupply)
+    expect(newsupply).toBe(toUFix64(10000100))
   });
 })

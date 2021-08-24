@@ -1,47 +1,31 @@
 import FungibleToken from "./FungibleToken.cdc"
 
 pub contract WakandaToken: FungibleToken {
-
     pub var totalSupply: UFix64
-
     pub let TokenAdminStoragePath: StoragePath
-
     pub let TokenStoragePath: StoragePath
-
     pub let TokenPublicBalancePath: PublicPath
-
     pub let TokenPublicReceiverPath: PublicPath
-
     pub let TokenMinterStoragePath: StoragePath
 
     pub event TokensInitialized(initialSupply: UFix64)
-
     pub event TokensWithdrawn(amount: UFix64, from: Address?)
-
     pub event TokensDeposited(amount: UFix64, to: Address?)
-
     pub event TokensMinted(amount: UFix64)
-
     pub event TokensBurned(amount: UFix64)
-
     pub event MinterCreated(allowedAmount: UFix64)
-
     pub event BurnerCreated()
 
     pub resource Vault: FungibleToken.Provider, FungibleToken.Receiver, FungibleToken.Balance {
-
         pub var balance: UFix64
-
         init(balance: UFix64) {
             self.balance = balance
         }
-
         pub fun withdraw(amount: UFix64): @FungibleToken.Vault {
             self.balance = self.balance - amount
             emit TokensWithdrawn(amount: amount, from: self.owner?.address)
             return <-create Vault(balance: amount)
         }
-
         pub fun deposit(from: @FungibleToken.Vault) {
             let vault <- from as! @WakandaToken.Vault
             self.balance = self.balance + vault.balance
@@ -49,7 +33,6 @@ pub contract WakandaToken: FungibleToken {
             vault.balance = 0.0
             destroy vault
         }
-
         destroy() {
             WakandaToken.totalSupply = WakandaToken.totalSupply - self.balance
         }
@@ -64,7 +47,6 @@ pub contract WakandaToken: FungibleToken {
             emit MinterCreated(allowedAmount: allowedAmount)
             return <-create Minter(allowedAmount: allowedAmount)
         }
-
         pub fun createNewBurner(): @Burner {
             emit BurnerCreated()
             return <-create Burner()
@@ -72,9 +54,7 @@ pub contract WakandaToken: FungibleToken {
     }
 
     pub resource Minter {
-
         pub var allowedAmount: UFix64
-
         pub fun mintTokens(amount: UFix64): @WakandaToken.Vault {
             pre {
                 amount > 0.0: "Amount minted must be greater than zero"
@@ -92,7 +72,6 @@ pub contract WakandaToken: FungibleToken {
     }
 
     pub resource Burner {
-
         pub fun burnTokens(from: @FungibleToken.Vault) {
             let vault <- from as! @WakandaToken.Vault
             let amount = vault.balance
