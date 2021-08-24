@@ -9,7 +9,6 @@ import {
   setupPassOnAccount,
   transferPass
 } from "../src/pass";
-import {getWakandaAdminAddress} from "../src/common";
 
 jest.setTimeout(10000);
 
@@ -29,8 +28,6 @@ describe("pass", () => {
 
   it("shall deploy pass and 0 pass", async () => {
     await shallPass(deployPass());
-    const WakandaAdmin = await getWakandaAdminAddress();
-    await shallPass(setupPassOnAccount(WakandaAdmin));
     const supply = await getPassSupply();
     expect(supply).toBe(0)
   })
