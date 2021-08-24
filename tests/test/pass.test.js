@@ -66,12 +66,10 @@ describe("pass", () => {
   });
 
   it("shall be able to create a new empty NFT Collection", async () => {
-    // Setup
     await shallPass(deployPass());
     const Alice = await getAccountAddress("Alice");
     await shallPass(setupPassOnAccount(Alice));
 
-    // shall be able te read Alice collection and ensure it's empty
     await shallResolve(async () => {
       const itemIds = await getPassIds(Alice);
       expect(itemIds.length).toBe(0);
@@ -79,7 +77,6 @@ describe("pass", () => {
   });
 
   it("shall not be able to withdraw an NFT that doesn't exist in a collection", async () => {
-    // Setup
     await shallPass(deployPass());
     const Alice = await getAccountAddress("Alice");
     const Bob = await getAccountAddress("Bob");
