@@ -85,8 +85,6 @@ describe("pass", () => {
     const Bob = await getAccountAddress("Bob");
     await shallPass(setupPassOnAccount(Alice));
     await shallPass(setupPassOnAccount(Bob));
-
-    // Transfer transaction shall fail for non-existent item
     await shallRevert(transferPass(Alice, Bob, 1337));
   });
 
@@ -96,11 +94,9 @@ describe("pass", () => {
     const Bob = await getAccountAddress("Bob");
     await shallPass(setupPassOnAccount(Alice));
     await shallPass(setupPassOnAccount(Bob));
-
-    // Mint instruction for Alice account shall be resolved
     await shallPass(mintPass(Alice, Alice, {}));
-
-    // Transfer transaction shall pass
     await shallPass(transferPass(Alice, Bob, 0));
+    expect((await getPassIds(Alice)).length).toBe(0);
+    expect((await getPassIds(Bob)).length).toBe(1);
   });
 })
