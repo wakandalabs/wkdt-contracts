@@ -29,7 +29,7 @@ describe("wkdt", ()=>{
   })
 
   it("shall transfer wkdt", async () => {
-    await deployWkdt();
+    await shallPass(deployWkdt());
     const WakandaAdmin = await getWakandaAdminAddress();
     const Alice = await getAccountAddress("Alice");
     await setupWkdtOnAccount(WakandaAdmin);

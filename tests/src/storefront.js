@@ -1,6 +1,5 @@
 import {getWakandaAdminAddress} from "./common";
 import {deployContractByName, executeScript, mintFlow, sendTransaction} from "flow-js-testing";
-import * as types from "@onflow/types";
 
 export const deployStorefront = async () => {
   const WakandaAdmin = await getWakandaAdminAddress();
@@ -33,7 +32,7 @@ export const getSaleOfferIds = async (address) => {
 }
 
 export const getSaleOfferItem = async ( addresses, saleOfferResourceID ) => {
-  const name = "token/getMultiWakandaProfile";
+  const name = "token/getSaleOfferItem";
   const args = [addresses, saleOfferResourceID];
   return executeScript({ name, args });
 }
@@ -46,16 +45,24 @@ export const setupStorefront = async (account) => {
 
 export const salePassWkdt = async (address, salePassID, salePassPrice) => {
   const name = "token/salePassWkdt";
-  const args = [0, 100];
+  const args = [salePassID, salePassPrice];
   const signers = [address];
 
   return sendTransaction({name, args, signers})
 }
 
-export const cleanStoreItem = async (address, saleOfferResourceID) => {
+export const buyPass = async (buyer, resourceId, seller) => {
+  const name = "token/buyPassWkdt";
+  const args = [resourceId, seller];
+  const signers = [buyer];
+
+  return sendTransaction({ name, args, signers });
+};
+
+export const cleanStoreItem = async (admin, saleOfferResourceID) => {
   const name = "token/cleanSaleOffer";
-  const args = [address, saleOfferResourceID];
-  const signers = [address];
+  const args = [saleOfferResourceID];
+  const signers = [admin];
 
   return sendTransaction({name, args, signers})
 }
