@@ -66,8 +66,4 @@ describe("wkdt", ()=>{
     const newsupply = await getWkdtSupply();
     expect(newsupply).toBe(toUFix64(10000100))
   });
-
-  it('should burn wkdt', async () => {
-
-  });
 })
