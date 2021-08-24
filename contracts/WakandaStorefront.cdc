@@ -14,8 +14,10 @@ pub contract WakandaStorefront {
         price: UFix64
     )
     pub event SaleOfferCompleted(saleOfferResourceID: UInt64, storefrontResourceID: UInt64, accepted: Bool)
+
     pub let StorefrontStoragePath: StoragePath
     pub let StorefrontPublicPath: PublicPath
+
     pub struct SaleCut {
         pub let receiver: Capability<&{FungibleToken.Receiver}>
         pub let amount: UFix64
@@ -24,6 +26,7 @@ pub contract WakandaStorefront {
             self.amount = amount
         }
     }
+
     pub struct SaleOfferDetails {
         pub var storefrontID: UInt64
         pub var accepted: Bool
@@ -59,34 +62,42 @@ pub contract WakandaStorefront {
             self.salePrice = salePrice
         }
     }
+
     pub resource interface SaleOfferPublic {
         pub fun borrowNFT(): &NonFungibleToken.NFT
         pub fun accept(payment: @FungibleToken.Vault): @NonFungibleToken.NFT
         pub fun getDetails(): SaleOfferDetails
     }
+
     pub resource SaleOffer: SaleOfferPublic {
         access(self) let details: SaleOfferDetails
         access(contract) let nftProviderCapability: Capability<&{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
+
         pub fun borrowNFT(): &NonFungibleToken.NFT {
             let ref = self.nftProviderCapability.borrow()!.borrowNFT(id: self.getDetails().nftID)
             assert(ref.isInstance(self.getDetails().nftType), message: "token has wrong type")
             assert(ref.id == self.getDetails().nftID, message: "token has wrong ID")
             return ref as &NonFungibleToken.NFT
         }
+
         pub fun getDetails(): SaleOfferDetails {
             return self.details
         }
+
         pub fun accept(payment: @FungibleToken.Vault): @NonFungibleToken.NFT {
             pre {
                 self.details.accepted == false: "offer has already been accepted"
                 payment.isInstance(self.details.salePaymentVaultType): "payment vault is not requested fungible token"
                 payment.balance == self.details.salePrice: "payment vault does not contain requested price"
             }
+
             self.details.setToAccepted()
             let nft <-self.nftProviderCapability.borrow()!.withdraw(withdrawID: self.details.nftID)
+
             assert(nft.isInstance(self.details.nftType), message: "withdrawn NFT is not of specified type")
             assert(nft.id == self.details.nftID, message: "withdrawn NFT does not have specified ID")
             var residualReceiver: &{FungibleToken.Receiver}? = nil
+
             for cut in self.details.saleCuts {
                 if let receiver = cut.receiver.borrow() {
                    let paymentCut <- payment.withdraw(amount: cut.amount)
@@ -96,6 +107,7 @@ pub contract WakandaStorefront {
                     }
                 }
             }
+
             assert(residualReceiver != nil, message: "No valid payment receivers")
             residualReceiver!.deposit(from: <-payment)
             emit SaleOfferCompleted(
@@ -138,6 +150,7 @@ pub contract WakandaStorefront {
             assert(nft.id == self.details.nftID, message: "token does not have specified ID")
         }
     }
+
     pub resource interface StorefrontManager {
         pub fun createSaleOffer(
             nftProviderCapability: Capability<&{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>,
@@ -148,11 +161,13 @@ pub contract WakandaStorefront {
         ): UInt64
         pub fun removeSaleOffer(saleOfferResourceID: UInt64)
     }
+
     pub resource interface StorefrontPublic {
         pub fun getSaleOfferIDs(): [UInt64]
         pub fun borrowSaleOffer(saleOfferResourceID: UInt64): &SaleOffer{SaleOfferPublic}?
         pub fun cleanup(saleOfferResourceID: UInt64)
-   }
+    }
+
     pub resource Storefront : StorefrontManager, StorefrontPublic {
         access(self) var saleOffers: @{UInt64: SaleOffer}
          pub fun createSaleOffer(
@@ -184,14 +199,17 @@ pub contract WakandaStorefront {
             )
             return saleOfferResourceID
         }
+
         pub fun removeSaleOffer(saleOfferResourceID: UInt64) {
             let offer <- self.saleOffers.remove(key: saleOfferResourceID)
                 ?? panic("missing SaleOffer")
             destroy offer
         }
+
         pub fun getSaleOfferIDs(): [UInt64] {
             return self.saleOffers.keys
         }
+
         pub fun borrowSaleOffer(saleOfferResourceID: UInt64): &SaleOffer{SaleOfferPublic}? {
             if self.saleOffers[saleOfferResourceID] != nil {
                 return &self.saleOffers[saleOfferResourceID] as! &SaleOffer{SaleOfferPublic}
@@ -214,19 +232,23 @@ pub contract WakandaStorefront {
             destroy self.saleOffers
             emit StorefrontDestroyed(storefrontResourceID: self.uuid)
         }
+
         init () {
             self.saleOffers <- {}
             emit StorefrontInitialized(storefrontResourceID: self.uuid)
         }
     }
+
     pub fun createStorefront(): @Storefront {
         return <-create Storefront()
     }
+
     pub fun check(_ address: Address): Bool {
          return getAccount(address)
          .getCapability<&{WakandaStorefront.StorefrontPublic}>(WakandaStorefront.StorefrontPublicPath)
          .check()
     }
+
     init () {
         self.StorefrontStoragePath = /storage/wakandaStorefront06
         self.StorefrontPublicPath = /public/wakandaStorefront06
