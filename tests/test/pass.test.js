@@ -5,12 +5,11 @@ import {
   getPassIds,
   getPassSupply,
   getWakandaPass, isPassInit,
-  mintPass, mintPassWithLockup,
+  mintPass,
   setupPassOnAccount,
   transferPass
 } from "../src/pass";
-import {getWakandaAdminAddress, toUFix64} from "../src/common";
-import {deployWkdt, getWkdtBalance, getWkdtSupply, isWkdtInit, setupWkdtOnAccount, transferWkdt} from "../src/wkdt";
+import {getWakandaAdminAddress} from "../src/common";
 
 jest.setTimeout(10000);
 
@@ -50,16 +49,6 @@ describe("pass", () => {
       expect(supply).toBe(1)
     });
   });
-
-  // it('shall be able to mint a pass with custom lockup', async () => {
-  //   await shallPass(deployPass());
-  //   const WakandaAdmin = await getWakandaAdminAddress();
-  //   const Alice = await getAccountAddress("Alice");
-  //   await setupWkdtOnAccount(Alice);
-  //   await shallPass(transferWkdt(WakandaAdmin, Alice, toUFix64(1000000)));
-  //   const balance = await getWkdtBalance(Alice)
-  //   await shallPass(mintPassWithLockup(Alice, Alice, {}, toUFix64(200), {}))
-  // });
 
   it('shall be able get detail of pass', async () => {
     await shallPass(deployPass());
@@ -106,4 +95,5 @@ describe("pass", () => {
     expect((await getPassIds(Alice)).length).toBe(0);
     expect((await getPassIds(Bob)).length).toBe(1);
   });
+
 })
