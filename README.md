@@ -117,7 +117,7 @@ addresses that you want to import from.
 
 ## How to run the automated tests for the contracts
 
-See the `lib/go` README for instructions about how to run the automated tests.
+See the `tests/` for instructions about how to run the automated tests.
 
 ## Instructions for creating Wakanda Pass
 
