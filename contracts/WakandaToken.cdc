@@ -97,11 +97,11 @@ pub contract WakandaToken: FungibleToken {
         // 100% is created at genesis
         self.totalSupply = 10_000_000.0
 
-        self.TokenStoragePath = /storage/wakandaTokenVault06
-        self.TokenPublicReceiverPath = /public/wakandaTokenReceiver06
-        self.TokenPublicBalancePath = /public/wakandaTokenBalance06
-        self.TokenMinterStoragePath = /storage/wakandaTokenMinter06
-        self.TokenAdminStoragePath = /storage/wakandaTokenAdmin06
+        self.TokenStoragePath = /storage/wakandaTokenVault
+        self.TokenPublicReceiverPath = /public/wakandaTokenReceiver
+        self.TokenPublicBalancePath = /public/wakandaTokenBalance
+        self.TokenMinterStoragePath = /storage/wakandaTokenMinter
+        self.TokenAdminStoragePath = /storage/wakandaTokenAdmin
 
         let vault <- create Vault(balance: self.totalSupply)
         self.account.save(<-vault, to: self.TokenStoragePath)
