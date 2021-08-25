@@ -48,3 +48,11 @@ export const mintWkdt = async (signer, recipient, amount) => {
 
   return sendTransaction({ name, args, signers })
 }
+
+export const burnWkdt = async (signer, amount) => {
+  const name = "token/burnWkdt";
+  const args = [amount];
+  const signers = [signer];
+
+  return sendTransaction({name, args, signers})
+}

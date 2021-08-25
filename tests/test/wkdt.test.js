@@ -1,6 +1,7 @@
 import path from "path";
 import {emulator, getAccountAddress, init, shallPass, shallResolve} from "flow-js-testing";
 import {
+  burnWkdt,
   deployWkdt,
   getWkdtBalance,
   getWkdtSupply,
@@ -65,5 +66,16 @@ describe("wkdt", ()=>{
     await mintWkdt(WakandaAdmin, WakandaAdmin, toUFix64(100))
     const newsupply = await getWkdtSupply();
     expect(newsupply).toBe(toUFix64(10000100))
+  });
+
+  it('should burn wkdt', async () => {
+    await shallPass(deployWkdt());
+    const WakandaAdmin = await getWakandaAdminAddress();
+    await setupWkdtOnAccount(WakandaAdmin);
+    const supply = await getWkdtSupply();
+    expect(supply).toBe(toUFix64(10000000))
+    await burnWkdt(WakandaAdmin, toUFix64(1))
+    const newsupply = await getWkdtSupply();
+    expect(newsupply).toBe(toUFix64(9999999))
   });
 })
