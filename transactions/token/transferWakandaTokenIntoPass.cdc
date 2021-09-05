@@ -31,6 +31,6 @@ transaction(amount: UFix64) {
 
     execute {
         // Deposit WKDT balance into WakandaPass first
-        self.wakandaPassRef.vault.deposit(from: <- self.sentVault)
+        self.wakandaPassRef.deposit(from: <- self.sentVault)
     }
 }
