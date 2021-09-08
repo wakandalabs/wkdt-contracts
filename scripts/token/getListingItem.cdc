@@ -1,5 +1,5 @@
 import NonFungibleToken from 0xNonFungibleToken
-import WakandaStorefront from 0xWakandaStorefront
+import NFTStorefront from 0xNFTStorefront
 import WakandaPass from 0xWakandaPass
 
 pub struct SaleItem {
@@ -12,12 +12,12 @@ pub struct SaleItem {
     }
 }
 
-pub fun main(address: Address, saleOfferResourceID: UInt64): SaleItem? {
+pub fun main(address: Address, listingResourceID: UInt64): SaleItem? {
     if let storefrontRef = getAccount(address)
-        .getCapability<&WakandaStorefront.Storefront{WakandaStorefront.StorefrontPublic}>(WakandaStorefront.StorefrontPublicPath).borrow() {
+        .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath).borrow() {
 
-        if let saleOffer = storefrontRef.borrowSaleOffer(saleOfferResourceID: saleOfferResourceID) {
-            let details = saleOffer.getDetails()
+        if let listing = storefrontRef.borrowListing(listingResourceID: listingResourceID) {
+            let details = listing.getDetails()
             let itemPrice = details.salePrice
 
             let item = WakandaPass.read(address: address, id: details.nftID)

@@ -1,5 +1,7 @@
-import WakandaStorefront from 0xWakandaStorefront
+import NFTStorefront from 0xNFTStorefront
 
 pub fun main(address: Address): Bool {
-    return WakandaStorefront.check(address)
+    return getAccount(address)
+        .getCapability<&{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath)
+        .check()
 }

@@ -15,30 +15,30 @@ export const deployStorefront = async () => {
   await deployContractByName({to: WakandaAdmin, name: "WakandaToken"})
   await deployContractByName({to: WakandaAdmin, name: "WakandaPass", addressMap})
 
-  return deployContractByName({to: WakandaAdmin, name: "WakandaStorefront", addressMap})
+  return deployContractByName({to: WakandaAdmin, name: "NFTStorefront", addressMap})
 
 };
 
-export const getSaleOffer = async ( address, saleOfferResourceID ) => {
-  const name = "token/getSaleOffer";
-  const args = [address, saleOfferResourceID];
+export const getListing = async ( address, listingResourceID ) => {
+  const name = "token/getListing";
+  const args = [address, listingResourceID];
   return executeScript({ name, args });
 }
 
-export const getSaleOfferIds = async (address) => {
-  const name = "token/getSaleOfferIds";
+export const getListingIds = async (address) => {
+  const name = "token/getListingIds";
   const args = [address];
   return executeScript({ name, args });
 }
 
-export const getSaleOfferItem = async ( addresses, saleOfferResourceID ) => {
-  const name = "token/getSaleOfferItem";
-  const args = [addresses, saleOfferResourceID];
+export const getListingItem = async ( addresses, listingResourceID ) => {
+  const name = "token/getListingItem";
+  const args = [addresses, listingResourceID];
   return executeScript({ name, args });
 }
 
 export const setupStorefront = async (account) => {
-  const name = "token/setupWakandaStorefront";
+  const name = "token/setupNFTStorefront";
   const signers = [account];
   return sendTransaction({ name, signers });
 }
@@ -59,17 +59,17 @@ export const buyPass = async (buyer, resourceId, seller) => {
   return sendTransaction({ name, args, signers });
 };
 
-export const cleanStoreItem = async (admin, saleOfferResourceID) => {
-  const name = "token/cleanSaleOffer";
-  const args = [saleOfferResourceID];
+export const cleanStoreItem = async (admin, listingResourceID) => {
+  const name = "token/cleanListing";
+  const args = [listingResourceID];
   const signers = [admin];
 
   return sendTransaction({name, args, signers})
 }
 
-export const removeStoreItem = async (address, saleOfferResourceID) => {
-  const name = "token/removeSaleOffer";
-  const args = [saleOfferResourceID];
+export const removeStoreItem = async (address, listingResourceID) => {
+  const name = "token/removeListing";
+  const args = [listingResourceID];
   const signers = [address];
 
   return sendTransaction({name, args, signers})

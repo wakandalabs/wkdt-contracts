@@ -6,9 +6,8 @@
     }
   },
   "contracts": {
-    "WakandaPass": "./contracts/WakandaPass.cdc",
-    "WakandaStorefront":  "./contracts/WakandaStorefront.cdc",
     "WakandaToken": "./contracts/WakandaToken.cdc",
+    "WakandaPass": "./contracts/WakandaPass.cdc",
     "WakandaProfile": "./contracts/WakandaProfile.cdc",
     "FungibleToken": {
       "source": "./contracts/FungibleToken.cdc",
@@ -23,6 +22,13 @@
       "aliases": {
         "testnet": "0x631e88ae7f1d7c20",
         "mainnet": "0x1d7e57aa55817448"
+      }
+    },
+    "NFTStorefront": {
+      "source": "./contracts/NFTStorefront.cdc",
+      "aliases": {
+        "testnet": "0x94b06cfca1d8a476",
+        "mainnet": "0x4eb8a10cb9f87357"
       }
     }
   },
@@ -68,7 +74,7 @@
         "NonFungibleToken",
         "WakandaPass",
         "WakandaToken",
-        "WakandaStorefront",
+        "NFTStorefront",
         "WakandaProfile"
       ]
     },
@@ -76,7 +82,6 @@
       "wkdt-admin-testnet": [
         "WakandaPass",
         "WakandaToken",
-        "WakandaStorefront",
         "WakandaProfile"
       ]
     }

@@ -2,27 +2,27 @@ import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
 import WakandaToken from 0xWakandaToken
 import WakandaPass from 0xWakandaPass
-import WakandaStorefront from 0xWakandaStorefront
+import NFTStorefront from 0xNFTStorefront
 
-transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
+transaction(listingResourceID: UInt64, storefrontAddress: Address) {
 
     let paymentVault: @FungibleToken.Vault
     let wakandaPassCollection: &WakandaPass.Collection{NonFungibleToken.Receiver}
-    let storefront: &WakandaStorefront.Storefront{WakandaStorefront.StorefrontPublic}
-    let saleOffer: &WakandaStorefront.SaleOffer{WakandaStorefront.SaleOfferPublic}
+    let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}
+    let listing: &NFTStorefront.Listing{NFTStorefront.ListingPublic}
 
     prepare(account: AuthAccount) {
         self.storefront = getAccount(storefrontAddress)
-            .getCapability<&WakandaStorefront.Storefront{WakandaStorefront.StorefrontPublic}>(
-                WakandaStorefront.StorefrontPublicPath
+            .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(
+                NFTStorefront.StorefrontPublicPath
             )!
             .borrow()
             ?? panic("Cannot borrow Storefront from provided address")
 
-        self.saleOffer = self.storefront.borrowSaleOffer(saleOfferResourceID: saleOfferResourceID)
+        self.listing = self.storefront.borrowListing(listingResourceID: listingResourceID)
             ?? panic("No offer with that ID in Storefront")
 
-        let price = self.saleOffer.getDetails().salePrice
+        let price = self.listing.getDetails().salePrice
 
         let mainWakandaTokenVault = account.borrow<&WakandaToken.Vault>(from: WakandaToken.TokenStoragePath)
             ?? panic("Cannot borrow WakandaToken vault from account storage")
@@ -35,12 +35,12 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
     }
 
     execute {
-        let item <- self.saleOffer.accept(
+        let item <- self.listing.purchase(
             payment: <-self.paymentVault
         )
 
         self.wakandaPassCollection.deposit(token: <-item)
 
-        self.storefront.cleanup(saleOfferResourceID: saleOfferResourceID)
+        self.storefront.cleanup(listingResourceID: listingResourceID)
     }
 }

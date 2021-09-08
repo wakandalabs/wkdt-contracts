@@ -1,14 +1,14 @@
-import WakandaStorefront from 0xWakandaStorefront
+import NFTStorefront from 0xNFTStorefront
 
 // This script returns an array of all the NFTs uuids for sale through a Storefront
 
 pub fun main(address: Address): [UInt64] {
     let storefrontRef = getAccount(address)
-        .getCapability<&WakandaStorefront.Storefront{WakandaStorefront.StorefrontPublic}>(
-            WakandaStorefront.StorefrontPublicPath
+        .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(
+            NFTStorefront.StorefrontPublicPath
         )
         .borrow()
         ?? panic("Could not borrow public storefront from address")
 
-    return storefrontRef.getSaleOfferIDs()
+    return storefrontRef.getListingIDs()
 }

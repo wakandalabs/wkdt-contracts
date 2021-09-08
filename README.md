@@ -43,7 +43,7 @@ and we welcome all assistance from the community!
 `WakandaToken.cdc`:0xbe4bac9b9b682df9
 `WakandaPass.cdc`:0xbe4bac9b9b682df9
 `WakandaProfile.cdc`:0xbe4bac9b9b682df9
-`WakandaStorefront`:0xbe4bac9b9b682df9
+`NFTStorefront`:0xbe4bac9b9b682df9
 
 ### Non Fungible Token Standard
 
