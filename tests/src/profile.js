@@ -14,7 +14,7 @@ export const getProfile = async ( address ) => {
 }
 
 export const isProfileInit = async (address) => {
-  const name = "token/isProfileInit";
+  const name = "profile/isProfileInit";
   const args = [address];
   return executeScript({ name, args });
 }
